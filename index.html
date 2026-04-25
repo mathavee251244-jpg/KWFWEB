@@ -3,485 +3,182 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KINGWELL FIRST — Delivering Quality Cold Chain Solutions Worldwide</title>
+  <title>KINGWELL FIRST — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานส่งออก</title>
+  <meta name="description" content="KINGWELL FIRST (Bangkok Seafood) ผู้เชี่ยวชาญด้านอาหารทะเลแช่แข็ง IQF ส่งออกกว่า 15 ประเทศทั่วโลก พร้อมบริการ OEM ครบวงจร">
   
-  <!-- SEO & Social Media Metadata (Enterprise Standard) -->
-  <meta name="description" content="KINGWELL FIRST — ผู้นำด้านโซลูชันอาหารทะเลแช่แข็งพรีเมียมและ Cold Chain Solutions ครบวงจร ส่งออกกว่า 15 ประเทศทั่วโลก มาตรฐานสากล HACCP, GMP, BRC">
-  <meta name="robots" content="max-image-preview:large">
-  <link rel="canonical" href="https://webmay-251244.web.app/">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://webmay-251244.web.app/">
-  <meta property="og:title" content="KINGWELL FIRST — Delivering Quality Worldwide">
-  <meta property="og:description" content="พันธมิตรระดับโลกสำหรับโซลูชันอาหารทะเลแช่แข็งระดับพรีเมียม มอบคุณภาพ การปรับแต่ง และการปฏิบัติตามข้อกำหนด">
-  <meta property="og:image" content="assets/Logo.png">
-
-  <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=1.0.1" />
+  <link rel="stylesheet" href="style.css?v=1.0.2" />
 </head>
 <body>
 
-<!-- ── CURSOR ── -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-follower" id="cursorFollower"></div>
 
-<!-- ── LOADER ── -->
 <div class="loader" id="loader">
   <div class="loader-inner">
     <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
-    <p class="loader-text">Cold Chain Solutions</p>
+    <p class="loader-text">Freshness Guaranteed</p>
     <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
   </div>
 </div>
 
-<!-- ── NAVBAR ── -->
+<!-- NAVBAR -->
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
       <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
     </a>
-
     <ul class="nav-links" id="navLinks">
-      <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
+      <li><a href="index.html"    class="nav-link active" data-en="Home">หน้าแรก</a></li>
       <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
       <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
       <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
       <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
     </ul>
-
     <div class="nav-actions">
       <button class="lang-btn" id="langBtn">EN</button>
       <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
         <span class="sun">☀️</span><span class="moon">🌙</span>
         <div class="toggle-thumb"></div>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="เมนู">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
     </div>
   </div>
   <div class="nav-progress" id="navProgress"></div>
 </nav>
 
-<!-- ════════════════════════════════════════
-     HERO SECTION
-════════════════════════════════════════ -->
-<section class="hero" id="hero">
+<!-- HERO SECTION -->
+<div class="hero">
   <div class="hero-bg">
-    <!--
-      [รูปภาพ] ใส่รูปภาพ Background Hero แบบ full-cover
-      ขนาดแนะนำ: 1920×1080 px (JPG/WebP คุณภาพสูง)
-      ตัวอย่าง:
-      <img src="images/hero-bg.jpg" alt=""
-           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.18">
-    -->
-    <div class="wave wave-1"></div>
-    <div class="wave wave-2"></div>
-    <div class="wave wave-3"></div>
-    <canvas class="bubbles-canvas" id="bubblesCanvas"></canvas>
+    <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&q=80&w=1920" alt="Seafood Background" class="hero-img">
+    <div class="hero-overlay"></div>
   </div>
-  <div class="hero-particles" id="heroParticles"></div>
-
   <div class="hero-content">
-    <div class="hero-badge reveal-up">
-      <span class="badge-dot"></span>
-      <span data-en="World-Leading Frozen Seafood Producer">ผู้นำด้านอาหารทะเลแช่แข็งระดับโลก</span>
-    </div>
-
-    <h1 class="hero-title reveal-up" data-delay="100">
-      <span class="title-line" data-en="Quality">คุณภาพ</span>
-      <span class="title-line gradient-text" data-en="World-Class">ระดับโลก</span>
-      <span class="title-line" data-en="Delivered to You">ส่งตรงถึงคุณ</span>
+    <div class="hero-tag reveal-up">Established 2024</div>
+    <h1 class="hero-title reveal-up">
+      สัมผัสรสชาติแห่งท้องทะเล<br/><span class="gradient-text">ส่งตรงถึงมือคุณ</span>
     </h1>
-
-    <p class="hero-desc reveal-up" data-delay="200"
-       data-en="Premium frozen seafood OEM/ODM manufacturer with international standards.<br/>Exporting to <span class='highlight'>15+ countries</span> worldwide.">
-      ผู้ผลิตอาหารทะเลแช่แข็งพรีเมียม OEM/ODM มาตรฐานสากล<br/>
-      ส่งออกกว่า <span class="highlight">15 ประเทศ</span> ทั่วโลก
+    <p class="hero-desc reveal-up">
+      ที่ KINGWELL FIRST เราคัดสรรอาหารทะเลชั้นเลิศจากธรรมชาติ ผ่านกระบวนการ IQF <br/>
+      รักษาความสดใหม่และมาตรฐานสากล เพื่อส่งมอบสิ่งที่ดีที่สุดให้กับธุรกิจและครอบครัวของคุณ
     </p>
-
-    <div class="hero-buttons reveal-up" data-delay="300">
+    <div class="hero-buttons reveal-up">
       <a href="products.html" class="btn btn-primary">
-        <span>ดูผลิตภัณฑ์</span>
+        สำรวจผลิตภัณฑ์
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
       <a href="contact.html" class="btn btn-outline">ติดต่อเรา</a>
     </div>
   </div>
+  <div class="hero-scroll">
+    <div class="mouse"></div>
+    <span>เลื่อนดูเพิ่มเติม</span>
+  </div>
+</div>
 
-  <div class="hero-scroll-hint">
-    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
-    <span>เลื่อนลง</span>
+<!-- FEATURED PRODUCTS (Quick View) -->
+<div class="section-wrap">
+  <div class="section-header reveal-up">
+    <div class="section-tag">Premium Selection</div>
+    <h2 class="section-title">ผลิตภัณฑ์<span class="gradient-text">ยอดนิยม</span></h2>
   </div>
 
-  <!-- Floating info cards -->
-  <div class="hero-floating-cards">
-    <div class="float-card float-card-1 reveal-right">
-      <!--
-        [รูปภาพ] เปลี่ยน emoji เป็นรูปจริง ขนาด 48×48 px
-        ตัวอย่าง: <img src="images/icons/shrimp.png" alt="กุ้ง" style="width:48px">
-      -->
-      <span class="float-icon">🦐</span>
-      <div><strong>กุ้งขาว</strong><small>Premium Grade</small></div>
+  <div class="products-grid">
+    <div class="product-card reveal-up">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Fish-Salmon.jpeg" alt="Salmon"></div>
+        <div class="product-overlay"><a href="products.html" class="product-quick-btn">ดูทั้งหมด</a></div>
+      </div>
+      <div class="product-info"><h3>ปลาแซลมอนแอตแลนติก</h3><p>นำเข้าจากนอร์เวย์ เกรดพรีเมียม</p></div>
     </div>
-    <div class="float-card float-card-2 reveal-left">
-      <span class="float-icon">🐟</span>
-      <div><strong>ปลาสด</strong><small>Wild Caught</small></div>
+    <div class="product-card reveal-up" data-delay="100">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Shrimp-Vannamei.jpeg" alt="Shrimp"></div>
+        <div class="product-overlay"><a href="products.html" class="product-quick-btn">ดูทั้งหมด</a></div>
+      </div>
+      <div class="product-info"><h3>กุ้งขาวแวนนาไม</h3><p>สด กรอบ เด้ง มาตรฐานส่งออก</p></div>
     </div>
-    <div class="float-card float-card-3 reveal-right">
-      <span class="float-icon">🦑</span>
-      <div><strong>ปลาหมึก</strong><small>Ready to Cook</small></div>
+    <div class="product-card reveal-up" data-delay="200">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Breaded-Squid-Ring.jpg" alt="Squid Ring"></div>
+        <div class="product-overlay"><a href="products.html" class="product-quick-btn">ดูทั้งหมด</a></div>
+      </div>
+      <div class="product-info"><h3>ปลาหมึกวงชุบแป้งทอด</h3><p>เมนูยอดนิยม พร้อมทอดทันที</p></div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ════════════════════════════════════════
-     STATS
-════════════════════════════════════════ -->
-<section class="stats-section">
-  <div class="stats-container">
+<!-- TRUSTED BY -->
+<div class="section-wrap" style="background: var(--bg-2)">
+  <div class="stats-grid">
     <div class="stat-item reveal-up">
-      <div class="stat-icon">🏭</div>
-      <div class="stat-number" data-target="50000" data-suffix="kg">0</div>
-      <div class="stat-label">กำลังการผลิตต่อวัน</div>
-    </div>
-    <div class="stat-item reveal-up" data-delay="100">
-      <div class="stat-icon">🌍</div>
-      <div class="stat-number" data-target="15" data-suffix="+">0</div>
+      <div class="stat-num" data-target="15">0</div>
       <div class="stat-label">ประเทศที่ส่งออก</div>
     </div>
+    <div class="stat-item reveal-up" data-delay="100">
+      <div class="stat-num" data-target="100">0</div>
+      <div class="stat-label">รายการผลิตภัณฑ์</div>
+    </div>
     <div class="stat-item reveal-up" data-delay="200">
-      <div class="stat-icon">⭐</div>
-      <div class="stat-number" data-target="8" data-suffix="">0</div>
-      <div class="stat-label">มาตรฐานสากล</div>
-    </div>
-    <div class="stat-item reveal-up" data-delay="300">
-      <div class="stat-icon">🤝</div>
-      <div class="stat-number" data-target="30" data-suffix="+">0</div>
-      <div class="stat-label">ปีประสบการณ์</div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════
-     PRODUCTS PREVIEW (3 cards)
-════════════════════════════════════════ -->
-<div class="section-wrap">
-  <div class="section-header reveal-up">
-    <span class="section-tag">ผลิตภัณฑ์เด่น</span>
-    <h2 class="section-title">อาหารทะเลคัดสรร<br/><span class="gradient-text">จากธรรมชาติ</span></h2>
-    <p class="section-desc">แหล่งวัตถุดิบชั้นเยี่ยมจากอลาสก้า นอร์เวย์ ชิลี และน่านน้ำไทย</p>
-  </div>
-
-  <div class="products-grid" style="grid-template-columns:repeat(3,1fr)">
-
-    <!-- CARD 1 -->
-    <div class="product-card reveal-up" data-category="shrimp">
-      <div class="product-img-wrap">
-        <div class="product-img-bg">
-          <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&q=80&w=800" alt="Premium White Shrimp"
-               style="width:100%;height:100%;object-fit:cover">
-        </div>
-        <div class="product-overlay">
-          <button class="product-quick-btn">ดูรายละเอียด</button>
-        </div>
-        <span class="product-badge">Best Seller</span>
-      </div>
-      <div class="product-info">
-        <h3>กุ้งขาวแช่แข็ง</h3>
-        <p>White Shrimp IQF Premium Grade ขนาด 16/20, 21/25, 31/40</p>
-        <div class="product-tags"><span>IQF</span><span>HACCP</span><span>Halal</span></div>
-      </div>
-    </div>
-
-    <!-- CARD 2 -->
-    <div class="product-card reveal-up" data-category="fish" data-delay="100">
-      <div class="product-img-wrap">
-        <div class="product-img-bg">
-          <img src="assets/Fish-Salmon.jpeg" alt="Fresh Salmon Fillet"
-               style="width:100%;height:100%;object-fit:cover">
-        </div>
-        <div class="product-overlay">
-          <button class="product-quick-btn">ดูรายละเอียด</button>
-        </div>
-      </div>
-      <div class="product-info">
-        <h3>ปลาแซลมอนฟิเลต์</h3>
-        <p>Norwegian Salmon Fillet แช่แข็ง IQF คุณภาพสูง</p>
-        <div class="product-tags"><span>Norway</span><span>MSC</span><span>ASC</span></div>
-      </div>
-    </div>
-
-    <!-- CARD 3 -->
-    <div class="product-card reveal-up" data-category="ready" data-delay="200">
-      <div class="product-img-wrap">
-        <div class="product-img-bg" style="background:linear-gradient(135deg,#f39c12,#f7dc6f)">
-          <!--
-            [รูปภาพ] ใส่รูปอาหารทะเลพร้อมทาน (Ready-to-Eat)
-            ขนาดแนะนำ: 800×600 px
-            ตัวอย่าง: <img src="images/products/rte-seafood.jpg" alt="อาหารพร้อมทาน"
-                           style="width:100%;height:100%;object-fit:cover">
-          -->
-          <span class="product-emoji">🍱</span>
-        </div>
-        <div class="product-overlay">
-          <button class="product-quick-btn">ดูรายละเอียด</button>
-        </div>
-        <span class="product-badge hot">Hot</span>
-      </div>
-      <div class="product-info">
-        <h3>อาหารทะเลพร้อมทาน</h3>
-        <p>Ready-to-Eat Seafood สำหรับ Airline Catering และ Retail</p>
-        <div class="product-tags"><span>RTE</span><span>Airline</span><span>BRC</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin-top:40px" class="reveal-up" data-delay="300">
-    <a href="products.html" class="btn btn-outline">
-      ดูผลิตภัณฑ์ทั้งหมด
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-  </div>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="modalTitle" style="font-family:'Kanit',sans-serif;font-size:1.3rem;font-weight:700"></h3>
-      <button class="modal-close" id="modalClose">✕</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     MARQUEE
-════════════════════════════════════════ -->
-<div class="marquee-section">
-  <div class="marquee-track">
-    <div class="marquee-content">
-      <span>🦐 กุ้งขาว</span><span>🐟 ปลาแซลมอน</span><span>🦑 ปลาหมึก</span>
-      <span>🦀 ปู</span><span>🐙 หมึกยักษ์</span><span>🍤 กุ้งชุบแป้ง</span>
-      <span>🐠 ปลาทูน่า</span><span>🦪 หอยนางรม</span><span>🐡 ปลาค็อด</span>
-      <span>🦐 กุ้งขาว</span><span>🐟 ปลาแซลมอน</span><span>🦑 ปลาหมึก</span>
-      <span>🦀 ปู</span><span>🐙 หมึกยักษ์</span><span>🍤 กุ้งชุบแป้ง</span>
-      <span>🐠 ปลาทูน่า</span><span>🦪 หอยนางรม</span><span>🐡 ปลาค็อด</span>
+      <div class="stat-num" data-target="100">0</div>
+      <div class="stat-label">ความพึงพอใจ (%)</div>
     </div>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     SERVICES PREVIEW
-════════════════════════════════════════ -->
-<div class="section-wrap">
-  <div class="section-header reveal-up">
-    <span class="section-tag">บริการของเรา</span>
-    <h2 class="section-title">ครบวงจร<br/><span class="gradient-text">ทุกความต้องการ</span></h2>
-  </div>
-
-  <div class="services-grid">
-    <div class="service-card reveal-up" data-delay="0">
-      <div class="service-icon-wrap"><div class="service-icon">🏭</div></div>
-      <h3>OEM / ODM</h3>
-      <p>รับผลิตสินค้าตามแบรนด์ของคุณ ตั้งแต่สูตรอาหาร บรรจุภัณฑ์ ไปจนถึงการส่งออก</p>
-      <div class="service-arrow">→</div>
-    </div>
-    <div class="service-card reveal-up" data-delay="100">
-      <div class="service-icon-wrap"><div class="service-icon">🧪</div></div>
-      <h3>R&D พัฒนาสูตร</h3>
-      <p>ทีม R&D ภายในสำหรับพัฒนาสูตรใหม่ตามความต้องการตลาดและลูกค้าแต่ละราย</p>
-      <div class="service-arrow">→</div>
-    </div>
-    <div class="service-card reveal-up" data-delay="200">
-      <div class="service-icon-wrap"><div class="service-icon">🌏</div></div>
-      <h3>Global Export</h3>
-      <p>เครือข่ายการส่งออกกว่า 15 ประเทศ พร้อมทีมผู้เชี่ยวชาญด้านการนำเข้า-ส่งออก</p>
-      <div class="service-arrow">→</div>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin-top:40px" class="reveal-up" data-delay="300">
-    <a href="services.html" class="btn btn-outline">
-      ดูบริการทั้งหมด
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     ABOUT SNIPPET
-════════════════════════════════════════ -->
-<div class="section-wrap--bg">
-  <div style="max-width:1280px;margin:0 auto">
-    <div class="about-grid">
-      <div class="about-visual reveal-left">
-        <div class="about-img-stack">
-          <div class="about-img-main">
-            <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=600" alt="KINGWELL FIRST Factory"
-                 style="width:100%;height:100%;object-fit:cover;border-radius:50%">
-          </div>
-          <div class="about-img-badge"><strong>50,000</strong><small>kg/day</small></div>
-          <div class="about-img-circle circle-1"></div>
-          <div class="about-img-circle circle-2"></div>
-        </div>
-      </div>
-
-      <div class="about-content reveal-right">
-        <span class="section-tag">เกี่ยวกับเรา</span>
-        <h2 class="section-title">กว่า <span class="gradient-text">30 ปี</span><br/>แห่งความเชี่ยวชาญ</h2>
-        <p>KINGWELL FIRST คือผู้นำในอุตสาหกรรมอาหารทะเลแช่แข็งของไทย ด้วยประสบการณ์กว่า 3 ทศวรรษในการผลิตและส่งออกอาหารทะเลคุณภาพสูง</p>
-        <div class="about-highlights">
-          <div class="highlight-item">
-            <div class="highlight-icon">🌊</div>
-            <div>
-              <strong>แหล่งวัตถุดิบระดับโลก</strong>
-              <span>อลาสก้า • นอร์เวย์ • ชิลี • น่านน้ำไทย</span>
-            </div>
-          </div>
-          <div class="highlight-item">
-            <div class="highlight-icon">❄️</div>
-            <div>
-              <strong>IQF Technology</strong>
-              <span>Individual Quick Freezing รักษาคุณภาพสูงสุด</span>
-            </div>
-          </div>
-        </div>
-        <a href="about.html" class="btn btn-primary">
-          อ่านเรื่องราวของเรา
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     CLIENTS MARQUEE
-════════════════════════════════════════ -->
-<div class="section-wrap">
-  <div class="section-header reveal-up">
-    <span class="section-tag">ลูกค้าและพันธมิตร</span>
-    <h2 class="section-title">วางใจโดย<br/><span class="gradient-text">แบรนด์ชั้นนำ</span></h2>
-  </div>
-  <div class="clients-track reveal-up" data-delay="100">
-    <div class="clients-slide">
-      <!--
-        [รูปภาพ] แทน emoji + ชื่อ ด้วยโลโก้จริงของลูกค้า
-        ขนาดแนะนำ: 120×40 px (greyscale, hover สีเต็ม)
-        ตัวอย่าง: <img src="images/clients/costco.png" alt="Costco" style="height:32px;filter:grayscale(1)">
-      -->
-      <div class="client-logo">🏪 <span>Costco USA</span></div>
-      <div class="client-logo">🏬 <span>7-Eleven TH</span></div>
-      <div class="client-logo">✈️ <span>Airlines</span></div>
-      <div class="client-logo">🏥 <span>Hospitals</span></div>
-      <div class="client-logo">🏫 <span>Schools</span></div>
-      <div class="client-logo">🍽️ <span>Hotels</span></div>
-      <div class="client-logo">🏪 <span>Costco USA</span></div>
-      <div class="client-logo">🏬 <span>7-Eleven TH</span></div>
-      <div class="client-logo">✈️ <span>Airlines</span></div>
-      <div class="client-logo">🏥 <span>Hospitals</span></div>
-      <div class="client-logo">🏫 <span>Schools</span></div>
-      <div class="client-logo">🍽️ <span>Hotels</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     CTA STRIP
-════════════════════════════════════════ -->
+<!-- CTA -->
 <div class="cta-strip reveal-up">
   <div class="cta-strip-glow"></div>
-  <h2>พร้อมเริ่มต้น<span class="gradient-text">ความร่วมมือ?</span></h2>
-  <p>ทีมผู้เชี่ยวชาญของเราพร้อมให้คำปรึกษา ตอบทุกคำถาม ไม่มีค่าใช้จ่าย</p>
+  <h2>พร้อมยกระดับธุรกิจของคุณด้วย<span class="gradient-text">วัตถุดิบชั้นเลิศ?</span></h2>
+  <p>เราพร้อมเป็นพาร์ทเนอร์ในความสำเร็จของคุณ ด้วยบริการ OEM และราคาส่งที่ดีที่สุด</p>
   <div class="hero-buttons">
-    <a href="contact.html" class="btn btn-primary">
-      ติดต่อเราวันนี้
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-    </a>
-    <a href="products.html" class="btn btn-outline">ดูผลิตภัณฑ์</a>
+    <a href="services.html" class="btn btn-primary">ดูบริการของเรา</a>
+    <a href="contact.html" class="btn btn-outline">ขอใบเสนอราคา</a>
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════ -->
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="nav-logo">
         <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
       </a>
-      <p>COLD CHAIN SOLUTIONS — COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม ส่งออกกว่า 15 ประเทศ</p>
+      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
       <div class="social-links">
-        <!--
-          [รูปภาพ] แทนตัวอักษร f/in/ig/yt ด้วยไอคอน Social Media จริง
-          ตัวอย่าง: <img src="images/icons/facebook.svg" alt="Facebook" style="width:18px">
-        -->
-        <a href="#" class="social-btn">f</a>
-        <a href="#" class="social-btn">in</a>
-        <a href="#" class="social-btn">ig</a>
-        <a href="#" class="social-btn">yt</a>
+        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
       </div>
     </div>
     <div class="footer-col">
       <h4 data-en="Products">ผลิตภัณฑ์</h4>
       <ul>
-        <li><a href="products.html" data-en="Frozen Shrimp">กุ้งแช่แข็ง</a></li>
-        <li><a href="products.html" data-en="Frozen Fish">ปลาแช่แข็ง</a></li>
-        <li><a href="products.html" data-en="Squid">ปลาหมึก</a></li>
-        <li><a href="products.html" data-en="Ready-to-Eat">อาหารพร้อมทาน</a></li>
-        <li><a href="products.html" data-en="OEM Products">สินค้า OEM</a></li>
+        <li><a href="products.html">อาหารทะเลสดแช่แข็ง</a></li>
+        <li><a href="products.html">สินค้าชุบแป้งทอด</a></li>
+        <li><a href="products.html">อาหารพร้อมทาน</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-en="Services">บริการ</h4>
       <ul>
         <li><a href="services.html">OEM / ODM</a></li>
-        <li><a href="services.html" data-en="R&amp;D Formulation">R&D สูตรอาหาร</a></li>
-        <li><a href="services.html">Airline Catering</a></li>
         <li><a href="services.html">Global Export</a></li>
-        <li><a href="services.html" data-en="Quality Control">Quality Control</a></li>
+        <li><a href="contact.html">ติดต่อเรา</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-en="More">เพิ่มเติม</h4>
       <ul>
-        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
-        <li><a href="about.html#certifications" data-en="Certifications">มาตรฐานสากล</a></li>
-        <li><a href="about.html#gallery" data-en="Gallery">แกลเลอรี</a></li>
-        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
+        <li><a href="about.html">เกี่ยวกับเรา</a></li>
+        <li><a href="about.html#certifications">มาตรฐานสากล</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">
-    <p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p>
-    <div class="footer-bottom-links">
-      <a href="#" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</a>
-      <a href="#" data-en="Terms of Use">เงื่อนไขการใช้งาน</a>
-    </div>
-  </div>
+  <div class="footer-bottom"><p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p></div>
 </footer>
 
-<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
-</button>
-
-<div class="toast" id="toast">
-  <span class="toast-icon">✅</span>
-  <span class="toast-msg">ส่งข้อความสำเร็จ! เราจะติดต่อกลับโดยเร็ว</span>
-</div>
-
-<script src="main.js?v=1777119224842"></script>
-</body>
-</html>
-iv>
-
-<script src="main.js?v=1777119224842"></script>
+<script src="main.js?v=1777128600000"></script>
 </body>
 </html>

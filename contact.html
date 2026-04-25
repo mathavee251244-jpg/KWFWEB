@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KINGWELL FIRST — ติดต่อเรา</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1777119224842" />
+  <style>
+    .office-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+    .office-card{
+      background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);
+      padding:28px;transition:all var(--transition);
+    }
+    .office-card:hover{border-color:var(--border-accent);transform:translateY(-4px);box-shadow:var(--shadow-md),var(--glow)}
+    .office-flag{font-size:2rem;margin-bottom:12px}
+    .office-card h4{font-family:'Kanit',sans-serif;font-weight:700;margin-bottom:8px}
+    .office-card p{font-size:.85rem;color:var(--text-2);line-height:1.7}
+    .faq-list{display:flex;flex-direction:column;gap:16px}
+    .faq-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden}
+    .faq-question{
+      width:100%;padding:20px 24px;background:none;border:none;
+      color:var(--text);font-family:'Sarabun',sans-serif;font-size:1rem;font-weight:600;
+      text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+      transition:color var(--transition);
+    }
+    .faq-question:hover{color:var(--accent)}
+    .faq-chevron{transition:transform .3s;font-size:1.2rem;color:var(--accent);flex-shrink:0}
+    .faq-item.open .faq-chevron{transform:rotate(180deg)}
+    .faq-answer{
+      max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;
+      padding:0 24px;color:var(--text-2);font-size:.9rem;line-height:1.8;
+    }
+    .faq-item.open .faq-answer{max-height:300px;padding:0 24px 20px}
+    @media(max-width:768px){.office-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
+    <p class="loader-text">Cold Chain Solutions</p>
+    <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
+      <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
+      <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
+      <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
+        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <div class="toggle-thumb"></div>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <!--
+    [รูปภาพ] Background หน้าติดต่อ
+    ขนาดแนะนำ: 1920×400 px (ภาพทีมงานหรืออาคารสำนักงาน)
+    ตัวอย่าง:
+    <img src="images/page-hero-contact.jpg" alt=""
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.12">
+  -->
+  <div class="page-hero-tag">ติดต่อเรา</div>
+  <h1 class="page-hero-title">พร้อม<span class="gradient-text">ร่วมงาน</span><br/>กับคุณ</h1>
+  <p class="page-hero-desc">ทีมผู้เชี่ยวชาญของเราพร้อมตอบทุกคำถามและนำเสนอโซลูชันที่ตรงกับความต้องการ</p>
+  <div class="page-hero-breadcrumb">
+    <a href="index.html">หน้าแรก</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>ติดต่อ</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     CONTACT MAIN
+════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="contact-grid">
+
+    <!-- INFO -->
+    <div class="contact-info reveal-left">
+      <span class="section-tag">ข้อมูลติดต่อ</span>
+      <h2 class="section-title">ติดต่อ<span class="gradient-text">ทีมเรา</span></h2>
+      <p>ยินดีรับทุกคำถาม ไม่ว่าจะเป็นการสอบถามสินค้า ขอใบเสนอราคา หรือความต้องการ OEM/ODM</p>
+
+      <div class="contact-details">
+        <div class="contact-item">
+          <!--
+            [รูปภาพ] ไอคอน Location Pin ขนาด 24×24 px
+            ตัวอย่าง: <img src="images/icons/location.svg" alt="ที่อยู่" style="width:24px">
+          -->
+          <span class="contact-icon">📍</span>
+          <div>
+            <strong>ที่อยู่สำนักงานใหญ่</strong>
+            <span>123 ถ.สาทรใต้ แขวงทุ่งมหาเมฆ<br/>เขตสาทร กรุงเทพมหานคร 10120</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <!--
+            [รูปภาพ] ไอคอน Phone ขนาด 24×24 px
+            ตัวอย่าง: <img src="images/icons/phone.svg" alt="โทรศัพท์" style="width:24px">
+          -->
+          <span class="contact-icon">📞</span>
+          <div>
+            <strong>โทรศัพท์</strong>
+            <span>+66 2 XXX XXXX<br/>+66 81 XXX XXXX (มือถือ)</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <!--
+            [รูปภาพ] ไอคอน Email ขนาด 24×24 px
+            ตัวอย่าง: <img src="images/icons/email.svg" alt="อีเมล" style="width:24px">
+          -->
+          <span class="contact-icon">📧</span>
+          <div>
+            <strong>อีเมล</strong>
+            <span>info@kingwellfirst.com<br/>export@kingwellfirst.com</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-icon">🕒</span>
+          <div>
+            <strong>เวลาทำการ</strong>
+            <span>จันทร์–ศุกร์: 08:00–17:00 น.<br/>เสาร์: 08:00–12:00 น.</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-icon">🌐</span>
+          <div>
+            <strong>ช่องทาง Social Media</strong>
+            <span>
+              Facebook: KingwellFirstOfficial<br/>
+              LINE OA: @kingwellfirst<br/>
+              LinkedIn: Kingwell First Co., Ltd.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAP -->
+      <div class="map-placeholder">
+        <!--
+          [แผนที่] แทน placeholder นี้ด้วย iframe Google Maps จริง
+          วิธีการ:
+          1. เปิด Google Maps หาตำแหน่งบริษัท
+          2. คลิก Share → Embed a map → Copy HTML
+          3. วาง iframe ไว้ใน .map-placeholder แทนข้อความนี้
+          ตัวอย่าง:
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!..."
+            width="100%" height="100%" style="border:0;border-radius:var(--r-lg)"
+            allowfullscreen loading="lazy">
+          </iframe>
+        -->
+        <div class="map-icon">📍</div>
+        <p>[ ใส่ Google Maps Embed ที่นี่ ]</p>
+        <small style="font-size:.75rem">123 ถ.สาทรใต้ กรุงเทพมหานคร</small>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="contact-form-wrap reveal-right">
+      <h3 style="font-family:'Kanit',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:8px">
+        ส่งข้อความถึงเรา
+      </h3>
+      <p style="color:var(--text-2);font-size:.9rem;margin-bottom:28px">
+        กรอกแบบฟอร์มด้านล่าง เราจะตอบกลับภายใน 24 ชั่วโมง
+      </p>
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>ชื่อ-นามสกุล *</label>
+            <input type="text" placeholder="กรุณากรอกชื่อ" required />
+          </div>
+          <div class="form-group">
+            <label>บริษัท / องค์กร</label>
+            <input type="text" placeholder="ชื่อบริษัท (ถ้ามี)" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>อีเมล *</label>
+            <input type="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label>โทรศัพท์</label>
+            <input type="tel" placeholder="+66 XX XXX XXXX" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ประเทศ / ตลาดที่สนใจ</label>
+          <select>
+            <option value="">เลือกประเทศ/ตลาด</option>
+            <option>ประเทศไทย</option>
+            <option>สหรัฐอเมริกา</option>
+            <option>ยุโรป</option>
+            <option>ญี่ปุ่น / เกาหลี</option>
+            <option>จีน</option>
+            <option>อาเซียน</option>
+            <option>ออสเตรเลีย</option>
+            <option>อื่นๆ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ประเภทความต้องการ *</label>
+          <select required>
+            <option value="">เลือกประเภท</option>
+            <option>สอบถามสินค้า / ขอ Spec Sheet</option>
+            <option>ขอใบเสนอราคา (Quotation)</option>
+            <option>บริการ OEM / ODM</option>
+            <option>ต้องการเป็นตัวแทนจำหน่าย</option>
+            <option>Airline Catering</option>
+            <option>Hospital / School Food Program</option>
+            <option>อื่นๆ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ปริมาณที่ต้องการ (โดยประมาณ)</label>
+          <select>
+            <option value="">เลือกปริมาณ</option>
+            <option>น้อยกว่า 1 ตัน/เดือน</option>
+            <option>1–5 ตัน/เดือน</option>
+            <option>5–20 ตัน/เดือน</option>
+            <option>20–100 ตัน/เดือน</option>
+            <option>มากกว่า 100 ตัน/เดือน</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>รายละเอียดเพิ่มเติม *</label>
+          <textarea rows="5" placeholder="บอกรายละเอียดความต้องการของคุณ เช่น ชนิดสินค้า ขนาด บรรจุภัณฑ์ ปริมาณ หรือสิ่งที่ต้องการให้เราช่วย..." required></textarea>
+        </div>
+        <div class="form-group" style="flex-direction:row;align-items:flex-start;gap:12px">
+          <input type="checkbox" id="pdpa" style="margin-top:3px;cursor:pointer;accent-color:var(--accent)" required />
+          <label for="pdpa" style="font-size:.85rem;font-weight:400;cursor:pointer">
+            ฉันยินยอมให้บริษัทเก็บรวบรวมและใช้ข้อมูลส่วนบุคคลตาม
+            <a href="#" style="color:var(--accent)">นโยบายความเป็นส่วนตัว</a> (PDPA)
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">
+          <span>ส่งข้อความ</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     OFFICES
+════════════════════════════════════════ -->
+<div class="section-wrap--bg">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-header reveal-up">
+      <span class="section-tag">ตัวแทนและสำนักงาน</span>
+      <h2 class="section-title">พบเราได้ทั่ว<span class="gradient-text">โลก</span></h2>
+    </div>
+    <div class="office-grid">
+
+      <div class="office-card reveal-up" data-delay="0">
+        <!--
+          [รูปภาพ] รูปภาพสำนักงานกรุงเทพฯ หรืออาคาร ขนาด 400×250 px
+          ตัวอย่าง: <img src="images/offices/bangkok.jpg" alt="กรุงเทพฯ"
+                         style="width:100%;border-radius:var(--r-md);margin-bottom:16px">
+        -->
+        <div class="office-flag">🇹🇭</div>
+        <h4>สำนักงานใหญ่ — กรุงเทพฯ</h4>
+        <p>123 ถ.สาทรใต้ กรุงเทพฯ 10120<br/>Tel: +66 2 XXX XXXX<br/>Email: info@kingwellfirst.com</p>
+      </div>
+
+      <div class="office-card reveal-up" data-delay="100">
+        <!--
+          [รูปภาพ] รูปภาพสำนักงาน USA ขนาด 400×250 px
+          ตัวอย่าง: <img src="images/offices/usa.jpg" alt="USA Office"
+                         style="width:100%;border-radius:var(--r-md);margin-bottom:16px">
+        -->
+        <div class="office-flag">🇺🇸</div>
+        <h4>ตัวแทน — สหรัฐอเมริกา</h4>
+        <p>Los Angeles, CA 90001<br/>Tel: +1 310 XXX XXXX<br/>Email: usa@kingwellfirst.com</p>
+      </div>
+
+      <div class="office-card reveal-up" data-delay="200">
+        <!--
+          [รูปภาพ] รูปภาพสำนักงาน Japan ขนาด 400×250 px
+          ตัวอย่าง: <img src="images/offices/japan.jpg" alt="Japan Office"
+                         style="width:100%;border-radius:var(--r-md);margin-bottom:16px">
+        -->
+        <div class="office-flag">🇯🇵</div>
+        <h4>ตัวแทน — ญี่ปุ่น</h4>
+        <p>Chuo-ku, Tokyo 104-0061<br/>Tel: +81 3 XXXX XXXX<br/>Email: japan@kingwellfirst.com</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     FAQ
+════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-header reveal-up">
+    <span class="section-tag">คำถามที่พบบ่อย</span>
+    <h2 class="section-title">FAQ<span class="gradient-text"> — ถาม & ตอบ</span></h2>
+  </div>
+
+  <div class="faq-list reveal-up" data-delay="100">
+
+    <div class="faq-item">
+      <button class="faq-question">
+        ปริมาณสั่งซื้อขั้นต่ำ (MOQ) คือเท่าไหร่?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-answer">
+        MOQ ขึ้นอยู่กับชนิดสินค้าและรูปแบบบรรจุภัณฑ์ โดยทั่วไปเริ่มต้นที่ 1 ตัน/ออร์เดอร์ สำหรับสินค้า OEM/Private Label มี MOQ เป็นไปตามข้อตกลง กรุณาติดต่อทีม Sales เพื่อสอบถามราคาและ MOQ เฉพาะสินค้าที่สนใจ
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        ใช้เวลานานแค่ไหนในการผลิต OEM?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-answer">
+        สำหรับสินค้าที่มีสูตรอยู่แล้ว ใช้เวลาประมาณ 3–6 สัปดาห์ตั้งแต่ยืนยันออร์เดอร์จนถึงพร้อมจัดส่ง สำหรับ ODM ที่ต้องพัฒนาสูตรใหม่ อาจใช้เวลา 2–4 เดือนรวมการทดสอบและปรับสูตร
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        มีบริการจัดส่งไปต่างประเทศหรือไม่?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-answer">
+        มีบริการส่งออกครบวงจร ทั้งทางเรือ (FCL/LCL) และทางอากาศ พร้อมทีมจัดการเอกสารศุลกากร เช่น Certificate of Origin, Health Certificate, Phytosanitary Certificate และเอกสารที่จำเป็นสำหรับแต่ละประเทศ
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        สินค้าผ่านการรับรองมาตรฐาน Halal หรือไม่?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-answer">
+        ใช่ โรงงานของเราได้รับการรับรอง HALAL จากสำนักงานคณะกรรมการกลางอิสลามแห่งประเทศไทย สินค้าหลายรายการได้รับ HALAL Certification พร้อมจัดส่งไปยังตลาดมุสลิมทั่วโลก
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        สามารถขอตัวอย่างสินค้า (Sample) ได้หรือไม่?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-answer">
+        ได้ เราจัดส่ง Sample ให้ลูกค้าที่จริงจังในการสั่งซื้อ โดยทั่วไปจะคิดค่า Sample และค่าจัดส่ง (ราคาตามจริง) กรุณาติดต่อทีม Sales เพื่อประสานงาน
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        มีบริการออกแบบบรรจุภัณฑ์หรือไม่?
+        <span class="faq-chevron">▾</span>
+      </button>
+      <div class="faq-answer">
+        มีทีม Graphic Design ภายในสำหรับออกแบบ Label และบรรจุภัณฑ์ตามแบรนด์ลูกค้า รองรับทั้งถุง Vacuum, ถุง Stand-up Pouch, กล่อง Retail, ถาด Tray Seal และรูปแบบอื่นๆ ตามความต้องการ
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      </a>
+      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม ส่งออกกว่า 15 ประเทศ</p>
+      <div class="social-links">
+        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Products">ผลิตภัณฑ์</h4>
+      <ul>
+        <li><a href="products.html" data-en="Frozen Shrimp">กุ้งแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Frozen Fish">ปลาแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Squid">ปลาหมึก</a></li>
+        <li><a href="products.html" data-en="Ready-to-Eat">อาหารพร้อมทาน</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Services">บริการ</h4>
+      <ul>
+        <li><a href="services.html">OEM / ODM</a></li>
+        <li><a href="services.html" data-en="R&amp;D Formulation">R&D สูตรอาหาร</a></li>
+        <li><a href="services.html">Airline Catering</a></li>
+        <li><a href="services.html">Global Export</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="More">เพิ่มเติม</h4>
+      <ul>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
+        <li><a href="services.html#certifications">มาตรฐานสากล</a></li>
+        <li><a href="about.html#gallery" data-en="Gallery">แกลเลอรี</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</a><a href="#" data-en="Terms of Use">เงื่อนไขการใช้งาน</a>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span class="toast-msg">ส่งข้อความสำเร็จ! เราจะติดต่อกลับภายใน 24 ชั่วโมง</span>
+</div>
+
+<script src="main.js?v=1777119224842"></script>
+<script>
+  // FAQ Accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

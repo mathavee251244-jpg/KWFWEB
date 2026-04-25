@@ -1,0 +1,889 @@
+/* ═══════════════════════════════════════════
+   KINGWELL FIRST — STYLE.CSS  (Multi-page)
+   Dark / Light Theme + Animations
+═══════════════════════════════════════════ */
+
+/* ── DESIGN TOKENS ── */
+:root {
+  --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --accent:       #2e86de;        /* KWF Royal Blue */
+  --accent-2:     #1a5ca8;        /* KWF Deep Blue  */
+  --accent-warm:  #e53935;        /* KWF Red (F"1"RST) */
+  --accent-green: #43a047;
+  --gradient: linear-gradient(135deg, #0d2b5e, #1a5ca8, #2e86de);
+  --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-xl: 40px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,.15);
+  --shadow-md: 0 8px 32px rgba(0,0,0,.2);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.3);
+}
+
+/* DARK (default) */
+[data-theme="dark"] {
+  --bg:          #060a12;
+  --bg-2:        #0b1120;
+  --bg-3:        #10192e;
+  --bg-card:     #131c30;
+  --bg-glass:    rgba(11,17,32,.88);
+  --border:      rgba(255,255,255,.07);
+  --border-accent: rgba(46,134,222,.35);
+  --text:        #eef2ff;
+  --text-2:      #9ab0cc;
+  --text-3:      #6b82a0;
+  --nav-bg:      rgba(6,10,18,.9);
+  --glow:        0 0 40px rgba(46,134,222,.2);
+}
+
+/* LIGHT */
+[data-theme="light"] {
+  --bg:          #f0f5ff;
+  --bg-2:        #e6eeff;
+  --bg-3:        #d8e6ff;
+  --bg-card:     #ffffff;
+  --bg-glass:    rgba(255,255,255,.92);
+  --border:      rgba(0,0,0,.08);
+  --border-accent: rgba(26,92,168,.3);
+  --text:        #0a1628;
+  --text-2:      #2d4263;
+  --text-3:      #5a7299;
+  --nav-bg:      rgba(240,245,255,.94);
+  --glow:        0 0 40px rgba(26,92,168,.14);
+  --accent:      #1a5ca8;
+  --accent-2:    #0d2b5e;
+  --gradient:    linear-gradient(135deg,#0d2b5e,#1a5ca8,#2e86de);
+}
+
+/* ── RESET ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  font-family:'Sarabun','Kanit',sans-serif;
+  background:var(--bg); color:var(--text);
+  line-height:1.6; overflow-x:hidden;
+  transition:background var(--transition),color var(--transition);
+  cursor:none;
+}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+ul{list-style:none}
+
+/* ═══════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════ */
+.cursor{
+  width:8px;height:8px;background:var(--accent);border-radius:50%;
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;
+}
+.cursor-follower{
+  width:32px;height:32px;border:1.5px solid var(--accent);border-radius:50%;
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform .12s ease,width .3s,height .3s,opacity .3s;opacity:.6;
+}
+body:has(a:hover,.btn:hover,button:hover) .cursor{width:14px;height:14px}
+body:has(a:hover,.btn:hover,button:hover) .cursor-follower{width:50px;height:50px;opacity:.3}
+
+/* ═══════════════════════════════════════════
+   PAGE LOADER
+═══════════════════════════════════════════ */
+.loader{
+  position:fixed;inset:0;background:var(--bg);
+  z-index:10000;display:flex;align-items:center;justify-content:center;
+  transition:opacity .6s,visibility .6s;
+}
+.loader.hidden{opacity:0;visibility:hidden}
+.loader-inner{text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
+.loader-logo{
+  width:240px;height:auto;
+  animation:loaderLogoPop .6s cubic-bezier(.34,1.56,.64,1) both;
+  border-radius:var(--r-md);
+  background:#fff;
+  padding:16px 24px;
+  box-shadow:0 8px 40px rgba(46,134,222,.35),0 2px 12px rgba(0,0,0,.2);
+}
+@keyframes loaderLogoPop{
+  from{opacity:0;transform:scale(.7) translateY(20px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+.loader-text{font-family:'Kanit',sans-serif;font-size:1.4rem;font-weight:600;color:var(--text);letter-spacing:2px}
+.loader-bar{width:200px;height:3px;background:var(--bg-3);border-radius:99px;overflow:hidden}
+.loader-progress{height:100%;background:var(--gradient);border-radius:99px;width:0;transition:width .1s linear}
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:var(--nav-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:background var(--transition),box-shadow var(--transition);
+}
+.navbar.scrolled{box-shadow:var(--shadow-md)}
+.nav-container{
+  max-width:1280px;margin:0 auto;padding:0 24px;
+  height:72px;display:flex;align-items:center;gap:32px;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-icon{width:36px;height:22px;color:var(--accent)}
+.logo-text{font-family:'Kanit',sans-serif;font-size:1.1rem;font-weight:400;letter-spacing:.5px}
+.logo-text strong{font-weight:700;color:var(--accent)}
+
+/* KWF Logo Image */
+.nav-logo-img{
+  height:46px;width:auto;max-width:220px;object-fit:contain;
+  background:#fff;border-radius:8px;padding:4px 12px;
+  display:block;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+  transition:transform var(--transition),box-shadow var(--transition);
+}
+.nav-logo:hover .nav-logo-img{transform:scale(1.04);box-shadow:0 6px 20px rgba(46,134,222,.4)}
+[data-theme="dark"] .nav-logo-img{box-shadow:0 2px 12px rgba(0,0,0,.5)}
+.nav-links{display:flex;gap:4px;margin-left:auto}
+.nav-link{
+  display:block;padding:8px 16px;font-size:.95rem;font-weight:500;
+  border-radius:var(--r-sm);color:var(--text-2);
+  transition:color var(--transition),background var(--transition);
+  position:relative;
+}
+.nav-link::after{
+  content:'';position:absolute;bottom:4px;left:50%;right:50%;
+  height:2px;background:var(--accent);border-radius:99px;transition:left .3s,right .3s;
+}
+.nav-link:hover{color:var(--text)}
+.nav-link:hover::after,.nav-link.active::after{left:16px;right:16px}
+.nav-link.active{color:var(--accent)}
+.nav-actions{display:flex;align-items:center;gap:12px}
+.lang-btn{
+  background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);
+  border-radius:var(--r-sm);padding:6px 12px;font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:all var(--transition);
+}
+.lang-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* THEME TOGGLE */
+.theme-toggle{
+  position:relative;width:56px;height:28px;background:var(--bg-3);
+  border:1px solid var(--border);border-radius:99px;cursor:pointer;
+  transition:background var(--transition);display:flex;align-items:center;padding:2px;
+}
+.theme-toggle .sun,.theme-toggle .moon{position:absolute;font-size:12px;transition:opacity .3s}
+.theme-toggle .sun{right:7px}
+.theme-toggle .moon{left:7px}
+[data-theme="dark"] .theme-toggle .sun{opacity:1}
+[data-theme="dark"] .theme-toggle .moon{opacity:.3}
+[data-theme="light"] .theme-toggle .sun{opacity:.3}
+[data-theme="light"] .theme-toggle .moon{opacity:1}
+.toggle-thumb{
+  width:22px;height:22px;background:var(--accent);border-radius:50%;
+  transition:transform var(--transition);box-shadow:0 2px 8px rgba(0,212,255,.4);
+}
+[data-theme="light"] .toggle-thumb{transform:translateX(28px)}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:99px;transition:all var(--transition)}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+/* Nav progress */
+.nav-progress{height:2px;background:var(--gradient);width:0;transition:width .1s}
+
+/* PAGE HERO (inner pages) */
+.page-hero{
+  padding:140px 24px 80px;
+  background:var(--bg-2);
+  border-bottom:1px solid var(--border);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.page-hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 50% 100%, rgba(0,212,255,.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+.page-hero-tag{
+  display:inline-block;
+  background:var(--bg-3);border:1px solid var(--border-accent);
+  color:var(--accent);border-radius:99px;
+  padding:6px 20px;font-size:.85rem;font-weight:600;
+  margin-bottom:20px;letter-spacing:.5px;
+}
+.page-hero-title{
+  font-family:'Kanit',sans-serif;
+  font-size:clamp(2rem,5vw,3.8rem);
+  font-weight:900;line-height:1.15;margin-bottom:16px;
+}
+.page-hero-desc{
+  color:var(--text-2);font-size:1.05rem;
+  max-width:600px;margin:0 auto;line-height:1.8;
+}
+.page-hero-breadcrumb{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;font-size:.85rem;color:var(--text-3);margin-top:24px;
+}
+.page-hero-breadcrumb a{color:var(--accent);transition:opacity .2s}
+.page-hero-breadcrumb a:hover{opacity:.7}
+.breadcrumb-sep{opacity:.4}
+
+/* ═══════════════════════════════════════════
+   HERO (Home)
+═══════════════════════════════════════════ */
+.hero{
+  min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:120px 24px 80px;
+}
+.hero-bg{position:absolute;inset:0;background:var(--bg);overflow:hidden}
+
+/* Waves */
+.wave{position:absolute;bottom:0;left:0;right:0;height:160px;border-radius:50% 50% 0 0/30px}
+.wave-1{background:linear-gradient(180deg,transparent,rgba(0,212,255,.04));animation:wave 8s ease-in-out infinite;bottom:-20px}
+.wave-2{background:linear-gradient(180deg,transparent,rgba(0,229,160,.03));animation:wave 10s ease-in-out infinite reverse;bottom:-40px;opacity:.7}
+.wave-3{background:linear-gradient(180deg,transparent,rgba(0,100,200,.04));animation:wave 12s ease-in-out infinite;bottom:-60px;opacity:.5}
+@keyframes wave{
+  0%,100%{border-radius:60% 40% 50% 50%/30px;transform:translateX(-1%)}
+  50%{border-radius:40% 60% 50% 50%/30px;transform:translateX(1%)}
+}
+.bubbles-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.5}
+
+.hero-content{position:relative;z-index:2;text-align:center;max-width:820px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--bg-glass);border:1px solid var(--border-accent);
+  border-radius:99px;padding:8px 20px;font-size:.9rem;color:var(--accent);
+  margin-bottom:32px;backdrop-filter:blur(10px);
+}
+.badge-dot{
+  width:8px;height:8px;background:var(--accent);border-radius:50%;
+  box-shadow:0 0 12px var(--accent);animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 6px var(--accent);transform:scale(1)}50%{box-shadow:0 0 20px var(--accent);transform:scale(1.2)}}
+
+.hero-title{
+  font-family:'Kanit',sans-serif;
+  font-size:clamp(2.5rem,7vw,5.5rem);
+  font-weight:900;line-height:1.1;margin-bottom:24px;letter-spacing:-1px;
+}
+.title-line{display:block}
+.gradient-text{
+  background:var(--gradient);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-desc{font-size:1.15rem;color:var(--text-2);margin-bottom:40px;line-height:1.8}
+.hero-desc .highlight{color:var(--accent);font-weight:600}
+.hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* Scroll hint */
+.hero-scroll-hint{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--text-3);font-size:.8rem;animation:floatAnim 3s ease-in-out infinite;
+}
+.scroll-mouse{width:24px;height:38px;border:2px solid var(--text-3);border-radius:12px;display:flex;justify-content:center;padding:4px}
+.scroll-wheel{width:4px;height:8px;background:var(--text-3);border-radius:99px;animation:scrollDown 2s ease-in-out infinite}
+@keyframes scrollDown{0%{transform:translateY(0);opacity:1}100%{transform:translateY(12px);opacity:0}}
+
+/* Floating cards */
+.hero-floating-cards{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.float-card{
+  position:absolute;background:var(--bg-glass);border:1px solid var(--border-accent);
+  backdrop-filter:blur(12px);border-radius:var(--r-md);padding:12px 16px;
+  display:flex;align-items:center;gap:12px;font-size:.85rem;box-shadow:var(--shadow-md);
+}
+.float-card strong{display:block;font-weight:600}
+.float-card small{color:var(--text-3);font-size:.75rem}
+.float-icon{font-size:1.8rem}
+.float-card-1{left:5%;top:35%;animation:floatAnim 4s ease-in-out infinite}
+.float-card-2{right:5%;top:30%;animation:floatAnim 5s ease-in-out infinite .5s}
+.float-card-3{left:8%;bottom:20%;animation:floatAnim 4.5s ease-in-out infinite 1s}
+@keyframes floatAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ═══════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:var(--r-md);
+  font-size:1rem;font-weight:600;font-family:'Kanit',sans-serif;
+  cursor:pointer;transition:all var(--transition);border:none;
+  text-decoration:none;position:relative;overflow:hidden;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);
+  transform:translateX(-100%);transition:transform .4s;
+}
+.btn:hover::before{transform:translateX(0)}
+.btn svg{width:18px;height:18px;transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-primary{background:var(--gradient);color:#fff;box-shadow:0 4px 24px rgba(0,212,255,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,212,255,.5)}
+.btn-outline{background:transparent;border:2px solid var(--border-accent);color:var(--accent)}
+.btn-outline:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px)}
+.btn-full{width:100%;justify-content:center}
+
+/* ═══════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════ */
+.stats-section{
+  background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:60px 24px;
+}
+.stats-container{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.stat-item{
+  text-align:center;padding:32px 16px;border-radius:var(--r-lg);
+  background:var(--bg-card);border:1px solid var(--border);
+  transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);
+}
+.stat-item:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg),var(--glow);border-color:var(--border-accent)}
+.stat-icon{font-size:2.5rem;margin-bottom:12px}
+.stat-number{
+  font-family:'Kanit',sans-serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:900;
+  background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:8px;
+}
+.stat-label{font-size:.9rem;color:var(--text-2)}
+
+/* ═══════════════════════════════════════════
+   SECTION SHARED
+═══════════════════════════════════════════ */
+.section-wrap{padding:100px 24px;max-width:1280px;margin:0 auto}
+.section-wrap--bg{padding:100px 24px;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.section-header{text-align:center;margin-bottom:60px}
+.section-tag{
+  display:inline-block;background:var(--bg-3);border:1px solid var(--border-accent);
+  color:var(--accent);border-radius:99px;padding:6px 18px;font-size:.85rem;font-weight:600;
+  margin-bottom:16px;letter-spacing:.5px;
+}
+.section-title{font-family:'Kanit',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:800;line-height:1.2;margin-bottom:16px}
+.section-desc{color:var(--text-2);font-size:1.05rem;max-width:600px;margin:0 auto}
+
+/* ═══════════════════════════════════════════
+   PRODUCTS
+═══════════════════════════════════════════ */
+.products-filter{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.filter-btn{
+  padding:8px 20px;border-radius:99px;border:1px solid var(--border);
+  background:var(--bg-card);color:var(--text-2);
+  font-family:'Sarabun',sans-serif;font-size:.9rem;font-weight:500;
+  cursor:pointer;transition:all var(--transition);
+}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 16px rgba(0,212,255,.3)}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.product-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;
+  transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);
+  cursor:pointer;
+}
+.product-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg),var(--glow);border-color:var(--border-accent)}
+.product-card.hidden{display:none}
+
+/* Product image area */
+.product-img-wrap{position:relative;aspect-ratio:4/3;overflow:hidden}
+.product-img-bg{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  transition:transform .6s;
+}
+.product-card:hover .product-img-bg{transform:scale(1.08)}
+
+/*
+  วางแท็ก <img> ภายใน .product-img-bg หรือใช้ background-image
+  ตัวอย่าง: <img src="images/products/shrimp-iqf.jpg" alt="กุ้งขาวแช่แข็ง">
+  (ขนาดแนะนำ 800×600 px, ratio 4:3)
+*/
+.product-emoji{
+  font-size:5rem;filter:drop-shadow(0 4px 12px rgba(0,0,0,.3));
+  transition:transform .4s;
+}
+.product-card:hover .product-emoji{transform:scale(1.1) rotate(-5deg)}
+.product-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,.5);
+  display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;
+}
+.product-card:hover .product-overlay{opacity:1}
+.product-quick-btn{
+  background:var(--accent);color:#fff;border:none;border-radius:var(--r-md);
+  padding:10px 24px;font-family:'Kanit',sans-serif;font-size:.95rem;font-weight:600;
+  cursor:pointer;transform:translateY(10px);transition:transform .3s;
+}
+.product-card:hover .product-quick-btn{transform:translateY(0)}
+.product-badge{
+  position:absolute;top:12px;right:12px;background:var(--accent-warm);
+  color:#fff;border-radius:99px;padding:4px 12px;font-size:.75rem;font-weight:700;
+}
+.product-badge.new{background:#00e5a0;color:#001a12}
+.product-badge.hot{background:#e74c3c}
+.product-info{padding:20px}
+.product-info h3{font-family:'Kanit',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.product-info p{font-size:.9rem;color:var(--text-2);margin-bottom:12px;line-height:1.6}
+.product-tags{display:flex;gap:6px;flex-wrap:wrap}
+.product-tags span{
+  background:var(--bg-3);border:1px solid var(--border);color:var(--text-3);
+  border-radius:99px;padding:3px 10px;font-size:.75rem;font-weight:600;
+}
+
+/* Product detail modal */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:5000;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;
+  backdrop-filter:blur(6px);
+}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal{
+  background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--r-xl);
+  max-width:620px;width:100%;max-height:90dvh;overflow-y:auto;
+  transform:scale(.9);transition:transform .3s;
+}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-header{
+  position:relative;padding:32px 32px 0;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+}
+.modal-close{
+  width:36px;height:36px;background:var(--bg-3);border:none;border-radius:50%;
+  font-size:1.2rem;cursor:pointer;color:var(--text-2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background var(--transition);
+}
+.modal-close:hover{background:var(--accent);color:#fff}
+.modal-body{padding:24px 32px 32px}
+
+/* ═══════════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════════ */
+.marquee-section{
+  overflow:hidden;background:var(--bg-2);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 0;
+}
+.marquee-track{overflow:hidden}
+.marquee-content{
+  display:flex;gap:48px;white-space:nowrap;
+  animation:marquee 20s linear infinite;width:max-content;
+}
+.marquee-content span{font-family:'Kanit',sans-serif;font-size:1.1rem;font-weight:600;color:var(--text-2)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════════
+   SERVICES
+═══════════════════════════════════════════ */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.service-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:36px 28px;position:relative;overflow:hidden;
+  transition:all var(--transition);cursor:pointer;
+}
+.service-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:var(--gradient);transform:scaleX(0);transform-origin:left;transition:transform .4s;
+}
+.service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg),var(--glow);border-color:var(--border-accent)}
+.service-card:hover::before{transform:scaleX(1)}
+.service-icon-wrap{
+  width:64px;height:64px;background:var(--bg-3);border-radius:var(--r-md);
+  display:flex;align-items:center;justify-content:center;margin-bottom:20px;
+  transition:background var(--transition),transform var(--transition);
+}
+.service-card:hover .service-icon-wrap{background:rgba(0,212,255,.1);transform:rotate(-5deg) scale(1.1)}
+
+/*
+  [รูปภาพ] ใส่รูป icon หรือ illustration ประจำบริการ
+  ขนาดแนะนำ: 64×64 px หรือ SVG
+  ตัวอย่าง: <img src="images/services/oem-icon.svg" alt="OEM/ODM">
+*/
+.service-icon{font-size:1.8rem}
+.service-card h3{font-family:'Kanit',sans-serif;font-size:1.15rem;font-weight:700;margin-bottom:12px}
+.service-card p{font-size:.9rem;color:var(--text-2);line-height:1.7}
+.service-arrow{
+  position:absolute;top:28px;right:28px;font-size:1.3rem;
+  color:var(--text-3);transition:all .3s;
+}
+.service-card:hover .service-arrow{color:var(--accent);transform:translateX(4px)}
+
+/* Service detail (expanded) */
+.service-detail{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:60px 0}
+.service-detail-img{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-xl);
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:6rem;
+}
+
+/*
+  [รูปภาพ] ใส่รูปภาพประกอบบริการ (ภาพโรงงาน, กระบวนการผลิต ฯลฯ)
+  ขนาดแนะนำ: 600×600 px, ratio 1:1
+  ตัวอย่าง: <img src="images/services/factory-oem.jpg" alt="โรงงาน OEM">
+*/
+
+/* ═══════════════════════════════════════════
+   CERTIFICATIONS
+═══════════════════════════════════════════ */
+.cert-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(0,212,255,.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.cert-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:32px 20px;text-align:center;transition:all var(--transition);cursor:default;
+}
+.cert-card:hover{transform:translateY(-6px) scale(1.02);border-color:var(--border-accent);box-shadow:var(--shadow-md),var(--glow)}
+
+/*
+  [รูปภาพ] ใส่โลโก้ใบรับรองจริง (ไฟล์ PNG พื้นหลังใส หรือ SVG)
+  ขนาดแนะนำ: 120×60 px
+  ตัวอย่าง: <img src="images/certs/haccp-logo.png" alt="HACCP">
+*/
+.cert-badge{
+  font-family:'Kanit',sans-serif;font-size:1.6rem;font-weight:900;
+  background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:10px;
+}
+.cert-card p{font-size:.78rem;color:var(--text-3);line-height:1.5}
+
+/* ═══════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════ */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-visual{position:relative}
+.about-img-stack{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:1}
+.about-img-main{
+  width:300px;height:300px;background:var(--bg-card);
+  border:1px solid var(--border-accent);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;box-shadow:var(--shadow-lg),var(--glow);
+  animation:floatAnim 5s ease-in-out infinite;overflow:hidden;
+}
+
+/*
+  [รูปภาพ] ใส่รูปภาพโรงงานหรือสินค้าหลัก แบบ circular (crop เป็นวงกลม)
+  ขนาดแนะนำ: 600×600 px (จะถูก crop เป็นวงกลม)
+  ตัวอย่าง: <img src="images/about/factory-main.jpg" alt="โรงงาน KINGWELL FIRST" style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+*/
+
+.about-img-badge{
+  position:absolute;bottom:20px;right:20px;background:var(--gradient);
+  border-radius:var(--r-md);padding:14px 20px;text-align:center;z-index:3;box-shadow:var(--shadow-md);
+}
+.about-img-badge strong{display:block;font-family:'Kanit',sans-serif;font-size:1.5rem;font-weight:900;color:#fff}
+.about-img-badge small{color:rgba(255,255,255,.8);font-size:.75rem}
+.about-img-circle{
+  position:absolute;border-radius:50%;border:1px dashed var(--border-accent);animation:spin linear infinite;
+}
+.circle-1{width:360px;height:360px;animation-duration:20s}
+.circle-2{width:420px;height:420px;animation-duration:30s;animation-direction:reverse;opacity:.5}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.about-content .section-tag{display:inline-block;margin-bottom:12px}
+.about-content .section-title{margin-bottom:20px}
+.about-content p{color:var(--text-2);margin-bottom:16px;line-height:1.8}
+.about-highlights{margin:32px 0;display:flex;flex-direction:column;gap:16px}
+.highlight-item{
+  display:flex;align-items:flex-start;gap:16px;padding:16px;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-md);
+  transition:all var(--transition);
+}
+.highlight-item:hover{border-color:var(--border-accent);transform:translateX(6px)}
+.highlight-icon{font-size:1.5rem;flex-shrink:0}
+.highlight-item strong{display:block;font-weight:600;margin-bottom:4px}
+.highlight-item span{font-size:.85rem;color:var(--text-2)}
+
+/* TIMELINE */
+.timeline{position:relative;padding:40px 0}
+.timeline::before{
+  content:'';position:absolute;left:50%;top:0;bottom:0;
+  width:2px;background:var(--border);transform:translateX(-50%);
+}
+.timeline-item{
+  display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:48px;align-items:start;
+}
+.timeline-item:nth-child(even) .timeline-content{grid-column:3;text-align:left}
+.timeline-item:nth-child(even) .timeline-empty{grid-column:1}
+.timeline-content{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:24px;transition:all var(--transition);
+}
+.timeline-content:hover{border-color:var(--border-accent);transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.timeline-dot{
+  width:40px;height:40px;background:var(--gradient);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Kanit',sans-serif;font-weight:700;font-size:.8rem;color:#fff;
+  margin:0 auto;position:relative;z-index:1;box-shadow:0 0 20px rgba(0,212,255,.4);
+}
+.timeline-year{
+  font-family:'Kanit',sans-serif;font-size:1rem;font-weight:700;
+  color:var(--accent);margin-bottom:8px;
+}
+.timeline-content h4{font-family:'Kanit',sans-serif;font-size:1rem;font-weight:700;margin-bottom:6px}
+.timeline-content p{font-size:.85rem;color:var(--text-2);line-height:1.6}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.team-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;text-align:center;transition:all var(--transition);
+}
+.team-card:hover{transform:translateY(-6px);border-color:var(--border-accent);box-shadow:var(--shadow-md),var(--glow)}
+.team-photo{
+  aspect-ratio:1;background:var(--bg-3);
+  display:flex;align-items:center;justify-content:center;font-size:4rem;
+  position:relative;overflow:hidden;
+}
+
+/*
+  [รูปภาพ] ใส่รูปภาพสมาชิกทีมผู้บริหาร
+  ขนาดแนะนำ: 400×400 px (ratio 1:1, crop เป็นสี่เหลี่ยม)
+  ตัวอย่าง: <img src="images/team/ceo.jpg" alt="CEO" style="width:100%;height:100%;object-fit:cover">
+*/
+
+.team-overlay{
+  position:absolute;inset:0;background:rgba(0,212,255,.15);
+  opacity:0;transition:opacity .3s;
+}
+.team-card:hover .team-overlay{opacity:1}
+.team-info{padding:20px}
+.team-info h4{font-family:'Kanit',sans-serif;font-weight:700;margin-bottom:4px}
+.team-info .team-role{font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:8px}
+.team-info p{font-size:.8rem;color:var(--text-2);line-height:1.6}
+
+/* GALLERY */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gallery-item{
+  border-radius:var(--r-md);overflow:hidden;
+  background:var(--bg-card);border:1px solid var(--border);
+  aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+  font-size:3rem;cursor:pointer;transition:all var(--transition);position:relative;
+}
+.gallery-item:hover{transform:scale(1.02);box-shadow:var(--shadow-md)}
+.gallery-item:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto;min-height:300px}
+
+/*
+  [รูปภาพ] ใส่รูปภาพแกลเลอรีโรงงาน / สินค้า / กิจกรรม
+  ขนาดแนะนำ: item ทั่วไป 600×450 px | item แรก (ใหญ่) 1200×900 px
+  ตัวอย่าง: <img src="images/gallery/factory-01.jpg" alt="ห้องแช่แข็ง" style="width:100%;height:100%;object-fit:cover">
+*/
+
+.gallery-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.7));
+  padding:24px 16px 12px;color:#fff;font-size:.85rem;font-weight:600;
+  opacity:0;transition:opacity .3s;
+}
+.gallery-item:hover .gallery-caption{opacity:1}
+
+/* ═══════════════════════════════════════════
+   CLIENTS
+═══════════════════════════════════════════ */
+.clients-track{overflow:hidden}
+.clients-slide{display:flex;gap:48px;animation:marquee 15s linear infinite;width:max-content}
+.client-logo{
+  display:flex;align-items:center;gap:10px;padding:16px 28px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-md);white-space:nowrap;font-weight:600;
+  transition:all var(--transition);
+}
+
+/*
+  [รูปภาพ] ใส่โลโก้ลูกค้า / พันธมิตร แทนอีโมจิ
+  ขนาดแนะนำ: 120×40 px (greyscale แล้วสีกลับเมื่อ hover)
+  ตัวอย่าง: <img src="images/clients/costco-logo.png" alt="Costco" style="height:32px;filter:grayscale(1)">
+*/
+
+.client-logo span{color:var(--text-2)}
+.client-logo:hover{border-color:var(--border-accent);transform:translateY(-3px);box-shadow:var(--shadow-sm)}
+
+/* ═══════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════ */
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start}
+.contact-info .section-title{margin:12px 0 20px}
+.contact-info>p{color:var(--text-2);margin-bottom:40px}
+.contact-details{display:flex;flex-direction:column;gap:20px}
+.contact-item{display:flex;gap:16px;align-items:flex-start}
+.contact-icon{
+  font-size:1.3rem;flex-shrink:0;width:44px;height:44px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;
+}
+.contact-item strong{display:block;font-weight:600;margin-bottom:2px;font-size:.85rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px}
+.contact-item span{color:var(--text)}
+
+/* MAP */
+.map-placeholder{
+  margin-top:32px;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;color:var(--text-3);flex-direction:column;gap:12px;
+}
+
+/*
+  [รูปภาพ / Map] แทนที่ .map-placeholder ด้วย iframe Google Maps
+  ตัวอย่าง:
+  <iframe
+    src="https://www.google.com/maps/embed?pb=..."
+    width="100%" height="100%" frameborder="0"
+    style="border:0;border-radius:var(--r-lg)" allowfullscreen>
+  </iframe>
+*/
+
+.map-icon{font-size:3rem}
+
+/* FORM */
+.contact-form-wrap{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-xl);padding:40px;
+}
+.contact-form{display:flex;flex-direction:column;gap:20px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group label{font-size:.85rem;font-weight:600;color:var(--text-2)}
+.form-group input,.form-group select,.form-group textarea{
+  background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-md);
+  padding:12px 16px;color:var(--text);font-family:'Sarabun',sans-serif;font-size:.95rem;
+  transition:border-color var(--transition),box-shadow var(--transition);outline:none;resize:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,212,255,.1);
+}
+.form-group select option{background:var(--bg-2)}
+
+/* ═══════════════════════════════════════════
+   HOME CTA STRIP
+═══════════════════════════════════════════ */
+.cta-strip{
+  padding:80px 24px;text-align:center;
+  background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.cta-strip-glow{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:500px;height:200px;
+  background:radial-gradient(ellipse,rgba(0,212,255,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cta-strip h2{font-family:'Kanit',sans-serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;margin-bottom:12px}
+.cta-strip p{color:var(--text-2);margin-bottom:32px}
+.cta-strip .hero-buttons{justify-content:center}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.footer{background:var(--bg-2);border-top:1px solid var(--border);padding:80px 24px 0}
+.footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:60px}
+.footer-brand .nav-logo{margin-bottom:20px}
+.footer-brand p{color:var(--text-2);font-size:.9rem;line-height:1.8;margin-bottom:24px}
+
+/*
+  [รูปภาพ] ใส่โลโก้บริษัทในส่วน footer (ขนาดเล็ก)
+  ขนาดแนะนำ: 160×50 px (SVG หรือ PNG พื้นหลังใส)
+  ตัวอย่าง: <img src="images/logo-white.png" alt="KINGWELL FIRST" style="height:40px">
+*/
+
+.social-links{display:flex;gap:10px}
+.social-btn{
+  width:38px;height:38px;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;color:var(--text-2);transition:all var(--transition);
+}
+.social-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;transform:translateY(-3px)}
+.footer-col h4{font-family:'Kanit',sans-serif;font-size:1rem;font-weight:700;margin-bottom:20px}
+.footer-col ul{display:flex;flex-direction:column;gap:10px}
+.footer-col ul a{color:var(--text-2);font-size:.9rem;transition:all var(--transition);position:relative;padding-left:12px}
+.footer-col ul a::before{content:'→';position:absolute;left:-8px;opacity:0;transition:all .3s;color:var(--accent)}
+.footer-col ul a:hover{color:var(--accent);padding-left:20px}
+.footer-col ul a:hover::before{opacity:1;left:0}
+.footer-bottom{
+  border-top:1px solid var(--border);padding:24px 0;
+  display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto;
+}
+.footer-bottom p,.footer-bottom-links a{font-size:.85rem;color:var(--text-3)}
+.footer-bottom-links{display:flex;gap:24px}
+.footer-bottom-links a:hover{color:var(--accent)}
+
+/* ═══════════════════════════════════════════
+   BACK TO TOP / TOAST
+═══════════════════════════════════════════ */
+.back-to-top{
+  position:fixed;bottom:32px;right:32px;width:48px;height:48px;
+  background:var(--gradient);border:none;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(20px);transition:all var(--transition);z-index:500;
+  box-shadow:var(--shadow-md);
+}
+.back-to-top.visible{opacity:1;transform:translateY(0)}
+.back-to-top:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.back-to-top svg{width:20px;height:20px;color:#fff}
+.toast{
+  position:fixed;bottom:32px;left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--r-md);
+  padding:14px 24px;display:flex;align-items:center;gap:12px;
+  font-size:.95rem;font-weight:500;box-shadow:var(--shadow-lg);
+  transition:transform .5s cubic-bezier(.4,0,.2,1);z-index:9000;backdrop-filter:blur(10px);
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-icon{font-size:1.2rem}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.reveal-up,.reveal-left,.reveal-right{opacity:0;transition:opacity .7s ease,transform .7s ease}
+.reveal-up{transform:translateY(40px)}
+.reveal-left{transform:translateX(-50px)}
+.reveal-right{transform:translateX(50px)}
+.reveal-up.visible,.reveal-left.visible,.reveal-right.visible{opacity:1;transform:none}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:1024px){
+  .stats-container{grid-template-columns:repeat(2,1fr)}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+  .cert-grid{grid-template-columns:repeat(4,1fr)}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .about-visual{max-width:400px;margin:0 auto}
+  .contact-grid{grid-template-columns:1fr;gap:48px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .service-detail{grid-template-columns:1fr;gap:32px}
+  .timeline::before{left:28px}
+  .timeline-item{grid-template-columns:56px 1fr}
+  .timeline-dot{margin:0}
+  .timeline-item:nth-child(even) .timeline-content{grid-column:auto}
+  .timeline-item:nth-child(even) .timeline-empty{display:none}
+}
+@media(max-width:768px){
+  .nav-links{
+    display:none;flex-direction:column;position:absolute;top:72px;left:0;right:0;
+    background:var(--nav-bg);backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);padding:16px;gap:4px;
+  }
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+  .hero-floating-cards{display:none}
+  .products-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr}
+  .cert-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+  .contact-form-wrap{padding:24px}
+  .gallery-grid{grid-template-columns:1fr}
+  .gallery-item:first-child{grid-column:auto;grid-row:auto}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .stats-container{grid-template-columns:1fr}
+  .cert-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-title{font-size:2.2rem}
+  .cursor,.cursor-follower{display:none}
+  body{cursor:auto}
+  .team-grid{grid-template-columns:1fr}
+}
+
+/* LIGHT theme tweaks */
+[data-theme="light"] .service-card:hover{background:#fff}
+[data-theme="light"] .wave-1{background:linear-gradient(180deg,transparent,rgba(26,92,168,.06))}
+[data-theme="light"] .wave-2{background:linear-gradient(180deg,transparent,rgba(13,43,94,.04))}
+[data-theme="light"] .wave-3{background:linear-gradient(180deg,transparent,rgba(46,134,222,.05))}

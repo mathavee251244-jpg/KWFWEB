@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KINGWELL FIRST — บริการ & มาตรฐาน</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1777119224842" />
+  <style>
+    .process-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin:60px 0}
+    .process-step{text-align:center;padding:0 16px;position:relative}
+    .process-step:not(:last-child)::after{
+      content:'→';position:absolute;right:-12px;top:32px;
+      font-size:1.5rem;color:var(--accent);opacity:.5;
+    }
+    .process-num{
+      width:64px;height:64px;background:var(--gradient);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+      font-family:'Kanit',sans-serif;font-size:1.4rem;font-weight:900;color:#fff;
+      box-shadow:0 0 24px rgba(0,212,255,.3);
+    }
+    .process-title{font-family:'Kanit',sans-serif;font-weight:700;margin-bottom:8px}
+    .process-desc{font-size:.82rem;color:var(--text-2);line-height:1.6}
+    @media(max-width:768px){
+      .process-grid{grid-template-columns:1fr;gap:24px}
+      .process-step:not(:last-child)::after{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
+    <p class="loader-text">Cold Chain Solutions</p>
+    <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
+      <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
+      <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
+      <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
+        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <div class="toggle-thumb"></div>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1920" alt="KINGWELL FIRST Services"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.15">
+  </div>
+  <div class="page-hero-tag">บริการ</div>
+  <h1 class="page-hero-title">ครบวงจร<br/><span class="gradient-text">ทุกความต้องการ</span></h1>
+  <p class="page-hero-desc">ตั้งแต่การพัฒนาสูตร การผลิต การบรรจุ ไปจนถึงการส่งออกทั่วโลก</p>
+  <div class="page-hero-breadcrumb">
+    <a href="index.html">หน้าแรก</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>บริการ</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SERVICES GRID (ครบ 6)
+════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-header reveal-up">
+    <span class="section-tag">บริการของเรา</span>
+    <h2 class="section-title">เลือกบริการที่<br/><span class="gradient-text">ตรงกับคุณ</span></h2>
+    <p class="section-desc">ออกแบบมาเพื่อตอบโจทย์ทุกกลุ่มธุรกิจตั้งแต่ SME ถึง Enterprise</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- Service 1: OEM/ODM -->
+    <div class="service-card reveal-up" data-delay="0" id="svc-oem">
+      <div class="service-icon-wrap">
+        <!--
+          [รูปภาพ] ไอคอน OEM/ODM ขนาด 48×48 px (SVG แนะนำ)
+          ตัวอย่าง: <img src="images/services/oem-icon.svg" alt="OEM" style="width:36px">
+        -->
+        <div class="service-icon">🏭</div>
+      </div>
+      <h3>OEM / ODM</h3>
+      <p>รับผลิตสินค้าตามแบรนด์ของคุณครบวงจร ตั้งแต่พัฒนาสูตร ออกแบบบรรจุภัณฑ์ ไปจนถึงการส่งออก</p>
+      <div class="service-arrow">→</div>
+    </div>
+
+    <!-- Service 2: R&D -->
+    <div class="service-card reveal-up" data-delay="100" id="svc-rd">
+      <div class="service-icon-wrap">
+        <!--
+          [รูปภาพ] ไอคอน R&D ขนาด 48×48 px
+          ตัวอย่าง: <img src="images/services/rd-icon.svg" alt="R&D" style="width:36px">
+        -->
+        <div class="service-icon">🧪</div>
+      </div>
+      <h3>R&D พัฒนาสูตร</h3>
+      <p>ทีมนักวิจัยและพัฒนาภายใน พร้อมสร้างสูตรใหม่ตามรสชาติและความต้องการเฉพาะของตลาด</p>
+      <div class="service-arrow">→</div>
+    </div>
+
+    <!-- Service 3: Airline -->
+    <div class="service-card reveal-up" data-delay="200" id="svc-airline">
+      <div class="service-icon-wrap">
+        <!--
+          [รูปภาพ] ไอคอน Airline Catering ขนาด 48×48 px
+          ตัวอย่าง: <img src="images/services/airline-icon.svg" alt="Airline" style="width:36px">
+        -->
+        <div class="service-icon">✈️</div>
+      </div>
+      <h3>Airline Catering</h3>
+      <p>จัดส่งอาหารทะเลคุณภาพสูงสำหรับสายการบินชั้นนำ ผ่านมาตรฐาน BRC และ Airline Approved</p>
+      <div class="service-arrow">→</div>
+    </div>
+
+    <!-- Service 4: Retail -->
+    <div class="service-card reveal-up" data-delay="300" id="svc-retail">
+      <div class="service-icon-wrap">
+        <!--
+          [รูปภาพ] ไอคอน Retail ขนาด 48×48 px
+          ตัวอย่าง: <img src="images/services/retail-icon.svg" alt="Retail" style="width:36px">
+        -->
+        <div class="service-icon">🏪</div>
+      </div>
+      <h3>Retail & Convenience</h3>
+      <p>สินค้าพร้อมวางจำหน่ายใน Costco USA, 7-Eleven Thailand และห้างชั้นนำทั่วโลก</p>
+      <div class="service-arrow">→</div>
+    </div>
+
+    <!-- Service 5: Hospital/School -->
+    <div class="service-card reveal-up" data-delay="400" id="svc-hospital">
+      <div class="service-icon-wrap">
+        <!--
+          [รูปภาพ] ไอคอน Hospital/School Food ขนาด 48×48 px
+          ตัวอย่าง: <img src="images/services/hospital-icon.svg" alt="Hospital" style="width:36px">
+        -->
+        <div class="service-icon">🏥</div>
+      </div>
+      <h3>Hospital & School Food</h3>
+      <p>โปรแกรมอาหารสำหรับโรงพยาบาลและโรงเรียน เน้นโภชนาการ ลดไขมัน โปรตีนสูง</p>
+      <div class="service-arrow">→</div>
+    </div>
+
+    <!-- Service 6: Global Export -->
+    <div class="service-card reveal-up" data-delay="500" id="svc-export">
+      <div class="service-icon-wrap">
+        <!--
+          [รูปภาพ] ไอคอน Global Export ขนาด 48×48 px
+          ตัวอย่าง: <img src="images/services/export-icon.svg" alt="Export" style="width:36px">
+        -->
+        <div class="service-icon">🌏</div>
+      </div>
+      <h3>Global Export</h3>
+      <p>เครือข่ายส่งออกกว่า 15 ประเทศ พร้อมทีมผู้เชี่ยวชาญด้านเอกสาร Customs และโลจิสติกส์</p>
+      <div class="service-arrow">→</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SERVICE DETAIL: OEM/ODM (ภาพ + ข้อมูล)
+════════════════════════════════════════ -->
+<div class="section-wrap--bg">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="service-detail reveal-up">
+      <div>
+        <span class="section-tag">OEM / ODM</span>
+        <h2 class="section-title" style="margin:12px 0 20px">ผลิตภายใต้<br/><span class="gradient-text">แบรนด์ของคุณ</span></h2>
+        <p style="color:var(--text-2);line-height:1.8;margin-bottom:16px">
+          เราให้บริการผลิตอาหารทะเลภายใต้แบรนด์ของลูกค้า (OEM) และพัฒนาผลิตภัณฑ์ใหม่ตามสเปค (ODM)
+          ครอบคลุมทุกขั้นตอน ตั้งแต่การพัฒนาสูตร ทดสอบชิม การผลิต การบรรจุ ไปจนถึงการส่งออก
+        </p>
+        <div class="about-highlights" style="margin:24px 0">
+          <div class="highlight-item">
+            <div class="highlight-icon">✅</div>
+            <div><strong>Private Label</strong><span>บรรจุภัณฑ์และโลโก้ตามแบรนด์คุณ</span></div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-icon">✅</div>
+            <div><strong>Flexible MOQ</strong><span>ปริมาณขั้นต่ำยืดหยุ่น เหมาะทั้ง SME และ Enterprise</span></div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-icon">✅</div>
+            <div><strong>Full Documentation</strong><span>เอกสารส่งออก Certificate of Origin ครบ</span></div>
+          </div>
+        </div>
+        <a href="contact.html" class="btn btn-primary">
+          ปรึกษาทีม OEM
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="service-detail-img reveal-right">
+        <!--
+          [รูปภาพ] ใส่รูปภาพกระบวนการ OEM เช่น ภาพไลน์ผลิต / บรรจุภัณฑ์หลากหลายแบรนด์
+          ขนาดแนะนำ: 600×600 px (ratio 1:1)
+          ตัวอย่าง: <img src="images/services/oem-factory.jpg" alt="OEM Production Line"
+                         style="width:100%;height:100%;object-fit:cover;border-radius:var(--r-xl)">
+        -->
+        <span style="font-size:6rem">🏭</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PRODUCTION PROCESS
+════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-header reveal-up">
+    <span class="section-tag">กระบวนการผลิต</span>
+    <h2 class="section-title">ขั้นตอน<span class="gradient-text">ที่ผ่านการรับรอง</span></h2>
+    <p class="section-desc">ทุกขั้นตอนผ่านการตรวจสอบและควบคุมคุณภาพตามมาตรฐาน HACCP</p>
+  </div>
+
+  <div class="process-grid reveal-up" data-delay="100">
+    <div class="process-step">
+      <!--
+        [รูปภาพ] ไอคอนขั้นตอนที่ 1: จัดหาวัตถุดิบ ขนาด 64×64 px
+        ตัวอย่าง: <img src="images/process/step1-sourcing.svg" alt="จัดหาวัตถุดิบ" style="width:40px;margin:0 auto">
+      -->
+      <div class="process-num">1</div>
+      <div class="process-title">จัดหาวัตถุดิบ</div>
+      <p class="process-desc">คัดสรรวัตถุดิบจากแหล่งที่ได้รับการรับรองทั่วโลก</p>
+    </div>
+    <div class="process-step">
+      <!--
+        [รูปภาพ] ไอคอนขั้นตอนที่ 2: ตรวจสอบคุณภาพ ขนาด 64×64 px
+        ตัวอย่าง: <img src="images/process/step2-qc.svg" alt="QC" style="width:40px;margin:0 auto">
+      -->
+      <div class="process-num">2</div>
+      <div class="process-title">ตรวจสอบ QC</div>
+      <p class="process-desc">ห้องแล็บภายใน ตรวจสอบทุก Batch ก่อนผลิต</p>
+    </div>
+    <div class="process-step">
+      <!--
+        [รูปภาพ] ไอคอนขั้นตอนที่ 3: แปรรูป ขนาด 64×64 px
+        ตัวอย่าง: <img src="images/process/step3-processing.svg" alt="Processing" style="width:40px;margin:0 auto">
+      -->
+      <div class="process-num">3</div>
+      <div class="process-title">แปรรูป</div>
+      <p class="process-desc">แล่ หั่น ปอกเปลือก ตามสเปคที่กำหนด</p>
+    </div>
+    <div class="process-step">
+      <!--
+        [รูปภาพ] ไอคอนขั้นตอนที่ 4: IQF แช่แข็ง ขนาด 64×64 px
+        ตัวอย่าง: <img src="images/process/step4-iqf.svg" alt="IQF" style="width:40px;margin:0 auto">
+      -->
+      <div class="process-num">4</div>
+      <div class="process-title">IQF แช่แข็ง</div>
+      <p class="process-desc">Individual Quick Freezing รักษาความสดทันที</p>
+    </div>
+    <div class="process-step">
+      <!--
+        [รูปภาพ] ไอคอนขั้นตอนที่ 5: บรรจุ & ส่งออก ขนาด 64×64 px
+        ตัวอย่าง: <img src="images/process/step5-export.svg" alt="Export" style="width:40px;margin:0 auto">
+      -->
+      <div class="process-num">5</div>
+      <div class="process-title">บรรจุ & ส่งออก</div>
+      <p class="process-desc">บรรจุตามแบรนด์ พร้อมเอกสารส่งออกครบ</p>
+    </div>
+  </div>
+
+  <!--
+    [รูปภาพ] ใส่รูปภาพ Infographic กระบวนการผลิตแบบ full-width
+    ขนาดแนะนำ: 1200×400 px
+    ตัวอย่าง: <img src="images/services/production-process.jpg" alt="กระบวนการผลิต"
+                   style="width:100%;border-radius:var(--r-xl);margin-top:40px;border:1px solid var(--border)">
+  -->
+</div>
+
+<!-- ════════════════════════════════════════
+     CERTIFICATIONS
+════════════════════════════════════════ -->
+<div class="section-wrap--bg" id="certifications" style="position:relative;overflow:hidden">
+  <div class="cert-glow"></div>
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-header reveal-up">
+      <span class="section-tag">มาตรฐานสากล</span>
+      <h2 class="section-title">ได้รับการรับรอง<br/><span class="gradient-text">ระดับโลก</span></h2>
+      <p class="section-desc">ทุกกระบวนการผลิตผ่านการตรวจสอบจากองค์กรชั้นนำระดับนานาชาติ</p>
+    </div>
+
+    <div class="cert-grid">
+
+      <div class="cert-card reveal-up" data-delay="0">
+        <!--
+          [รูปภาพ] โลโก้ใบรับรอง GMP อย่างเป็นทางการ
+          ขนาดแนะนำ: 120×60 px (PNG พื้นหลังใส)
+          ตัวอย่าง: <img src="images/certs/gmp-logo.png" alt="GMP" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">GMP</div>
+        <p>Good Manufacturing Practice</p>
+      </div>
+
+      <div class="cert-card reveal-up" data-delay="50">
+        <!--
+          [รูปภาพ] โลโก้ใบรับรอง HACCP อย่างเป็นทางการ
+          ตัวอย่าง: <img src="images/certs/haccp-logo.png" alt="HACCP" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">HACCP</div>
+        <p>Hazard Analysis Critical Control Points</p>
+      </div>
+
+      <div class="cert-card reveal-up" data-delay="100">
+        <!--
+          [รูปภาพ] โลโก้ MSC (Marine Stewardship Council)
+          ตัวอย่าง: <img src="images/certs/msc-logo.png" alt="MSC" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">MSC</div>
+        <p>Marine Stewardship Council</p>
+      </div>
+
+      <div class="cert-card reveal-up" data-delay="150">
+        <!--
+          [รูปภาพ] โลโก้ ASC (Aquaculture Stewardship Council)
+          ตัวอย่าง: <img src="images/certs/asc-logo.png" alt="ASC" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">ASC</div>
+        <p>Aquaculture Stewardship Council</p>
+      </div>
+
+      <div class="cert-card reveal-up" data-delay="200">
+        <!--
+          [รูปภาพ] โลโก้ BRC (British Retail Consortium)
+          ตัวอย่าง: <img src="images/certs/brc-logo.png" alt="BRC" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">BRC</div>
+        <p>British Retail Consortium</p>
+      </div>
+
+      <div class="cert-card reveal-up" data-delay="250">
+        <!--
+          [รูปภาพ] โลโก้ SMETA
+          ตัวอย่าง: <img src="images/certs/smeta-logo.png" alt="SMETA" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">SMETA</div>
+        <p>Sedex Members Ethical Trade Audit</p>
+      </div>
+
+      <div class="cert-card reveal-up" data-delay="300">
+        <!--
+          [รูปภาพ] โลโก้ HALAL
+          ตัวอย่าง: <img src="images/certs/halal-logo.png" alt="HALAL" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">HALAL</div>
+        <p>Halal Certification Authority Thailand</p>
+      </div>
+
+      <div class="cert-card reveal-up" data-delay="350">
+        <!--
+          [รูปภาพ] โลโก้ Costco Supplier Approved
+          ตัวอย่าง: <img src="images/certs/costco-logo.png" alt="Costco" style="height:48px;margin:0 auto 12px;display:block">
+        -->
+        <div class="cert-badge">COSTCO</div>
+        <p>Costco Supplier Approved</p>
+      </div>
+
+    </div>
+
+    <!--
+      [รูปภาพ] ใส่รูปภาพใบรับรองจริง (ถ่ายจากเอกสาร หรือ scan)
+      ขนาดแนะนำ: 1200×400 px หรือ grid 4 ใบ แต่ละใบ 300×400 px
+      ตัวอย่าง:
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px">
+        <img src="images/certs/gmp-cert.jpg" alt="ใบรับรอง GMP" style="border-radius:var(--r-md);border:1px solid var(--border)">
+        ...
+      </div>
+    -->
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip reveal-up">
+  <div class="cta-strip-glow"></div>
+  <h2>สนใจบริการ<span class="gradient-text">OEM/ODM?</span></h2>
+  <p>ส่ง Brief ของคุณมาให้เรา เราจะนำเสนอแนวทางและใบเสนอราคาภายใน 48 ชั่วโมง</p>
+  <div class="hero-buttons">
+    <a href="contact.html" class="btn btn-primary">
+      ติดต่อทีม OEM
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="products.html" class="btn btn-outline">ดูผลิตภัณฑ์</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      </a>
+      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม ส่งออกกว่า 15 ประเทศ</p>
+      <div class="social-links">
+        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Products">ผลิตภัณฑ์</h4>
+      <ul>
+        <li><a href="products.html" data-en="Frozen Shrimp">กุ้งแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Frozen Fish">ปลาแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Squid">ปลาหมึก</a></li>
+        <li><a href="products.html" data-en="Ready-to-Eat">อาหารพร้อมทาน</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Services">บริการ</h4>
+      <ul>
+        <li><a href="services.html">OEM / ODM</a></li>
+        <li><a href="services.html" data-en="R&amp;D Formulation">R&D สูตรอาหาร</a></li>
+        <li><a href="services.html">Airline Catering</a></li>
+        <li><a href="services.html">Global Export</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="More">เพิ่มเติม</h4>
+      <ul>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
+        <li><a href="services.html#certifications">มาตรฐานสากล</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</a><a href="#" data-en="Terms of Use">เงื่อนไขการใช้งาน</a>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span><span>ส่งข้อความสำเร็จ!</span>
+</div>
+
+<script src="main.js?v=1777119224842"></script>
+</body>
+</html>

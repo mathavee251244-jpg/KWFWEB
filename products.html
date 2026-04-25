@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KINGWELL FIRST — ผลิตภัณฑ์</title>
+  <meta name="description" content="อาหารทะเลแช่แข็งคุณภาพสูง กุ้ง ปลา ปลาหมึก พร้อมทาน จาก KINGWELL FIRST">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1777119224842" />
+  <style>
+    .spec-table{width:100%;border-collapse:collapse;margin-top:12px}
+    .spec-table td{padding:8px 12px;font-size:.85rem;border-bottom:1px solid var(--border)}
+    .spec-table td:first-child{color:var(--text-3);width:40%}
+    .spec-table tr:last-child td{border-bottom:none}
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
+    <p class="loader-text">Cold Chain Solutions</p>
+    <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
+      <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
+      <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
+      <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
+        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <div class="toggle-thumb"></div>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&q=80&w=1920" alt="KINGWELL FIRST Products"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.15">
+  </div>
+  <div class="page-hero-tag">ผลิตภัณฑ์</div>
+  <h1 class="page-hero-title">
+    อาหารทะเลคัดสรร<br/><span class="gradient-text">จากธรรมชาติ</span>
+  </h1>
+  <p class="page-hero-desc">
+    วัตถุดิบชั้นเยี่ยมจากอลาสก้า นอร์เวย์ ชิลี และน่านน้ำไทย<br/>
+    ผ่านกระบวนการ IQF รักษาความสดและคุณค่าทางโภชนาการ
+  </p>
+  <div class="page-hero-breadcrumb">
+    <a href="index.html">หน้าแรก</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>ผลิตภัณฑ์</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     FILTER + FULL GRID
+════════════════════════════════════════ -->
+<div class="section-wrap">
+
+  <div class="products-filter reveal-up">
+    <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
+    <button class="filter-btn" data-filter="shrimp">🦐 กุ้ง</button>
+    <button class="filter-btn" data-filter="fish">🐟 ปลา</button>
+    <button class="filter-btn" data-filter="squid">🦑 ปลาหมึก</button>
+    <button class="filter-btn" data-filter="shellfish">🦀 หอย/ปู</button>
+    <button class="filter-btn" data-filter="ready">🍱 Ready-to-Eat</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+
+    <!-- ── กุ้ง ── -->
+    <div class="product-card reveal-up" data-category="shrimp">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#ff6b35,#ff9a5c)">
+          <!--
+            [รูปภาพ] รูปกุ้งขาวแช่แข็ง IQF
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/white-shrimp-iqf.jpg" alt="กุ้งขาว IQF"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🦐</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <span class="product-badge">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <h3>กุ้งขาวแช่แข็ง (IQF)</h3>
+        <p>White Shrimp Litopenaeus vannamei Grade A ขนาด 16/20, 21/25, 31/40, 41/50</p>
+        <div class="product-tags"><span>IQF</span><span>HACCP</span><span>Halal</span><span>BRC</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>ขนาด</td><td>16/20 · 21/25 · 31/40 · 41/50 pcs/lb</td></tr>
+          <tr><td>บรรจุภัณฑ์</td><td>IQF ถุง 2 kg / 5 lb / 10 lb</td></tr>
+          <tr><td>อุณหภูมิจัดเก็บ</td><td>-18°C หรือต่ำกว่า</td></tr>
+          <tr><td>อายุ</td><td>24 เดือน</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="shrimp" data-delay="100">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#e74c3c,#ff6b6b)">
+          <!--
+            [รูปภาพ] รูปกุ้งชุบแป้งทอด (Breaded Butterfly Shrimp)
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/breaded-butterfly-shrimp.jpg" alt="กุ้งชุบแป้งทอด"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🍤</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <span class="product-badge new">New</span>
+      </div>
+      <div class="product-info">
+        <h3>กุ้งชุบแป้งทอด</h3>
+        <p>Breaded Butterfly Shrimp พร้อมทอด แป้งกรอบ รสชาติดี</p>
+        <div class="product-tags"><span>Ready-to-Fry</span><span>HALAL</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>น้ำหนักต่อชิ้น</td><td>15–20 g / ชิ้น</td></tr>
+          <tr><td>บรรจุภัณฑ์</td><td>ถุง 1 kg / ลัง 10 kg</td></tr>
+          <tr><td>วิธีปรุง</td><td>ทอดในน้ำมัน 180°C 2–3 นาที</td></tr>
+          <tr><td>อายุ</td><td>18 เดือน</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="shrimp" data-delay="200">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#c0392b,#e74c3c)">
+          <!--
+            [รูปภาพ] รูปกุ้งแช่แข็งคาราเมล (Cooked Shrimp)
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/cooked-shrimp.jpg" alt="กุ้งสุกแช่แข็ง"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🦞</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>กุ้งสุกแช่แข็ง</h3>
+        <p>Cooked Frozen Shrimp ต้มสุก IQF พร้อมรับประทาน</p>
+        <div class="product-tags"><span>Pre-cooked</span><span>IQF</span><span>MSC</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>ขนาด</td><td>16/20 · 21/25 · 26/30 pcs/lb</td></tr>
+          <tr><td>สถานะ</td><td>ต้มสุกแล้ว PDTO / HLSO</td></tr>
+          <tr><td>อายุ</td><td>24 เดือน ที่ -18°C</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── ปลา ── -->
+    <div class="product-card reveal-up" data-category="fish">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#3498db,#5dade2)">
+          <!--
+            [รูปภาพ] รูปปลาแซลมอนฟิเลต์ Norwegian
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/salmon-fillet.jpg" alt="ปลาแซลมอน"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🐟</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>ปลาแซลมอนฟิเลต์</h3>
+        <p>Norwegian Salmon Fillet IQF คุณภาพพรีเมียม</p>
+        <div class="product-tags"><span>Norway</span><span>MSC</span><span>ASC</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>แหล่งกำเนิด</td><td>นอร์เวย์ (Atlantic Salmon)</td></tr>
+          <tr><td>ขนาด</td><td>200–300 g / ชิ้น</td></tr>
+          <tr><td>สถานะ</td><td>Skin-on / Skinless</td></tr>
+          <tr><td>อายุ</td><td>24 เดือน</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="fish" data-delay="100">
+      <div class="product-img-wrap">
+        <div class="product-img-bg">
+          <img src="https://images.unsplash.com/photo-1534133069172-886d18f12502?auto=format&fit=crop&q=80&w=800" alt="ปลาเนื้อขาว"
+               style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>ปลาเนื้อขาวแผ่น</h3>
+        <p>Alaska Pollock & Cod Fillet จากอลาสก้า Wild Caught</p>
+        <div class="product-tags"><span>Alaska</span><span>Wild Caught</span><span>MSC</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>แหล่งกำเนิด</td><td>อลาสก้า</td></tr>
+          <tr><td>ชนิด</td><td>Pollock / Pacific Cod</td></tr>
+          <tr><td>ขนาด</td><td>70–140 g · 140–200 g / ชิ้น</td></tr>
+          <tr><td>อายุ</td><td>24 เดือน</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="fish" data-delay="200">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#2980b9,#3498db)">
+          <!--
+            [รูปภาพ] รูปปลาทูน่า Loin / Steak
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/tuna-steak.jpg" alt="ปลาทูน่า"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🐡</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>ปลาทูน่า Loin</h3>
+        <p>Tuna Loin แช่แข็ง Yellowfin / Skipjack คุณภาพส่งออก</p>
+        <div class="product-tags"><span>IQF</span><span>BRC</span><span>SMETA</span></div>
+      </div>
+    </div>
+
+    <!-- ── ปลาหมึก ── -->
+    <div class="product-card reveal-up" data-category="squid">
+      <div class="product-img-wrap">
+        <div class="product-img-bg">
+          <img src="assets/Breaded-Squid-Ring.jpg" alt="ปลาหมึกวง"
+               style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>ปลาหมึกวง (Squid Ring)</h3>
+        <p>Squid Tube & Ring IQF หั่นวงพร้อมใช้งาน ทำความสะอาดแล้ว</p>
+        <div class="product-tags"><span>IQF</span><span>Cleaned</span><span>HACCP</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="squid" data-delay="100">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#8e44ad,#9b59b6)">
+          <!--
+            [รูปภาพ] รูปหมึกยักษ์ Octopus แช่แข็ง
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/octopus-frozen.jpg" alt="หมึกยักษ์แช่แข็ง"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🐙</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>หมึกยักษ์แช่แข็ง</h3>
+        <p>Octopus vulgaris แช่แข็ง ทำความสะอาดแล้ว Whole / Cut</p>
+        <div class="product-tags"><span>IQF</span><span>Cleaned</span></div>
+      </div>
+    </div>
+
+    <!-- ── หอย/ปู ── -->
+    <div class="product-card reveal-up" data-category="shellfish">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#e67e22,#f39c12)">
+          <!--
+            [รูปภาพ] รูปปูหิมะ Snow Crab Cluster
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/snow-crab.jpg" alt="ปูหิมะ"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🦀</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>ปูหิมะแช่แข็ง</h3>
+        <p>Snow Crab Cluster Cooked Frozen จากอลาสก้า / แคนาดา</p>
+        <div class="product-tags"><span>Alaska</span><span>Cooked</span><span>MSC</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="shellfish" data-delay="100">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#7f8c8d,#95a5a6)">
+          <!--
+            [รูปภาพ] รูปหอยนางรมแช่แข็ง Oyster
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/oyster-frozen.jpg" alt="หอยนางรม"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🦪</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>หอยนางรมแช่แข็ง</h3>
+        <p>Frozen Pacific Oyster เนื้อหอยสดจากฟาร์มมาตรฐาน ASC</p>
+        <div class="product-tags"><span>ASC</span><span>Farm-Raised</span></div>
+      </div>
+    </div>
+
+    <!-- ── Ready-to-Eat ── -->
+    <div class="product-card reveal-up" data-category="ready">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#f39c12,#f7dc6f)">
+          <!--
+            [รูปภาพ] รูปอาหารทะเลพร้อมทาน (Ready-to-Eat Meal)
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/rte-meal.jpg" alt="อาหารพร้อมทาน"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🍱</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <span class="product-badge hot">Hot</span>
+      </div>
+      <div class="product-info">
+        <h3>อาหารทะเลพร้อมทาน</h3>
+        <p>Ready-to-Eat Seafood สำหรับ Airline Catering และ Retail</p>
+        <div class="product-tags"><span>RTE</span><span>Airline</span><span>BRC</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="ready" data-delay="100">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#d35400,#e67e22)">
+          <!--
+            [รูปภาพ] รูปกุ้งย่างปรุงรส (Marinated Grilled Shrimp)
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/grilled-shrimp.jpg" alt="กุ้งย่างปรุงรส"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🍢</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>กุ้งย่างปรุงรส</h3>
+        <p>Marinated Grilled Shrimp แช่แข็ง อุ่นรับประทานได้ทันที</p>
+        <div class="product-tags"><span>Grilled</span><span>Marinated</span><span>HACCP</span></div>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="ready" data-delay="200">
+      <div class="product-img-wrap">
+        <div class="product-img-bg" style="background:linear-gradient(135deg,#27ae60,#2ecc71)">
+          <!--
+            [รูปภาพ] รูปอาหารทะเลสำหรับโรงเรียน/โรงพยาบาล
+            ขนาดแนะนำ: 800×600 px
+            ตัวอย่าง: <img src="images/products/school-meal.jpg" alt="อาหารโรงเรียน"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span class="product-emoji">🥗</span>
+        </div>
+        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3>อาหารโปรตีนสูง</h3>
+        <p>สำหรับโครงการอาหารกลางวันโรงเรียนและโรงพยาบาล ลดไขมัน</p>
+        <div class="product-tags"><span>Low Fat</span><span>High Protein</span><span>HACCP</span></div>
+      </div>
+    </div>
+
+  </div><!-- /products-grid -->
+</div><!-- /section-wrap -->
+
+<!-- ════════════════════════════════════════
+     CTA
+════════════════════════════════════════ -->
+<div class="cta-strip reveal-up">
+  <div class="cta-strip-glow"></div>
+  <h2>สนใจสั่งซื้อหรือ<span class="gradient-text">สอบถามราคา?</span></h2>
+  <p>ทีม Sales ของเราพร้อมส่ง Quotation และ Specification Sheet ให้ทันที</p>
+  <div class="hero-buttons">
+    <a href="contact.html" class="btn btn-primary">
+      ขอใบเสนอราคา
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    </a>
+    <a href="services.html" class="btn btn-outline">ดูบริการ OEM</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      </a>
+      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม ส่งออกกว่า 15 ประเทศ</p>
+      <div class="social-links">
+        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Products">ผลิตภัณฑ์</h4>
+      <ul>
+        <li><a href="products.html" data-en="Frozen Shrimp">กุ้งแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Frozen Fish">ปลาแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Squid">ปลาหมึก</a></li>
+        <li><a href="products.html" data-en="Ready-to-Eat">อาหารพร้อมทาน</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Services">บริการ</h4>
+      <ul>
+        <li><a href="services.html">OEM / ODM</a></li>
+        <li><a href="services.html" data-en="R&amp;D Formulation">R&D สูตรอาหาร</a></li>
+        <li><a href="services.html">Global Export</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="More">เพิ่มเติม</h4>
+      <ul>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
+        <li><a href="about.html#certifications" data-en="Certifications">มาตรฐานสากล</a></li>
+        <li><a href="about.html#gallery" data-en="Gallery">แกลเลอรี</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</a><a href="#" data-en="Terms of Use">เงื่อนไขการใช้งาน</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle" style="font-family:'Kanit',sans-serif;font-size:1.3rem;font-weight:700"></h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span><span>ส่งข้อความสำเร็จ!</span>
+</div>
+
+<script src="main.js?v=1777119224842"></script>
+</body>
+</html>
+842"></script>
+</body>
+</html>
+6-6 6"/></svg>
+</button>
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span><span>ส่งข้อความสำเร็จ!</span>
+</div>
+
+<script src="main.js?v=1777119224842"></script>
+</body>
+</html>
+842"></script>
+</body>
+</html>

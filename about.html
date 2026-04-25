@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KINGWELL FIRST — เกี่ยวกับเรา</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1777119224842" />
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
+    <p class="loader-text">Cold Chain Solutions</p>
+    <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
+      <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
+      <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
+      <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
+        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <div class="toggle-thumb"></div>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1920" alt="KINGWELL FIRST Background"
+         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.15">
+  </div>
+  <div class="page-hero-tag">เกี่ยวกับเรา</div>
+  <h1 class="page-hero-title">กว่า <span class="gradient-text">30 ปี</span><br/>แห่งความเชี่ยวชาญ</h1>
+  <p class="page-hero-desc">เรื่องราวของ KINGWELL FIRST ผู้นำในอุตสาหกรรมอาหารทะเลแช่แข็งของไทย</p>
+  <div class="page-hero-breadcrumb">
+    <a href="index.html">หน้าแรก</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>เกี่ยวกับเรา</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     ABOUT MAIN
+════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="about-grid">
+    <div class="about-visual reveal-left">
+      <div class="about-img-stack">
+        <div class="about-img-main">
+          <!--
+            [รูปภาพ] รูปโรงงานหรือผู้บริหาร/ทีมงาน (crop วงกลม)
+            ขนาดแนะนำ: 600×600 px
+            ตัวอย่าง:
+            <img src="images/about/company-main.jpg" alt="KINGWELL FIRST โรงงาน"
+                 style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+          -->
+          <span style="font-size:7rem">🏭</span>
+        </div>
+        <div class="about-img-badge"><strong>50,000</strong><small>kg/day</small></div>
+        <div class="about-img-circle circle-1"></div>
+        <div class="about-img-circle circle-2"></div>
+      </div>
+    </div>
+
+    <div class="about-content reveal-right">
+      <span class="section-tag">เรื่องราวของเรา</span>
+      <h2 class="section-title">จากธุรกิจครอบครัว<br/><span class="gradient-text">สู่ระดับโลก</span></h2>
+      <p>KINGWELL FIRST ก่อตั้งขึ้นในปี 2537 ด้วยความมุ่งมั่นที่จะนำอาหารทะเลคุณภาพสูงของไทยสู่ตลาดโลก เริ่มต้นจากกิจการครอบครัวขนาดเล็ก จนวันนี้เราเป็นหนึ่งในผู้ผลิตอาหารทะเลแช่แข็งชั้นนำของประเทศ</p>
+      <p>ด้วยโรงงานทันสมัยขนาด 50,000 ตารางเมตร และพนักงานผู้เชี่ยวชาญกว่า 1,500 คน เราผลิตอาหารทะเล 50,000 กิโลกรัมต่อวัน ส่งออกไปยังกว่า 15 ประเทศทั่วโลก</p>
+      <div class="about-highlights">
+        <div class="highlight-item">
+          <div class="highlight-icon">🌊</div>
+          <div>
+            <strong>แหล่งวัตถุดิบระดับโลก</strong>
+            <span>อลาสก้า • นอร์เวย์ • ชิลี • น่านน้ำไทย</span>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">❄️</div>
+          <div>
+            <strong>IQF Technology</strong>
+            <span>Individual Quick Freezing รักษาคุณภาพสูงสุด</span>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-icon">🏅</div>
+          <div>
+            <strong>8 มาตรฐานสากล</strong>
+            <span>GMP • HACCP • MSC • ASC • BRC • SMETA • HALAL • COSTCO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     STATS
+════════════════════════════════════════ -->
+<section class="stats-section">
+  <div class="stats-container">
+    <div class="stat-item reveal-up">
+      <div class="stat-icon">🏭</div>
+      <div class="stat-number" data-target="50000" data-suffix="kg">0</div>
+      <div class="stat-label">กำลังการผลิตต่อวัน</div>
+    </div>
+    <div class="stat-item reveal-up" data-delay="100">
+      <div class="stat-icon">🌍</div>
+      <div class="stat-number" data-target="15" data-suffix="+">0</div>
+      <div class="stat-label">ประเทศที่ส่งออก</div>
+    </div>
+    <div class="stat-item reveal-up" data-delay="200">
+      <div class="stat-icon">👥</div>
+      <div class="stat-number" data-target="1500" data-suffix="+">0</div>
+      <div class="stat-label">พนักงานผู้เชี่ยวชาญ</div>
+    </div>
+    <div class="stat-item reveal-up" data-delay="300">
+      <div class="stat-icon">🏆</div>
+      <div class="stat-number" data-target="30" data-suffix="+">0</div>
+      <div class="stat-label">ปีประสบการณ์</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     TIMELINE
+════════════════════════════════════════ -->
+<div class="section-wrap">
+  <div class="section-header reveal-up">
+    <span class="section-tag">ประวัติบริษัท</span>
+    <h2 class="section-title">เส้นทาง<span class="gradient-text">สู่ความสำเร็จ</span></h2>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item reveal-up">
+      <div class="timeline-content">
+        <div class="timeline-year">2537 (1994)</div>
+        <h4>ก่อตั้งบริษัท</h4>
+        <p>เริ่มต้นจากธุรกิจครอบครัว ผลิตอาหารทะเลแช่แข็งเพื่อส่งออกไปยังญี่ปุ่นและยุโรป</p>
+      </div>
+      <div class="timeline-dot">94</div>
+      <div></div>
+    </div>
+
+    <div class="timeline-item reveal-up" data-delay="100">
+      <div></div>
+      <div class="timeline-dot">00</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2543 (2000)</div>
+        <h4>ขยายโรงงาน + HACCP</h4>
+        <p>ขยายกำลังการผลิตเป็น 2 เท่า ได้รับมาตรฐาน HACCP เป็นครั้งแรก</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal-up" data-delay="200">
+      <div class="timeline-content">
+        <div class="timeline-year">2548 (2005)</div>
+        <h4>เปิดตลาด USA — Costco</h4>
+        <p>ได้รับการอนุมัติเป็น Costco Approved Supplier เริ่มจำหน่ายในสหรัฐอเมริกา</p>
+      </div>
+      <div class="timeline-dot">05</div>
+      <div></div>
+    </div>
+
+    <div class="timeline-item reveal-up" data-delay="300">
+      <div></div>
+      <div class="timeline-dot">10</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2553 (2010)</div>
+        <h4>MSC & ASC Certified</h4>
+        <p>ได้รับมาตรฐาน MSC และ ASC ตอกย้ำความมุ่งมั่นด้านความยั่งยืนของทรัพยากรทางทะเล</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal-up" data-delay="400">
+      <div class="timeline-content">
+        <div class="timeline-year">2558 (2015)</div>
+        <h4>IQF Technology ใหม่</h4>
+        <p>ลงทุนเครื่อง IQF รุ่นใหม่ เพิ่มกำลังผลิตเป็น 50,000 kg/วัน พร้อม BRC Grade A</p>
+      </div>
+      <div class="timeline-dot">15</div>
+      <div></div>
+    </div>
+
+    <div class="timeline-item reveal-up" data-delay="500">
+      <div></div>
+      <div class="timeline-dot">20</div>
+      <div class="timeline-content">
+        <div class="timeline-year">2563 (2020)</div>
+        <h4>เปิด OEM/ODM Service</h4>
+        <p>เปิดให้บริการผลิตภายใต้แบรนด์ลูกค้า พร้อมทีม R&D พัฒนาสูตรภายในองค์กร</p>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal-up" data-delay="600">
+      <div class="timeline-content">
+        <div class="timeline-year">2567 (2024)</div>
+        <h4>15+ ประเทศทั่วโลก</h4>
+        <p>ส่งออกไปยังกว่า 15 ประเทศ ครอบคลุม USA, ยุโรป, ญี่ปุ่น, จีน และอาเซียน</p>
+      </div>
+      <div class="timeline-dot">24</div>
+      <div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     TEAM
+════════════════════════════════════════ -->
+<div class="section-wrap--bg">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-header reveal-up">
+      <span class="section-tag">ทีมผู้บริหาร</span>
+      <h2 class="section-title">ผู้นำที่<span class="gradient-text">มีประสบการณ์</span></h2>
+      <p class="section-desc">ทีมผู้เชี่ยวชาญที่ขับเคลื่อน KINGWELL FIRST สู่ระดับโลก</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-card reveal-up" data-delay="0">
+        <div class="team-photo">
+          <!--
+            [รูปภาพ] รูปภาพ CEO/ผู้บริหาร ขนาด 400×400 px (ratio 1:1)
+            ตัวอย่าง: <img src="images/team/ceo.jpg" alt="CEO"
+                           style="width:100%;height:100%;object-fit:cover">
+            หมายเหตุ: ควรเป็นภาพถ่ายระดับมืออาชีพ (Professional Headshot) พื้นหลังขาวหรือสีนิวทรัล
+          -->
+          <span>👔</span>
+          <div class="team-overlay"></div>
+        </div>
+        <div class="team-info">
+          <h4>คุณวิชัย สมุทรดี</h4>
+          <div class="team-role">CEO & Founder</div>
+          <p>ผู้ก่อตั้งและ CEO ประสบการณ์กว่า 30 ปีในอุตสาหกรรมอาหารทะเล</p>
+        </div>
+      </div>
+
+      <div class="team-card reveal-up" data-delay="100">
+        <div class="team-photo">
+          <!--
+            [รูปภาพ] รูปภาพ COO ขนาด 400×400 px
+            ตัวอย่าง: <img src="images/team/coo.jpg" alt="COO"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span>👩‍💼</span>
+          <div class="team-overlay"></div>
+        </div>
+        <div class="team-info">
+          <h4>คุณสุภาพร รักษาดี</h4>
+          <div class="team-role">COO</div>
+          <p>ควบคุมดูแลกระบวนการผลิตและคุณภาพ ผู้เชี่ยวชาญด้าน Food Safety</p>
+        </div>
+      </div>
+
+      <div class="team-card reveal-up" data-delay="200">
+        <div class="team-photo">
+          <!--
+            [รูปภาพ] รูปภาพ Head of Export ขนาด 400×400 px
+            ตัวอย่าง: <img src="images/team/export-head.jpg" alt="Head of Export"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span>🌏</span>
+          <div class="team-overlay"></div>
+        </div>
+        <div class="team-info">
+          <h4>คุณธนพล อุดมศรี</h4>
+          <div class="team-role">Head of Export</div>
+          <p>ดูแลเครือข่ายส่งออกกว่า 15 ประเทศ ผู้เชี่ยวชาญด้าน International Trade</p>
+        </div>
+      </div>
+
+      <div class="team-card reveal-up" data-delay="300">
+        <div class="team-photo">
+          <!--
+            [รูปภาพ] รูปภาพ R&D Director ขนาด 400×400 px
+            ตัวอย่าง: <img src="images/team/rd-director.jpg" alt="R&D Director"
+                           style="width:100%;height:100%;object-fit:cover">
+          -->
+          <span>🧪</span>
+          <div class="team-overlay"></div>
+        </div>
+        <div class="team-info">
+          <h4>ดร.พิมพ์ใจ ทะเลทอง</h4>
+          <div class="team-role">R&D Director</div>
+          <p>นำทีมพัฒนาสูตรอาหารใหม่ ปริญญาเอกด้านวิทยาศาสตร์อาหาร จุฬาลงกรณ์</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     GALLERY
+════════════════════════════════════════ -->
+<div class="section-wrap" id="gallery">
+  <div class="section-header reveal-up">
+    <span class="section-tag">แกลเลอรี</span>
+    <h2 class="section-title">ภาพ<span class="gradient-text">โรงงานและสินค้า</span></h2>
+    <p class="section-desc">ชมภาพกระบวนการผลิตและสินค้าของเรา</p>
+  </div>
+
+  <div class="gallery-grid reveal-up" data-delay="100">
+
+    <div class="gallery-item">
+      <!--
+        [รูปภาพ] ภาพหลัก (ใหญ่) — ภาพโรงงานหรือสินค้า Flagship
+        ขนาดแนะนำ: 1200×900 px (จะครอบคลุม 2 columns + 2 rows)
+        ตัวอย่าง: <img src="images/gallery/factory-main.jpg" alt="โรงงาน KINGWELL FIRST"
+                       style="width:100%;height:100%;object-fit:cover">
+      -->
+      <span class="gallery-emoji">🏭</span>
+      <div class="gallery-caption">ภาพรวมโรงงาน KINGWELL FIRST</div>
+    </div>
+
+    <div class="gallery-item">
+      <!--
+        [รูปภาพ] ห้อง IQF แช่แข็ง
+        ขนาดแนะนำ: 600×450 px
+        ตัวอย่าง: <img src="images/gallery/iqf-room.jpg" alt="ห้อง IQF"
+                       style="width:100%;height:100%;object-fit:cover">
+      -->
+      <span class="gallery-emoji">❄️</span>
+      <div class="gallery-caption">ห้อง IQF แช่แข็งความเร็วสูง</div>
+    </div>
+
+    <div class="gallery-item">
+      <!--
+        [รูปภาพ] ไลน์ผลิตกุ้ง
+        ขนาดแนะนำ: 600×450 px
+        ตัวอย่าง: <img src="images/gallery/shrimp-line.jpg" alt="ไลน์ผลิตกุ้ง"
+                       style="width:100%;height:100%;object-fit:cover">
+      -->
+      <span class="gallery-emoji">🦐</span>
+      <div class="gallery-caption">ไลน์ผลิตกุ้งขาวแช่แข็ง</div>
+    </div>
+
+    <div class="gallery-item">
+      <!--
+        [รูปภาพ] ห้อง QC / Lab
+        ขนาดแนะนำ: 600×450 px
+        ตัวอย่าง: <img src="images/gallery/lab-qc.jpg" alt="ห้อง QC"
+                       style="width:100%;height:100%;object-fit:cover">
+      -->
+      <span class="gallery-emoji">🧬</span>
+      <div class="gallery-caption">ห้องปฏิบัติการ QC & Microbiology</div>
+    </div>
+
+    <div class="gallery-item">
+      <!--
+        [รูปภาพ] บรรจุภัณฑ์หลากหลาย / OEM packaging
+        ขนาดแนะนำ: 600×450 px
+        ตัวอย่าง: <img src="images/gallery/packaging.jpg" alt="บรรจุภัณฑ์"
+                       style="width:100%;height:100%;object-fit:cover">
+      -->
+      <span class="gallery-emoji">📦</span>
+      <div class="gallery-caption">บรรจุภัณฑ์ OEM หลากหลายแบรนด์</div>
+    </div>
+
+    <div class="gallery-item">
+      <!--
+        [รูปภาพ] รถบรรทุกห้องเย็นหรือ Container ส่งออก
+        ขนาดแนะนำ: 600×450 px
+        ตัวอย่าง: <img src="images/gallery/export-container.jpg" alt="Container ส่งออก"
+                       style="width:100%;height:100%;object-fit:cover">
+      -->
+      <span class="gallery-emoji">🚢</span>
+      <div class="gallery-caption">การส่งออกทางเรือทั่วโลก</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     CLIENTS
+════════════════════════════════════════ -->
+<div class="section-wrap--bg">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="section-header reveal-up">
+      <span class="section-tag">ลูกค้าและพันธมิตร</span>
+      <h2 class="section-title">วางใจโดย<br/><span class="gradient-text">แบรนด์ชั้นนำ</span></h2>
+    </div>
+    <div class="clients-track reveal-up" data-delay="100">
+      <div class="clients-slide">
+        <!--
+          [รูปภาพ] ใส่โลโก้ลูกค้าจริงแทน emoji
+          ขนาดแนะนำ: 120×40 px (PNG พื้นหลังใส, greyscale)
+          ตัวอย่าง:
+          <div class="client-logo">
+            <img src="images/clients/costco-logo.png" alt="Costco" style="height:32px;filter:grayscale(1)">
+          </div>
+        -->
+        <div class="client-logo">🏪 <span>Costco USA</span></div>
+        <div class="client-logo">🏬 <span>7-Eleven Thailand</span></div>
+        <div class="client-logo">✈️ <span>Airline Catering</span></div>
+        <div class="client-logo">🏥 <span>Hospital Networks</span></div>
+        <div class="client-logo">🏫 <span>School Programs</span></div>
+        <div class="client-logo">🍽️ <span>Hotel Chains</span></div>
+        <div class="client-logo">🏪 <span>Costco USA</span></div>
+        <div class="client-logo">🏬 <span>7-Eleven Thailand</span></div>
+        <div class="client-logo">✈️ <span>Airline Catering</span></div>
+        <div class="client-logo">🏥 <span>Hospital Networks</span></div>
+        <div class="client-logo">🏫 <span>School Programs</span></div>
+        <div class="client-logo">🍽️ <span>Hotel Chains</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal (lightbox) -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle" style="font-family:'Kanit',sans-serif;font-size:1.3rem;font-weight:700"></h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip reveal-up">
+  <div class="cta-strip-glow"></div>
+  <h2>พร้อม<span class="gradient-text">ร่วมงาน</span>กับเรา?</h2>
+  <p>ติดต่อทีมของเราเพื่อหารือเกี่ยวกับความต้องการของคุณ ไม่มีค่าใช้จ่ายในการปรึกษา</p>
+  <div class="hero-buttons">
+    <a href="contact.html" class="btn btn-primary">
+      ติดต่อเรา
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="services.html" class="btn btn-outline">ดูบริการ</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      </a>
+      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม ส่งออกกว่า 15 ประเทศ</p>
+      <div class="social-links">
+        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Products">ผลิตภัณฑ์</h4>
+      <ul>
+        <li><a href="products.html" data-en="Frozen Shrimp">กุ้งแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Frozen Fish">ปลาแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Squid">ปลาหมึก</a></li>
+        <li><a href="products.html" data-en="Ready-to-Eat">อาหารพร้อมทาน</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Services">บริการ</h4>
+      <ul>
+        <li><a href="services.html">OEM / ODM</a></li>
+        <li><a href="services.html" data-en="R&amp;D Formulation">R&D สูตรอาหาร</a></li>
+        <li><a href="services.html">Airline Catering</a></li>
+        <li><a href="services.html">Global Export</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>เกี่ยวกับเรา</h4>
+      <ul>
+        <li><a href="about.html">ประวัติบริษัท</a></li>
+        <li><a href="about.html#gallery" data-en="Gallery">แกลเลอรี</a></li>
+        <li><a href="services.html#certifications">มาตรฐานสากล</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#" data-en="Privacy Policy">นโยบายความเป็นส่วนตัว</a><a href="#" data-en="Terms of Use">เงื่อนไขการใช้งาน</a>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="กลับขึ้นด้านบน">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span><span>ส่งข้อความสำเร็จ!</span>
+</div>
+
+<script src="main.js?v=1777119224842"></script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "webmay-251244",
     "public": ".",
     "ignore": [
       "firebase.json",

@@ -49,7 +49,7 @@ app.get('/api/health', (_req, res) => res.json({ ok: true, ts: new Date().toISOS
 
 // SPA fallback — let React Router handle all non-API paths
 if (isProd) {
-  app.get('*', (_req, res) => {
+  app.get('/{*path}', (_req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 }

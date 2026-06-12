@@ -17,6 +17,12 @@ export async function setUserPassword(id: string, password: string): Promise<voi
   await api.patch(`/users/${id}/password`, { password });
 }
 
+export async function createUser(data: {
+  id: string; name: string; department: string; email: string; role: string; password: string;
+}): Promise<User> {
+  return api.post<User>('/users', data);
+}
+
 export async function uploadAvatar(userId: string, file: File): Promise<string> {
   const form = new FormData();
   form.append('avatar', file);

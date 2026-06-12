@@ -65,7 +65,8 @@ interface AppContextValue extends AppState {
   dismissToast: (id: string) => void;
   switchUser: (userId: string) => void;
   checkPassword: (userId: string, password: string) => boolean;
-  changePassword: (userId: string, newPassword: string) => void;
+  changePassword: (userId: string, newPassword: string) => Promise<void>;
+  createUser: (data: { id: string; name: string; department: string; email: string; role: string; password: string }) => Promise<void>;
   getUserPassword: (userId: string) => string;
   updateAvatar: (file: File) => Promise<void>;
   chatMuted: boolean;
@@ -482,7 +483,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const checkPassword = useCallback((_userId: string, _password: string) => true, []);
-  const changePassword = useCallback((_userId: string, _newPassword: string) => {}, []);
+  const changePassword = useCallback(async (userId: string, newPassword: string) => {
+    await UsersAPI.setUserPassword(userId, newPassword);
+  }, []);
+  const createUser = useCallback(async (data: { id: string; name: string; department: string; email: string; role: string; password: string }) => {
+    const user = await UsersAPI.createUser(data);
+    setUsers(prev => [...prev, user as import('../types').User]);
+  }, []);
   const getUserPassword = useCallback((_userId: string) => '••••••', []);
 
   const value: AppContextValue = {
@@ -498,7 +505,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     addMaintenance, deleteMaintenance, updateMaintenanceStatus,
     addKBArticle, deleteKBArticle, togglePinKBArticle,
     markNotificationsRead, dismissToast,
-    switchUser, checkPassword, changePassword, getUserPassword,
+    switchUser, checkPassword, changePassword, createUser, getUserPassword,
     updateAvatar, chatMuted, toggleChatMute,
   };
 

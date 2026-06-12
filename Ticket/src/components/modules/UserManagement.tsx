@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, AlertTriangle, ChevronDown, Users, Eye, EyeOff, KeyRound } from 'lucide-react';
+import { Search, AlertTriangle, ChevronDown, Users, Eye, EyeOff, KeyRound, UserPlus, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { Role } from '../../types';
 import { ROLE_LABELS } from '../../types';
@@ -77,12 +77,16 @@ function PwdCell({ userId }: { userId: string }) {
 
   const pwd = getUserPassword(userId);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (newPwd.length < 6) { setMsg({ text: 'อย่างน้อย 6 ตัวอักษร', ok: false }); return; }
-    changePassword(userId, newPwd);
-    setMsg({ text: 'เปลี่ยนแล้ว', ok: true });
-    setNewPwd(''); setShowNew(false);
-    setTimeout(() => { setEditing(false); setMsg(null); }, 1000);
+    try {
+      await changePassword(userId, newPwd);
+      setMsg({ text: 'เปลี่ยนแล้ว', ok: true });
+      setNewPwd(''); setShowNew(false);
+      setTimeout(() => { setEditing(false); setMsg(null); }, 1000);
+    } catch (e: unknown) {
+      setMsg({ text: e instanceof Error ? e.message : 'เกิดข้อผิดพลาด', ok: false });
+    }
   };
 
   if (editing) {
@@ -131,12 +135,119 @@ function PwdCell({ userId }: { userId: string }) {
   );
 }
 
+function CreateUserModal({ onClose, onCreated }: { onClose: () => void; onCreated: () => void }) {
+  const { createUser } = useApp();
+  const [form, setForm] = useState({ id: '', name: '', department: 'ไอที', email: '', role: 'employee', password: 'Com@1234' });
+  const [showPwd, setShowPwd] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState('');
+
+  const set = (k: string, v: string) => { setForm(p => ({ ...p, [k]: v })); setErr(''); };
+
+  const handleSubmit = async () => {
+    if (!form.id || !form.name || !form.department || !form.email) { setErr('กรุณากรอกข้อมูลให้ครบ'); return; }
+    if (form.password.length < 6) { setErr('รหัสผ่านอย่างน้อย 6 ตัวอักษร'); return; }
+    setLoading(true);
+    try {
+      await createUser(form);
+      onCreated();
+      onClose();
+    } catch (e: unknown) {
+      setErr(e instanceof Error ? e.message : 'เกิดข้อผิดพลาด');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return createPortal(
+    <div className="fixed inset-0 z-[9998] flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative glass rounded-2xl p-6 w-full max-w-md shadow-window fade-in" style={{ zIndex: 9999 }}>
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <UserPlus size={18} className="text-blue-400" />
+            <h3 className="text-[16px] font-semibold text-white/90">สร้างผู้ใช้ใหม่</h3>
+          </div>
+          <button onClick={onClose} className="text-white/30 hover:text-white/70 transition-colors"><X size={16} /></button>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-white/40 uppercase tracking-wider">Username / ID *</label>
+              <input className="win-input" placeholder="เช่น john.hr" value={form.id} onChange={e => set('id', e.target.value)} />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-white/40 uppercase tracking-wider">ชื่อ *</label>
+              <input className="win-input" placeholder="ชื่อ-นามสกุล" value={form.name} onChange={e => set('name', e.target.value)} />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] text-white/40 uppercase tracking-wider">อีเมล *</label>
+            <input className="win-input" type="email" placeholder="email@bangkokseafood.co.th" value={form.email} onChange={e => set('email', e.target.value)} />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-white/40 uppercase tracking-wider">แผนก *</label>
+              <select className="win-select" value={form.department} onChange={e => set('department', e.target.value)}>
+                {deptList.filter(d => d !== 'ทั้งหมด').map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] text-white/40 uppercase tracking-wider">บทบาท</label>
+              <select className="win-select" value={form.role} onChange={e => set('role', e.target.value)}>
+                <option value="employee">{ROLE_LABELS.employee}</option>
+                <option value="it_staff">{ROLE_LABELS.it_staff}</option>
+                <option value="it_manager">{ROLE_LABELS.it_manager}</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] text-white/40 uppercase tracking-wider">รหัสผ่านเริ่มต้น</label>
+            <div className="relative">
+              <input
+                type={showPwd ? 'text' : 'password'}
+                className="win-input pr-9"
+                value={form.password}
+                onChange={e => set('password', e.target.value)}
+              />
+              <button tabIndex={-1} onClick={() => setShowPwd(v => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60">
+                {showPwd ? <EyeOff size={13} /> : <Eye size={13} />}
+              </button>
+            </div>
+          </div>
+
+          {err && (
+            <div className="text-[12px] text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+              {err}
+            </div>
+          )}
+
+          <div className="flex gap-2 mt-1">
+            <button onClick={handleSubmit} disabled={loading}
+              className="win-btn flex-1 flex items-center justify-center gap-2 disabled:opacity-50">
+              {loading ? <span className="animate-pulse">กำลังสร้าง...</span> : <><UserPlus size={14} /> สร้างผู้ใช้</>}
+            </button>
+            <button onClick={onClose} className="win-btn-ghost px-4">ยกเลิก</button>
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 export default function UserManagement() {
-  const { currentUser, users, updateUserRole, updateUserStatus } = useApp();
+  const { currentUser, users, updateUserRole, updateUserStatus, refreshUsers } = useApp();
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState<Role | ''>('');
   const [deptFilter, setDeptFilter] = useState('ทั้งหมด');
   const [statusFilter, setStatusFilter] = useState<'active' | 'inactive' | ''>('');
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   if (currentUser.role !== 'it_manager' && currentUser.role !== 'it_staff') {
     return (
@@ -176,7 +287,16 @@ export default function UserManagement() {
           <h2 className="text-[20px] font-semibold text-white/90">จัดการผู้ใช้</h2>
           <p className="text-sm text-white/40 mt-0.5">{users.length} ผู้ใช้ทั้งหมด · {activeCount} ใช้งานอยู่</p>
         </div>
+        {isManager && (
+          <button onClick={() => setShowCreateModal(true)}
+            className="win-btn flex items-center gap-2 text-[12px]">
+            <UserPlus size={14} /> สร้างผู้ใช้
+          </button>
+        )}
       </div>
+      {showCreateModal && (
+        <CreateUserModal onClose={() => setShowCreateModal(false)} onCreated={() => refreshUsers()} />
+      )}
 
       {/* Summary Cards */}
       <div className="grid grid-cols-3 gap-3 mb-5">

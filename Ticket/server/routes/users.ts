@@ -27,6 +27,28 @@ const uploadAvatar = multer({
 
 const router = Router();
 
+router.post('/', requireAuth, requireManager, (req, res) => {
+  const { id, name, department, email, role = 'employee', password = 'Com@1234' } = req.body as {
+    id: string; name: string; department: string; email: string; role?: string; password?: string;
+  };
+  if (!id || !name || !department || !email) {
+    res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบ' }); return;
+  }
+  if (!/^[a-zA-Z0-9._-]+$/.test(id)) {
+    res.status(400).json({ error: 'Username ใช้ได้เฉพาะ a-z, 0-9, . _ -' }); return;
+  }
+  if (db.prepare('SELECT id FROM users WHERE id = ?').get(id)) {
+    res.status(409).json({ error: 'Username นี้มีอยู่แล้ว' }); return;
+  }
+  if (db.prepare('SELECT id FROM users WHERE email = ?').get(email)) {
+    res.status(409).json({ error: 'อีเมลนี้มีอยู่แล้ว' }); return;
+  }
+  db.prepare('INSERT INTO users (id, name, department, email, role, status, password) VALUES (?,?,?,?,?,?,?)')
+    .run(id, name, department, email, role, 'active', password);
+  const user = db.prepare('SELECT id, name, department, email, role, status, avatar FROM users WHERE id = ?').get(id);
+  res.status(201).json(user);
+});
+
 router.get('/', requireAuth, requireIT, (_req, res) => {
   const users = db.prepare('SELECT id, name, department, email, role, status, avatar FROM users ORDER BY department, name').all();
   res.json(users);

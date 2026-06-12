@@ -1,15 +1,22 @@
-<!DOCTYPE html>
-<html lang="th" data-theme="dark">
+﻿<!DOCTYPE html>
+<html lang="th" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>เกี่ยวกับเรา — KINGWELL FIRST (Bangkok Seafood)</title>
-  <meta name="description" content="ทำความรู้จัก KINGWELL FIRST (Bangkok Seafood) ผู้นำด้านอาหารทะเลแช่แข็งมาตรฐานสากล ก่อตั้งในปี 2024 มุ่งมั่นส่งมอบคุณภาพระดับพรีเมียม">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=1.0.2" />
+  <script>(function(){var t=localStorage.getItem('kwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <title>เกี่ยวกับเรา — BANGKOK SEAFOOD</title>
+  <meta name="description" content="ทำความรู้จัก BANGKOK SEAFOOD ผู้นำด้านอาหารทะเลแช่แข็งมาตรฐานสากล ก่อตั้งในปี 2024 มุ่งมั่นส่งมอบคุณภาพระดับพรีเมียม">    <link rel="icon" type="image/png" href="assets/LOGO_BKSF.png">
+  <link rel="apple-touch-icon" href="assets/LOGO_BKSF.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1778486366747" />
+  <style>
+    .gallery-strip{overflow:hidden;cursor:default;padding-left:0;padding-right:0}
+    .gallery-strip:active{cursor:default}
+    .gallery-track{display:flex;gap:3px;width:max-content;animation:gallery-marquee 32s linear infinite}
+    .gallery-strip:hover .gallery-track{animation-play-state:paused}
+    @keyframes gallery-marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  </style>
 </head>
 <body>
 
@@ -18,8 +25,8 @@
 
 <div class="loader" id="loader">
   <div class="loader-inner">
-    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
-    <p class="loader-text">Freshness Guaranteed</p>
+    <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="loader-logo">
+    <p class="loader-text" data-en="About Us">เกี่ยวกับเรา</p>
     <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
   </div>
 </div>
@@ -28,19 +35,21 @@
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
-      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      <span class="nav-brand-name">Bangkok Seafood</span>
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
       <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
       <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="brand.html" class="nav-link" data-en="Brands">แบรนด์</a></li>
       <li><a href="about.html"    class="nav-link active" data-en="About Us">เกี่ยวกับเรา</a></li>
       <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
     </ul>
     <div class="nav-actions">
       <button class="lang-btn" id="langBtn">EN</button>
       <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
-        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
         <div class="toggle-thumb"></div>
       </button>
       <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
@@ -49,111 +58,174 @@
   <div class="nav-progress" id="navProgress"></div>
 </nav>
 
-<!-- PAGE HERO -->
+<!-- ═══ PAGE HERO ═══ -->
 <div class="page-hero">
   <div class="page-hero-bg">
-    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1920" alt="About KINGWELL FIRST"
-         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.15">
+    <img src="assets/สำเนาของ-Fish-Production-Line-4-.-Bangkok-Seafood-co.ltd_.jpg" alt="About BANGKOK SEAFOOD">
+    <div class="page-hero-overlay"></div>
   </div>
-  <div class="page-hero-tag">About Us</div>
-  <h1 class="page-hero-title">
-    ผู้นำนวัตกรรม<br/><span class="gradient-text">อาหารทะเลแช่แข็ง</span>
-  </h1>
-  <p class="page-hero-desc">
-    KINGWELL FIRST (Bangkok Seafood) มุ่งมั่นที่จะเป็นคู่ค้าที่คุณไว้วางใจ<br/>
-    ด้วยมาตรฐานการผลิตระดับโลกและเทคโนโลยีที่ทันสมัย
-  </p>
-  <div class="page-hero-breadcrumb">
-    <a href="index.html">หน้าแรก</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>เกี่ยวกับเรา</span>
-  </div>
-</div>
-
-<!-- ABOUT MAIN -->
-<div class="section-wrap">
-  <div class="about-grid">
-    <div class="about-visual reveal-left">
-      <div class="about-img-stack">
-        <div class="about-img-main">
-          <img src="assets/สำเนาของ-Fish-Production-Line-4-.-Bangkok-Seafood-co.ltd_.jpg" alt="Production Line"
-               style="width:100%;height:100%;object-fit:cover;border-radius:50%">
-        </div>
-        <div class="about-img-badge"><strong>Est.</strong><small>2024</small></div>
-        <div class="about-img-circle circle-1"></div>
-        <div class="about-img-circle circle-2"></div>
-      </div>
-    </div>
-
-    <div class="about-content reveal-right">
-      <span class="section-tag">เรื่องราวของเรา</span>
-      <h2 class="section-title">วิสัยทัศน์ใหม่แห่ง<br/><span class="gradient-text">อุตสาหกรรมสัตว์น้ำ</span></h2>
-      <p>KINGWELL FIRST (Bangkok Seafood) ก่อตั้งขึ้นในปี 2567 (2024) ด้วยแรงบันดาลใจที่จะยกระดับมาตรฐานอาหารทะเลแช่แข็งของไทยสู่ระดับสากล เราผสานความเชี่ยวชาญด้านวัตถุดิบเข้ากับนวัตกรรมการผลิตที่ทันสมัยที่สุด</p>
-      <p>เรามุ่งเน้นการคัดสรรวัตถุดิบจากแหล่งธรรมชาติที่ยั่งยืน ผ่านกระบวนการ IQF (Individual Quick Freezing) เพื่อรักษาความสด รสชาติ และคุณค่าทางโภชนาการให้เสมือนเพิ่งขึ้นจากทะเล</p>
-      
-      <div class="about-highlights">
-        <div class="highlight-item">
-          <div class="highlight-icon">🌊</div>
-          <div>
-            <strong>คุณภาพระดับพรีเมียม</strong>
-            <span>คัดสรรจากแหล่งน้ำธรรมชาติและฟาร์มมาตรฐานสากล</span>
-          </div>
-        </div>
-        <div class="highlight-item">
-          <div class="highlight-icon">❄️</div>
-          <div>
-            <strong>เทคโนโลยี IQF</strong>
-            <span>แช่แข็งรวดเร็วเพื่อรักษาโครงสร้างเนื้อสัมผัสที่ดีที่สุด</span>
-          </div>
-        </div>
-        <div class="highlight-item">
-          <div class="highlight-icon">🌱</div>
-          <div>
-            <strong>ความยั่งยืน</strong>
-            <span>สนับสนุนการประมงที่รับผิดชอบและตรวจสอบย้อนกลับได้</span>
-          </div>
-        </div>
-      </div>
+  <div class="page-hero-content">
+    <div class="page-hero-tag" data-en="About Us · Our Story">About Us · เรื่องราวของเรา</div>
+    <h1 class="page-hero-title">
+      <span class="page-hero-subtitle" data-en="Innovation Leader">ผู้นำนวัตกรรม</span>
+      <span data-en="Bangkok ">บางกอก </span><span class="gradient-text" data-en="Seafood">ซีฟู้ด</span>
+    </h1>
+    <p class="page-hero-desc" data-en="BANGKOK SEAFOOD is committed to elevating Thai frozen seafood to world-class standards with modern technology and expertise.">BANGKOK SEAFOOD มุ่งมั่นยกระดับอาหารทะเลแช่แข็งไทยสู่มาตรฐานระดับโลก ด้วยเทคโนโลยีและความเชี่ยวชาญที่ทันสมัย</p>
+    <div class="page-hero-breadcrumb">
+      <a href="index.html" data-en="Home">หน้าแรก</a>
+      <span class="breadcrumb-sep">/</span>
+      <span data-en="About Us">เกี่ยวกับเรา</span>
     </div>
   </div>
 </div>
 
-<!-- CERTIFICATIONS -->
-<div class="section-wrap--bg" id="certifications">
+<!-- ═══ MISSION / VISION ═══ -->
+<section class="mv-section">
+  <div class="mv-header">
+    <div class="mv-tag reveal-up" data-en="Vision &amp; Mission">วิสัยทัศน์และพันธกิจ</div>
+    <h2 class="mv-title reveal-up" data-en="Committed to being a world-class seafood solution partner — delivering innovation, safety, and flavour to every market.">
+      มุ่งสู่การเป็นพันธมิตรโซลูชันอาหารทะเลชั้นนำระดับโลก<br>
+      ส่งมอบนวัตกรรม ความปลอดภัย และรสชาติสู่ทุกตลาด
+    </h2>
+
+    <ul class="mv-list reveal-up">
+      <li data-en="Produce safe, delicious, and high-quality seafood products">ผลิตผลิตภัณฑ์อาหารทะเลที่ปลอดภัย, อร่อย, และมีคุณภาพสูง</li>
+      <li data-en="Support partners with R&amp;D-driven tailored solutions">สนับสนุนพันธมิตรด้วยโซลูชันเฉพาะที่ขับเคลื่อนโดย R&amp;D</li>
+      <li data-en="Operate with sustainability and full traceability">ดำเนินงานโดยคำนึงถึงความยั่งยืนและการตรวจสอบย้อนกลับ</li>
+      <li data-en="Build long-term partnerships with global clients">สร้างความร่วมมือระยะยาวกับลูกค้าทั่วโลก</li>
+    </ul>
+  </div>
+  <div class="mv-photo reveal-up">
+    <img src="assets/สำเนาของ-Fish-Production-Line-4-.-Bangkok-Seafood-co.ltd_.jpg" alt="Bangkok Seafood Production" loading="lazy">
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<div style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="stats-grid">
+    <div class="stat-item reveal-up">
+      <div class="stat-val-row"><span class="stat-num" data-target="15">0</span><span class="stat-plus">+</span></div>
+      <div class="stat-label" data-en="Export Countries">ประเทศที่ส่งออก</div>
+    </div>
+    <div class="stat-item reveal-up" data-delay="100">
+      <div class="stat-val-row"><span class="stat-num" data-target="50000">0</span><span class="stat-plus">+</span></div>
+      <div class="stat-label" data-en="kg/Day Production">กก./วัน กำลังการผลิต</div>
+    </div>
+    <div class="stat-item reveal-up" data-delay="200">
+      <div class="stat-val-row"><span class="stat-num" data-target="8">0</span><span class="stat-plus">+</span></div>
+      <div class="stat-label" data-en="Int'l Certifications">มาตรฐานสากลที่ได้รับ</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CERTIFICATIONS ═══ -->
+<div class="section-wrap" id="certifications">
   <div class="section-header reveal-up">
-    <span class="section-tag">มาตรฐานการผลิต</span>
-    <h2 class="section-title">การรับรอง<span class="gradient-text">ระดับสากล</span></h2>
-    <p class="section-desc">เราให้ความสำคัญสูงสุดกับความปลอดภัยทางอาหาร (Food Safety) และคุณภาพที่สม่ำเสมอ</p>
+    <span class="section-tag">Certifications</span>
+    <h2 class="section-title" data-en="International <span class='gradient-text'>Standards</span>">มาตรฐาน<span class="gradient-text">ระดับสากล</span></h2>
+    <p class="section-desc" data-en="We place the highest priority on Food Safety and consistent quality at every step.">เราให้ความสำคัญสูงสุดกับความปลอดภัยทางอาหาร (Food Safety) และคุณภาพที่สม่ำเสมอ</p>
   </div>
-
-  <div class="cert-grid">
-    <div class="cert-card reveal-up" data-delay="0">
-      <div class="cert-badge">BRC</div>
-      <p>British Retail Consortium Standards</p>
+</div>
+<div class="cert-logo-grid">
+  <div class="cert-logo-item reveal-up" data-cert="gmp">
+    <div class="cert-logo-wrap"><img src="assets/GMP.png" alt="GMP"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="GMP">GMP</div>
+      <p class="cert-logo-desc" data-en="Good Manufacturing Practice">มาตรฐานการผลิตที่ดี</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
     </div>
-    <div class="cert-card reveal-up" data-delay="100">
-      <div class="cert-badge">HACCP</div>
-      <p>Hazard Analysis Critical Control Points</p>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="60" data-cert="haccp">
+    <div class="cert-logo-wrap"><img src="assets/HACCP.png" alt="HACCP"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="HACCP">HACCP</div>
+      <p class="cert-logo-desc" data-en="Hazard Analysis &amp; Critical Control Points">วิเคราะห์อันตรายและควบคุมจุดวิกฤต</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
     </div>
-    <div class="cert-card reveal-up" data-delay="200">
-      <div class="cert-badge">HALAL</div>
-      <p>Halal Certification Authority Thailand</p>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="120" data-cert="brc">
+    <div class="cert-logo-wrap"><img src="assets/BRC.png" alt="BRC"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="BRC">BRC</div>
+      <p class="cert-logo-desc" data-en="British Retail Consortium Global Standards">มาตรฐานความปลอดภัยอาหารระดับโลก</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
     </div>
-    <div class="cert-card reveal-up" data-delay="300">
-      <div class="cert-badge">MSC / ASC</div>
-      <p>Sustainable Seafood Certifications</p>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="180" data-cert="halal">
+    <div class="cert-logo-wrap"><img src="assets/HALAL.png" alt="HALAL"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="HALAL">HALAL</div>
+      <p class="cert-logo-desc" data-en="Halal Certification Authority Thailand">รับรองฮาลาลสำหรับผู้บริโภคมุสลิม</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
+    </div>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="240" data-cert="msc">
+    <div class="cert-logo-wrap"><img src="assets/MSC.png" alt="MSC"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="MSC">MSC</div>
+      <p class="cert-logo-desc" data-en="Marine Stewardship Council">รับรองการประมงที่ยั่งยืน</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
+    </div>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="300" data-cert="asc">
+    <div class="cert-logo-wrap"><img src="assets/ASC.png" alt="ASC"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="ASC">ASC</div>
+      <p class="cert-logo-desc" data-en="Aquaculture Stewardship Council">รับรองการเพาะเลี้ยงสัตว์น้ำที่ยั่งยืน</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
+    </div>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="360" data-cert="smeta">
+    <div class="cert-logo-wrap"><img src="assets/SMETA.png" alt="SMETA"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="SMETA">SMETA</div>
+      <p class="cert-logo-desc" data-en="Sedex Members Ethical Trade Audit">ตรวจสอบมาตรฐานแรงงานและจริยธรรมธุรกิจ</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
+    </div>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="420" data-cert="fisheries">
+    <div class="cert-logo-wrap"><img src="assets/กรมประมง.png" alt="กรมประมง"></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="Fisheries Dept.">กรมประมง</div>
+      <p class="cert-logo-desc" data-en="Department of Fisheries, Ministry of Agriculture">กรมประมง กระทรวงเกษตรและสหกรณ์</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
+    </div>
+  </div>
+  <div class="cert-logo-item reveal-up" data-delay="480" data-cert="thaifda">
+    <div class="cert-logo-wrap"><img src="assets/อย.png" alt="อย."></div>
+    <div class="cert-logo-info">
+      <div class="cert-logo-name" data-en="Thai FDA">อย.</div>
+      <p class="cert-logo-desc" data-en="Food &amp; Drug Administration Thailand">สำนักงานคณะกรรมการอาหารและยา</p>
+      <div class="cert-logo-hint">ดูข้อมูล →</div>
     </div>
   </div>
 </div>
 
-<!-- CTA -->
+<!-- ═══ GALLERY FILM STRIP ═══ -->
+<div style="padding-top:80px">
+  <div class="gallery-strip-label reveal-up" data-en="Gallery · Products &amp; Process Images">Gallery · ภาพผลิตภัณฑ์และกระบวนการ</div>
+  <div class="gallery-strip" id="aboutGallery">
+    <div class="gallery-frame"><img src="assets/Fish-Salmon.jpeg" alt="Salmon" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Shrimp-Vannamei.jpeg" alt="Shrimp" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Cephalopods-Squid.jpg" alt="Squid" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Fish-Black-Cod.jpg" alt="Black Cod" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Breaded-Squid-Ring.jpg" alt="Breaded Squid" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Cephalopods-Baby-Octopus.jpeg" alt="Baby Octopus" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Fish-Halibut.jpg" alt="Halibut" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Shrimp-Fresh-Water.jpeg" alt="Fresh Water Shrimp" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Breaded-Shrimp.png" alt="Breaded Shrimp" loading="lazy"></div>
+    <div class="gallery-frame"><img src="assets/Fish-Seabass.jpg" alt="Seabass" loading="lazy"></div>
+  </div>
+</div>
+
+<!-- ═══ CTA ═══ -->
 <div class="cta-strip reveal-up">
   <div class="cta-strip-glow"></div>
-  <h2>ร่วมเป็นส่วนหนึ่งของ<span class="gradient-text">ความสำเร็จกับเรา</span></h2>
-  <p>KINGWELL FIRST พร้อมมอบสิ่งที่ดีที่สุดให้กับธุรกิจของคุณ</p>
+  <h2 data-en="Be Part of<span class='gradient-text'>Success Together</span>">ร่วมเป็นส่วนหนึ่งของ<span class="gradient-text">ความสำเร็จกับเรา</span></h2>
+  <p data-en="BANGKOK SEAFOOD is ready to deliver the best for your business.">BANGKOK SEAFOOD พร้อมมอบสิ่งที่ดีที่สุดให้กับธุรกิจของคุณ</p>
   <div class="hero-buttons">
-    <a href="services.html" class="btn btn-primary">ดูบริการของเรา</a>
-    <a href="contact.html" class="btn btn-outline">ติดต่อสอบถาม</a>
+    <a href="services.html" class="btn btn-primary" data-en="Our Services">ดูบริการของเรา</a>
+    <a href="contact.html" class="btn btn-outline" data-en="Contact Us">ติดต่อสอบถาม</a>
   </div>
 </div>
 
@@ -162,20 +234,19 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="nav-logo">
-        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+        <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
       </a>
-      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
+      <p data-en="COLD CHAIN SOLUTIONS — Leading Premium Frozen Seafood, International Standards">COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
       <div class="social-links">
-        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
-        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+        <a href="https://www.facebook.com/profile.php?id=61579693530022" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10V9h4v2a6 6 0 0 1 2-3zm-9 1H3v12h4V9zM5 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></a><a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.6-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="white" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
       </div>
     </div>
     <div class="footer-col">
       <h4 data-en="Products">ผลิตภัณฑ์</h4>
       <ul>
-        <li><a href="products.html">อาหารทะเลสดแช่แข็ง</a></li>
-        <li><a href="products.html">สินค้าชุบแป้งทอด</a></li>
-        <li><a href="products.html">อาหารพร้อมทาน</a></li>
+        <li><a href="products.html" data-en="Fresh Frozen Seafood">อาหารทะเลสดแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Breaded Products">สินค้าชุบแป้งทอด</a></li>
+        <li><a href="products.html" data-en="Ready-to-Cook">อาหารพร้อมทาน</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -183,20 +254,111 @@
       <ul>
         <li><a href="services.html">OEM / ODM</a></li>
         <li><a href="services.html">Global Export</a></li>
-        <li><a href="contact.html">ติดต่อเรา</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-en="More">เพิ่มเติม</h4>
       <ul>
-        <li><a href="about.html">เกี่ยวกับเรา</a></li>
-        <li><a href="about.html#certifications">มาตรฐานสากล</a></li>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom"><p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p></div>
+  <div class="footer-bottom"><p>© 2024 BANGKOK SEAFOOD Co., Ltd. All rights reserved.</p></div>
 </footer>
 
-<script src="main.js?v=1.0.2"></script>
+<!-- CERT INFO MODAL -->
+<div class="cert-modal" id="certModal">
+  <div class="cert-modal-backdrop" id="certModalBackdrop"></div>
+  <div class="cert-modal-panel">
+    <button class="cert-modal-close" id="certModalClose">✕</button>
+    <div class="cert-modal-header">
+      <div class="cert-modal-logo-wrap" id="certModalLogoWrap"></div>
+      <div>
+        <div class="cert-modal-abbr" id="certModalAbbr"></div>
+        <div class="cert-modal-fullname" id="certModalFull"></div>
+      </div>
+    </div>
+    <div class="cert-modal-body">
+      <p class="cert-modal-desc" id="certModalDesc"></p>
+    </div>
+  </div>
+</div>
+
+<script src="main.js?v=1778486366747"></script>
+<script>
+const strip = document.getElementById('aboutGallery');
+if (strip) {
+  const frames = Array.from(strip.querySelectorAll('.gallery-frame'));
+  const track = document.createElement('div');
+  track.className = 'gallery-track';
+  frames.forEach(f => track.appendChild(f));
+  frames.forEach(f => track.appendChild(f.cloneNode(true)));
+  strip.appendChild(track);
+}
+
+/* ── Cert Info Modal ── */
+(function(){
+  const CERTS = {
+    gmp:      { abbr:'GMP',      full:'Good Manufacturing Practice',                    logo:'assets/GMP.png',
+      descTh:'มาตรฐาน GMP กำหนดข้อกำหนดสำหรับสภาพแวดล้อมและกระบวนการผลิตอาหาร เพื่อให้มั่นใจว่าผลิตภัณฑ์มีความสะอาด ปลอดภัย และมีคุณภาพสม่ำเสมอทุกชุดการผลิต',
+      descEn:'GMP defines requirements for food manufacturing environments and processes, ensuring every production batch is clean, safe, and consistently high in quality.' },
+    haccp:    { abbr:'HACCP',    full:'Hazard Analysis & Critical Control Points',       logo:'assets/HACCP.png',
+      descTh:'HACCP เป็นระบบวิเคราะห์อันตรายและกำหนดจุดควบคุมวิกฤต ช่วยป้องกันอันตรายทางชีวภาพ เคมี และกายภาพในกระบวนการผลิตอาหารทะเล',
+      descEn:'HACCP is a systematic approach to identifying and controlling biological, chemical, and physical hazards throughout the seafood production process.' },
+    brc:      { abbr:'BRC',      full:'BRC Global Food Safety Standard',                logo:'assets/BRC.png',
+      descTh:'BRC Global Standards เป็นมาตรฐานความปลอดภัยอาหารระดับโลกที่ผู้ค้าปลีกชั้นนำยอมรับ รับประกันคุณภาพสูงสุดตั้งแต่วัตถุดิบจนถึงผลิตภัณฑ์สำเร็จรูป',
+      descEn:'BRC Global Standards is an internationally recognised food safety benchmark accepted by leading retailers worldwide, covering the full supply chain from raw materials to finished products.' },
+    halal:    { abbr:'HALAL',    full:'Halal Certification Authority Thailand',          logo:'assets/HALAL.png',
+      descTh:'การรับรองฮาลาลจากคณะกรรมการกลางอิสลามแห่งประเทศไทย รับประกันว่าทุกขั้นตอนการผลิตเป็นไปตามหลักการอิสลาม เหมาะสำหรับผู้บริโภคมุสลิมกว่า 1.8 พันล้านคนทั่วโลก',
+      descEn:'Halal certification from the Central Islamic Council of Thailand, guaranteeing every production step complies with Islamic principles and is suitable for 1.8 billion Muslim consumers worldwide.' },
+    msc:      { abbr:'MSC',      full:'Marine Stewardship Council',                     logo:'assets/MSC.png',
+      descTh:'มาตรฐาน MSC รับรองว่าอาหารทะเลมาจากการประมงที่ยั่งยืน ช่วยปกป้องระบบนิเวศทางทะเลและรักษาทรัพยากรธรรมชาติสำหรับคนรุ่นต่อไป',
+      descEn:'MSC certification confirms seafood is sourced from sustainable fisheries that protect marine ecosystems and preserve ocean resources for future generations.' },
+    asc:      { abbr:'ASC',      full:'Aquaculture Stewardship Council',                logo:'assets/ASC.png',
+      descTh:'มาตรฐาน ASC รับรองการเพาะเลี้ยงสัตว์น้ำที่มีความรับผิดชอบต่อสิ่งแวดล้อมและสังคม ลดผลกระทบต่อระบบนิเวศ พร้อมส่งเสริมมาตรฐานแรงงานที่ดี',
+      descEn:'ASC certification confirms responsible aquaculture with minimal environmental impact, conserving ecosystems while upholding high labour and social standards.' },
+    smeta:    { abbr:'SMETA',    full:'Sedex Members Ethical Trade Audit',              logo:'assets/SMETA.png',
+      descTh:'SMETA เป็นการตรวจสอบจริยธรรมทางธุรกิจภายใต้มาตรฐาน Sedex ครอบคลุม สิทธิแรงงาน สุขภาพและความปลอดภัย สิ่งแวดล้อม และจรรยาบรรณธุรกิจ',
+      descEn:'SMETA is an ethical trade audit under Sedex standards, assessing labour rights, health & safety, environmental management, and business ethics across the supply chain.' },
+    fisheries:{ abbr:'กรมประมง', full:'Department of Fisheries, Ministry of Agriculture', logo:'assets/กรมประมง.png',
+      descTh:'การรับรองจากกรมประมง กระทรวงเกษตรและสหกรณ์ รับประกันว่าสินค้าผ่านการตรวจสอบและปฏิบัติตามกฎหมายและมาตรฐานการประมงของประเทศไทยอย่างครบถ้วน',
+      descEn:'Certification from Thailand\'s Department of Fisheries confirming full compliance with national fisheries laws, traceability requirements, and quality regulations.' },
+    thaifda:  { abbr:'อย.',      full:'Food & Drug Administration Thailand',            logo:'assets/อย.png',
+      descTh:'การรับรองจาก อย. (สำนักงานคณะกรรมการอาหารและยา) รับประกันความปลอดภัยและคุณภาพของผลิตภัณฑ์อาหารตามมาตรฐานสาธารณสุขของประเทศไทย',
+      descEn:'Certification from Thailand\'s FDA (Food and Drug Administration) ensuring all food products meet national safety, labelling, and public health standards.' }
+  };
+
+  const modal    = document.getElementById('certModal');
+  const backdrop = document.getElementById('certModalBackdrop');
+  const closeBtn = document.getElementById('certModalClose');
+  const logoWrap = document.getElementById('certModalLogoWrap');
+  const abbrEl   = document.getElementById('certModalAbbr');
+  const fullEl   = document.getElementById('certModalFull');
+  const descEl   = document.getElementById('certModalDesc');
+  function open(key) {
+    const c = CERTS[key]; if (!c) return;
+    logoWrap.innerHTML = `<img src="${c.logo}" alt="${c.abbr}">`;
+    abbrEl.textContent = c.abbr;
+    fullEl.textContent = c.full;
+    descEl.textContent = isEn ? c.descEn : c.descTh;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+
+  document.querySelectorAll('.cert-logo-item[data-cert]').forEach(el => {
+    el.addEventListener('click', () => open(el.dataset.cert));
+  });
+  backdrop?.addEventListener('click', close);
+  closeBtn?.addEventListener('click', close);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal?.classList.contains('open')) close();
+  });
+})();
+</script>
 </body>
 </html>
+
+
+

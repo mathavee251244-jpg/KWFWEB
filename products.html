@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="th" data-theme="dark">
+﻿<!DOCTYPE html>
+<html lang="th" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Products — KINGWELL FIRST (Bangkok Seafood)</title>
-  <meta name="description" content="สำรวจผลิตภัณฑ์อาหารทะเลแช่แข็งคุณภาพสูงจาก KINGWELL FIRST มาตรฐานส่งออกสากล">
+  <script>(function(){var t=localStorage.getItem('kwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <title>Products — BANGKOK SEAFOOD</title>
+  <meta name="description" content="สำรวจผลิตภัณฑ์อาหารทะเลแช่แข็งคุณภาพสูงจาก BANGKOK SEAFOOD มาตรฐานส่งออกสากล">
   
   <!-- Open Graph -->
-  <meta property="og:title" content="KINGWELL FIRST — Our Products">
-  <meta property="og:image" content="assets/Logo.png">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=1.0.2" />
+  <meta property="og:title" content="BANGKOK SEAFOOD — Our Products">
+  <meta property="og:image" content="assets/LOGO_BKSF.png">    <link rel="icon" type="image/png" href="assets/LOGO_BKSF.png">
+  <link rel="apple-touch-icon" href="assets/LOGO_BKSF.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1778486366747" />
   <style>
     .spec-table{width:100%;border-collapse:collapse;margin-top:12px}
     .spec-table td{padding:8px 12px;font-size:.85rem;border-bottom:1px solid var(--border)}
@@ -30,8 +30,8 @@
 
 <div class="loader" id="loader">
   <div class="loader-inner">
-    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
-    <p class="loader-text">Cold Chain Solutions</p>
+    <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="loader-logo">
+    <p class="loader-text" data-en="Products">ผลิตภัณฑ์</p>
     <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
   </div>
 </div>
@@ -40,19 +40,21 @@
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
-      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      <span class="nav-brand-name">Bangkok Seafood</span>
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
       <li><a href="products.html" class="nav-link active" data-en="Products">ผลิตภัณฑ์</a></li>
       <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="brand.html" class="nav-link" data-en="Brands">แบรนด์</a></li>
       <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
       <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
     </ul>
     <div class="nav-actions">
       <button class="lang-btn" id="langBtn">EN</button>
       <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
-        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
         <div class="toggle-thumb"></div>
       </button>
       <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
@@ -64,270 +66,502 @@
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-bg">
-    <img src="https://images.unsplash.com/photo-1498654077810-12c21d4d6dc3?auto=format&fit=crop&q=80&w=1920" alt="KINGWELL FIRST Products"
-         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.15">
+    <img src="assets/photorealistic-wild-tuna-day-celebration.jpg" alt="BANGKOK SEAFOOD Products">
+    <div class="page-hero-overlay"></div>
   </div>
-  <div class="page-hero-tag">ผลิตภัณฑ์</div>
-  <h1 class="page-hero-title">
-    อาหารทะเลสดส่งตรง<br/><span class="gradient-text">ถึงบ้านคุณ</span>
-  </h1>
-  <p class="page-hero-desc">
-    วัตถุดิบชั้นเยี่ยมผ่านกระบวนการแช่แข็งมาตรฐานสากล<br/>
-    รักษาความสดและคุณค่าทางโภชนาการได้ดีที่สุด
-  </p>
-  <div class="page-hero-breadcrumb">
-    <a href="index.html">หน้าแรก</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>ผลิตภัณฑ์</span>
+  <div class="page-hero-content">
+    <div class="page-hero-tag">Premium Frozen Seafood</div>
+    <h1 class="page-hero-title">
+      <span data-en="Our Products">สินค้า</span>
+      <span class="gradient-text" data-en="Product Catalog">ผลิตภัณฑ์</span>
+    </h1>
+    <p class="page-hero-desc" data-en="Premium ingredients through international-standard freezing processes, preserving the best freshness and nutritional value.">วัตถุดิบชั้นเยี่ยมผ่านกระบวนการแช่แข็งมาตรฐานสากล รักษาความสดและคุณค่าทางโภชนาการได้ดีที่สุด</p>
+    <div class="page-hero-breadcrumb">
+      <a href="index.html" data-en="Home">หน้าแรก</a>
+      <span class="breadcrumb-sep">/</span>
+      <span data-en="Products">ผลิตภัณฑ์</span>
+    </div>
   </div>
 </div>
 
 <div class="section-wrap">
   <div class="products-filter reveal-up">
-    <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
-    <button class="filter-btn" data-filter="fish">🐟 ปลา</button>
-    <button class="filter-btn" data-filter="shrimp">🦐 กุ้ง</button>
-    <button class="filter-btn" data-filter="squid">🦑 ปลาหมึก</button>
-    <button class="filter-btn" data-filter="ready">🍱 ของทอด/พร้อมทาน</button>
+    <button class="filter-btn active" data-filter="all" data-en="All">ทั้งหมด</button>
+    <button class="filter-btn" data-filter="fish" data-en="Fish">ปลา</button>
+    <button class="filter-btn" data-filter="shrimp" data-en="Shrimp">กุ้ง</button>
+    <button class="filter-btn" data-filter="cephalopod" data-en="Cephalopods">หมึก</button>
+    <button class="filter-btn" data-filter="ready" data-en="Processed / Ready-to-Cook">แปรรูป / พร้อมทาน</button>
   </div>
 
   <div class="products-grid" id="productsGrid">
 
-    <!-- ── FISH ── -->
+    <!-- ══ FISH ══ -->
     <div class="product-card reveal-up" data-category="fish">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Fish-Salmon.jpeg" alt="ปลาแซลมอน"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Fish-Salmon.jpeg" alt="ปลาแซลมอนแอตแลนติก" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
         <span class="product-badge">Premium</span>
       </div>
       <div class="product-info">
-        <h3>ปลาแซลมอนแอตแลนติก</h3>
-        <p>Atlantic Salmon นำเข้าจากนอร์เวย์และชิลี คุณภาพพรีเมียม (มี ASC)</p>
-        <div class="product-tags"><span>Norway</span><span>ASC</span><span>IQF</span></div>
+        <h3 data-en="Atlantic Salmon">ปลาแซลมอนแอตแลนติก</h3>
+        <p data-en="Premium Atlantic Salmon imported from Norway and Chile. ASC certified.">Atlantic Salmon คุณภาพพรีเมียม นำเข้าจากนอร์เวย์และชิลี รับรอง ASC</p>
+        <div class="product-tags"><span>Norway / Chile</span><span>ASC</span><span>IQF</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
           <tr><td>แหล่งกำเนิด</td><td>นอร์เวย์ / ชิลี</td></tr>
-          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ, เนื้อส่วนสันใน</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่ (Fillet), คิริมิ, เนื้อส่วนสันใน (Loin)</td></tr>
           <tr><td>รูปแบบ</td><td>IQF</td></tr>
           <tr><td>บรรจุภัณฑ์</td><td>IVP, IWP, ถุงสีสำหรับขายปลีก</td></tr>
+          <tr><td>มาตรฐาน</td><td>ASC, HACCP, BRC</td></tr>
         </table>
       </div>
     </div>
 
     <div class="product-card reveal-up" data-category="fish">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Fish-Seabass.jpg" alt="ปลากะพงขาว"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Salmon-Test.jpeg" alt="ปลาแซลมอนแปซิฟิก" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+        <span class="product-badge">Wild Caught</span>
       </div>
       <div class="product-info">
-        <h3>ปลากะพงขาว</h3>
-        <p>Lates calcarifer คัดสรรจากแหล่งน้ำไทย สดใหม่ทุกคำ</p>
-        <div class="product-tags"><span>Thailand</span><span>IQF</span></div>
+        <h3 data-en="Pacific Salmon">ปลาแซลมอนแปซิฟิก</h3>
+        <p data-en="Wild-caught Pacific Salmon from Alaska and Russia. MSC certified.">Wild Pacific Salmon จับจากธรรมชาติ อลาสก้าและรัสเซีย รับรอง MSC</p>
+        <div class="product-tags"><span>Alaska / Russia</span><span>MSC</span><span>Wild</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
-          <tr><td>แหล่งกำเนิด</td><td>ประเทศไทย</td></tr>
-          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, เนื้อหั่นชิ้น</td></tr>
+          <tr><td>แหล่งกำเนิด</td><td>อลาสก้า สหรัฐอเมริกา / รัสเซีย</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ, เนื้อส่วนสันใน</td></tr>
           <tr><td>รูปแบบ</td><td>IQF</td></tr>
-          <tr><td>บรรจุภัณฑ์</td><td>IVP, IWP, ถุงขายปลีก</td></tr>
+          <tr><td>มาตรฐาน</td><td>MSC, HACCP</td></tr>
         </table>
       </div>
     </div>
 
     <div class="product-card reveal-up" data-category="fish">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Fish-Black-Cod.jpg" alt="ปลาค็อดดำ"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Fish-Seabass.jpg" alt="ปลากะพงขาว" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
       </div>
       <div class="product-info">
-        <h3>ปลาค็อดดำอลาสก้า</h3>
-        <p>Alaska Black Cod จากแหล่งน้ำเย็นอลาสก้า สหรัฐอเมริกา (มี MSC)</p>
-        <div class="product-tags"><span>Alaska</span><span>MSC</span><span>Wild Caught</span></div>
-      </div>
-      <div class="product-spec" style="display:none">
-        <table class="spec-table">
-          <tr><td>แหล่งกำเนิด</td><td>อลาสก้า สหรัฐอเมริกา</td></tr>
-          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ</td></tr>
-          <tr><td>รูปแบบ</td><td>IQF</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="product-card reveal-up" data-category="fish">
-      <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Fish-Grouper.jpg" alt="ปลาเก๋า"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
-      </div>
-      <div class="product-info">
-        <h3>ปลาเก๋า</h3>
-        <p>Grouper เนื้อแน่น รสชาติหวานตามธรรมชาติ (มี ASC)</p>
+        <h3 data-en="White Seabass">ปลากะพงขาว</h3>
+        <p data-en="White Seabass (Lates calcarifer) sourced from Thai waters and ASC-certified farms.">White Seabass (Lates calcarifer) คัดสรรจากแหล่งน้ำไทยและฟาร์มมาตรฐาน ASC</p>
         <div class="product-tags"><span>Thailand</span><span>ASC</span><span>IQF</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
           <tr><td>แหล่งกำเนิด</td><td>ประเทศไทย</td></tr>
-          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ</td></tr>
-          <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, เนื้อหั่นชิ้น (Portion)</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF</td></tr>
+          <tr><td>บรรจุภัณฑ์</td><td>IVP, IWP, ถุงขายปลีก</td></tr>
+          <tr><td>มาตรฐาน</td><td>ASC, HACCP, HALAL</td></tr>
         </table>
       </div>
     </div>
 
     <div class="product-card reveal-up" data-category="fish">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Fish-Alaska-Pollock.jpg" alt="ปลาอลาสก้าพอลล็อค"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Fish-Grouper.jpg" alt="ปลาเก๋า" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
       </div>
       <div class="product-info">
-        <h3>ปลาอลาสก้าพอลล็อค</h3>
-        <p>Alaska Pollock วัตถุดิบชั้นเลิศสำหรับเมนูหลากหลาย</p>
-        <div class="product-tags"><span>Alaska</span><span>MSC</span><span>Block</span></div>
+        <h3 data-en="Grouper">ปลาเก๋า</h3>
+        <p data-en="Grouper with firm texture and naturally sweet flavor. Sourced from ASC-certified farms.">Grouper เนื้อแน่น รสชาติหวานตามธรรมชาติ คัดสรรจากฟาร์มมาตรฐาน ASC</p>
+        <div class="product-tags"><span>Thailand</span><span>ASC</span><span>IQF</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>แหล่งกำเนิด</td><td>ประเทศไทย</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ, เนื้อหั่นชิ้น</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>มาตรฐาน</td><td>ASC, HACCP, HALAL</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="fish">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Fish-Black-Cod.jpg" alt="ปลาค็อดดำอลาสก้า" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Alaska Black Cod">ปลาค็อดดำอลาสก้า</h3>
+        <p data-en="Alaska Black Cod (Sablefish) from cold Alaskan waters, USA. MSC certified.">Alaska Black Cod (Sablefish) จากแหล่งน้ำเย็นอลาสก้า สหรัฐอเมริกา รับรอง MSC</p>
+        <div class="product-tags"><span>Alaska</span><span>MSC</span><span>Wild Caught</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
           <tr><td>แหล่งกำเนิด</td><td>อลาสก้า สหรัฐอเมริกา</td></tr>
-          <tr><td>ผลิตภัณฑ์</td><td>เนื้อหาง, เนื้อส่วนสันใน, เนื้อบด</td></tr>
-          <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่ (Fillet), คิริมิ</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF</td></tr>
+          <tr><td>มาตรฐาน</td><td>MSC, HACCP, BRC</td></tr>
         </table>
       </div>
     </div>
 
     <div class="product-card reveal-up" data-category="fish">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Fish-Atlantic-Mackarel.jpg" alt="ปลาแมคเคอเรล"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Fish-Halibut.jpg" alt="ปลาแฮลิบัตกรีนแลนด์" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
       </div>
       <div class="product-info">
-        <h3>ปลาแมคเคอเรลแอตแลนติก</h3>
-        <p>Atlantic Mackerel นำเข้าจากไอซ์แลนด์และนอร์เวย์</p>
-        <div class="product-tags"><span>Iceland</span><span>Norway</span><span>IQF</span></div>
+        <h3 data-en="Greenland Halibut">ปลาแฮลิบัตกรีนแลนด์</h3>
+        <p data-en="Greenland Halibut imported from Greenland and Norway. Tender, aromatic flesh. MSC certified.">Greenland Halibut นำเข้าจากกรีนแลนด์และนอร์เวย์ เนื้อนุ่มหอม รับรอง MSC</p>
+        <div class="product-tags"><span>Greenland / Norway</span><span>MSC</span><span>IQF</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>แหล่งกำเนิด</td><td>กรีนแลนด์ / นอร์เวย์</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ, เนื้อหั่นชิ้น</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF</td></tr>
+          <tr><td>มาตรฐาน</td><td>MSC, HACCP</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="fish">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Fish-Alaska-Pollock.jpg" alt="ปลาอลาสก้าพอลล็อค" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Alaska Pollock">ปลาอลาสก้าพอลล็อค</h3>
+        <p data-en="Alaska Pollock from Alaska, USA. Premium ingredient for a wide variety of dishes.">Alaska Pollock จากอลาสก้า สหรัฐอเมริกา วัตถุดิบชั้นเลิศสำหรับเมนูหลากหลาย</p>
+        <div class="product-tags"><span>Alaska</span><span>MSC</span><span>IQF / Block</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>แหล่งกำเนิด</td><td>อลาสก้า สหรัฐอเมริกา</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อหาง, เนื้อส่วนสันใน, เนื้อบด (Minced)</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>มาตรฐาน</td><td>MSC, HACCP, BRC</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="fish">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Fish-Yellow-Fin-Sole.jpg" alt="ปลาลิ้นหมาครีบเหลือง" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Yellow Fin Sole">ปลาลิ้นหมาครีบเหลือง</h3>
+        <p data-en="Yellow Fin Sole from Alaska. Soft white flesh with mild flavor. MSC certified.">Yellow Fin Sole จากอลาสก้า เนื้อขาวนุ่ม รสอ่อน เหมาะสำหรับทุกเมนู รับรอง MSC</p>
+        <div class="product-tags"><span>Alaska</span><span>MSC</span><span>IQF</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>แหล่งกำเนิด</td><td>อลาสก้า สหรัฐอเมริกา</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, เนื้อหั่นชิ้น, แบบทั้งตัว</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF</td></tr>
+          <tr><td>มาตรฐาน</td><td>MSC, HACCP</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="fish">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Fish-Atlantic-Mackarel.jpg" alt="ปลาแมคเคอเรลแอตแลนติก" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Atlantic Mackerel">ปลาแมคเคอเรลแอตแลนติก</h3>
+        <p data-en="Atlantic Mackerel imported from Iceland and Norway. Rich in Omega-3 fatty acids.">Atlantic Mackerel นำเข้าจากไอซ์แลนด์และนอร์เวย์ อุดมด้วย Omega-3</p>
+        <div class="product-tags"><span>Iceland / Norway</span><span>IQF</span><span>Omega-3</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
           <tr><td>แหล่งกำเนิด</td><td>ไอซ์แลนด์ / นอร์เวย์</td></tr>
-          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>เนื้อปลาแล่, คิริมิ, แบบทั้งตัว</td></tr>
           <tr><td>รูปแบบ</td><td>IQF</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC</td></tr>
         </table>
       </div>
     </div>
 
-    <!-- ── SHRIMP ── -->
+    <!-- ══ SHRIMP ══ -->
     <div class="product-card reveal-up" data-category="shrimp">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Shrimp-Vannamei.jpeg" alt="กุ้งขาว"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Shrimp-Vannamei.jpeg" alt="กุ้งขาวแวนนาไม" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
         <span class="product-badge">Best Seller</span>
       </div>
       <div class="product-info">
-        <h3>กุ้งขาวแวนนาไม</h3>
-        <p>White Shrimp คุณภาพเกรดส่งออก สด กรอบ เด้ง</p>
-        <div class="product-tags"><span>Export Grade</span><span>HACCP</span><span>Halal</span></div>
+        <h3 data-en="Vannamei Shrimp">กุ้งขาวแวนนาไม</h3>
+        <p data-en="Export-grade Vannamei Shrimp — fresh, crisp, and bouncy. Available in multiple processed forms.">Vannamei Shrimp คุณภาพเกรดส่งออก สด กรอบ เด้ง มีหลายรูปแบบการแปรรูป</p>
+        <div class="product-tags"><span>Export Grade</span><span>HACCP</span><span>HALAL</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
-          <tr><td>ผลิตภัณฑ์</td><td>กุ้งสด HOSO, PDTO, โนบาชิ</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>HOSO, HL, PDTO, PDTL, Nobashi, PTO</td></tr>
           <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
           <tr><td>อายุการเก็บรักษา</td><td>24 เดือน ที่ -18°C</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL, ASC</td></tr>
         </table>
       </div>
     </div>
 
     <div class="product-card reveal-up" data-category="shrimp">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Shrimp-Vannamei.jpeg" alt="กุ้งลายเสือ"></div> <!-- ใช้รูปกุ้งที่มี -->
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Shrimp-tiger.png" alt="กุ้งลายเสือดำ" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+        <span class="product-badge">Premium</span>
       </div>
       <div class="product-info">
-        <h3>กุ้งลายเสือดำ</h3>
-        <p>Black Tiger Shrimp ตัวใหญ่ เนื้อแน่น รสชาติเข้มข้น</p>
-        <div class="product-tags"><span>Black Tiger</span><span>Premium</span></div>
+        <h3 data-en="Black Tiger Shrimp">กุ้งลายเสือดำ</h3>
+        <p data-en="Large Black Tiger Shrimp with firm, rich-flavored meat. Popular in European and Japanese markets.">Black Tiger Shrimp ตัวใหญ่ เนื้อแน่น รสชาติเข้มข้น เป็นที่นิยมในตลาดยุโรปและญี่ปุ่น</p>
+        <div class="product-tags"><span>Black Tiger</span><span>Premium</span><span>HACCP</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
-          <tr><td>ผลิตภัณฑ์</td><td>กุ้งสด HOSO, HL, PDTO</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>HOSO, HL, PDTO, PDTL</td></tr>
           <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL</td></tr>
         </table>
       </div>
     </div>
 
-    <!-- ── SQUID ── -->
-    <div class="product-card reveal-up" data-category="squid">
+    <div class="product-card reveal-up" data-category="shrimp">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Cephalopods-Squid.jpg" alt="ปลาหมึก"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Shrimp-Fresh-Water.jpeg" alt="กุ้งน้ำจืด" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
       </div>
       <div class="product-info">
-        <h3>ปลาหมึก (Loligo/Illex)</h3>
-        <p>ปลาหมึกคุณภาพดี ทำความสะอาดเรียบร้อยพร้อมปรุง</p>
-        <div class="product-tags"><span>Cleaned</span><span>IQF</span></div>
+        <h3 data-en="Freshwater Shrimp">กุ้งน้ำจืด</h3>
+        <p data-en="Freshwater Shrimp from clean sources. Delicately sweet meat, suitable for all dishes.">Freshwater Shrimp คัดสรรจากแหล่งน้ำจืดที่สะอาด เนื้อหวานอ่อน เหมาะสำหรับทุกเมนู</p>
+        <div class="product-tags"><span>Thailand</span><span>IQF</span><span>HALAL</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
-          <tr><td>ผลิตภัณฑ์</td><td>หมึกทั้งตัว, เนื้อ, หนวด</td></tr>
+          <tr><td>แหล่งกำเนิด</td><td>ประเทศไทย</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>HOSO, HL, PDTO</td></tr>
           <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, HALAL</td></tr>
         </table>
       </div>
     </div>
 
-    <div class="product-card reveal-up" data-category="squid">
+    <!-- ══ CEPHALOPODS ══ -->
+    <div class="product-card reveal-up" data-category="cephalopod">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Cephalopods-Baby-Octopus.jpeg" alt="หมึกยักษ์"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Cephalopods-Squid.jpg" alt="ปลาหมึก" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
       </div>
       <div class="product-info">
-        <h3>ลูกปลาหมึกยักษ์</h3>
-        <p>Baby Octopus คัดขนาดพอดีคำ เหมาะสำหรับเมนูย่างและต้ม</p>
-        <div class="product-tags"><span>Baby Octopus</span><span>Fresh</span></div>
+        <h3 data-en="Squid">ปลาหมึก</h3>
+        <p data-en="Squid (Loligo / Illex) — cleaned and ready-to-cook. Available whole or cut.">Squid (Loligo / Illex) ทำความสะอาดเรียบร้อย พร้อมปรุง มีทั้งแบบทั้งตัวและหั่น</p>
+        <div class="product-tags"><span>Cleaned</span><span>IQF</span><span>Block</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
-          <tr><td>ผลิตภัณฑ์</td><td>ปลาหมึกยักษ์ทั้งตัว, หั่นชิ้น</td></tr>
+          <tr><td>สายพันธุ์</td><td>Loligo spp. / Illex spp.</td></tr>
+          <tr><td>ผลิตภัณฑ์</td><td>ทั้งตัว, เฉพาะเนื้อ, หนวด, วงหมึก</td></tr>
           <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL</td></tr>
         </table>
       </div>
     </div>
 
-    <!-- ── READY / BREADED ── -->
+    <div class="product-card reveal-up" data-category="cephalopod">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Cephalopods-Cattle-Fish.jpg" alt="ปลาหมึกกระดอง" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Cuttlefish">ปลาหมึกกระดอง</h3>
+        <p data-en="Cuttlefish with soft, sweet flesh. Cleaned and ready-to-cook for a variety of dishes.">Cuttlefish เนื้อนุ่ม รสชาติหวาน ทำความสะอาดพร้อมปรุง เหมาะสำหรับเมนูหลากหลาย</p>
+        <div class="product-tags"><span>Whole / Cleaned</span><span>IQF</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>ผลิตภัณฑ์</td><td>ทำความสะอาดทั้งตัว, เนื้อเต็มตัว</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, HALAL</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="cephalopod">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Cephalopods-Baby-Octopus.jpeg" alt="หมึกสาย" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Baby Octopus">หมึกสาย</h3>
+        <p data-en="Bite-sized Baby Octopus, perfect for grilling, boiling, stir-frying, and Korean-style dishes.">Baby Octopus คัดขนาดพอดีคำ เหมาะสำหรับเมนูย่าง ต้ม ผัด และสไตล์เกาหลี</p>
+        <div class="product-tags"><span>Baby Octopus</span><span>IQF</span><span>Korean Style</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>ผลิตภัณฑ์</td><td>ทั้งตัว, หั่นชิ้น, สไตล์เกาหลี</td></tr>
+          <tr><td>รูปแบบ</td><td>IQF / แบบบล็อก</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, HALAL</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ PROCESSED / READY ══ -->
     <div class="product-card reveal-up" data-category="ready">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Breaded-Squid-Ring.jpg" alt="หมึกวงชุบแป้ง"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Breaded-Squid-Ring.jpg" alt="ปลาหมึกชุบเกล็ดขนมปัง" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
         <span class="product-badge hot">Hot</span>
       </div>
       <div class="product-info">
-        <h3>ปลาหมึกชุบเกล็ดขนมปัง</h3>
-        <p>Breaded Squid Ring วงใหญ่ แป้งกรอบนาน</p>
-        <div class="product-tags"><span>Ready-to-Fry</span><span>Party Food</span></div>
+        <h3 data-en="Breaded Squid Ring">ปลาหมึกชุบเกล็ดขนมปัง</h3>
+        <p data-en="Large Breaded Squid Rings with long-lasting crispy coating. Ideal for parties and restaurants.">Breaded Squid Ring วงใหญ่ แป้งกรอบนาน เหมาะสำหรับงานปาร์ตี้และร้านอาหาร</p>
+        <div class="product-tags"><span>Ready-to-Fry</span><span>HALAL</span></div>
       </div>
       <div class="product-spec" style="display:none">
         <table class="spec-table">
           <tr><td>ลักษณะ</td><td>ชุบเกล็ดขนมปังพรีเมียม</td></tr>
-          <tr><td>วิธีปรุง</td><td>ทอดในน้ำมันร้อน 3-5 นาที</td></tr>
+          <tr><td>วิธีปรุง</td><td>ทอดในน้ำมันร้อน 180°C, 3–5 นาที</td></tr>
+          <tr><td>อายุการเก็บรักษา</td><td>18 เดือน ที่ -18°C</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL</td></tr>
         </table>
       </div>
     </div>
 
     <div class="product-card reveal-up" data-category="ready">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Breaded-Shrimp.png" alt="กุ้งชุบแป้ง"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Breaded-Shrimp.png" alt="กุ้งชุบเกล็ดขนมปัง" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
       </div>
       <div class="product-info">
-        <h3>กุ้งชุบเกล็ดขนมปัง</h3>
-        <p>Breaded Shrimp กุ้งตัวโตเต็มคำ พร้อมทอดทันที</p>
-        <div class="product-tags"><span>Snack</span><span>Kids Choice</span></div>
+        <h3 data-en="Breaded Shrimp">กุ้งชุบเกล็ดขนมปัง</h3>
+        <p data-en="Full-sized Breaded Shrimp, ready-to-fry immediately. Thin and crispy coating.">Breaded Shrimp กุ้งตัวโตเต็มคำ พร้อมทอดทันที แป้งบางกรอบ</p>
+        <div class="product-tags"><span>Ready-to-Fry</span><span>HALAL</span><span>Kids Choice</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>ลักษณะ</td><td>ชุบเกล็ดขนมปังพรีเมียม</td></tr>
+          <tr><td>วิธีปรุง</td><td>ทอดในน้ำมันร้อน 180°C, 3–4 นาที</td></tr>
+          <tr><td>อายุการเก็บรักษา</td><td>18 เดือน ที่ -18°C</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL</td></tr>
+        </table>
       </div>
     </div>
 
     <div class="product-card reveal-up" data-category="ready">
       <div class="product-img-wrap">
-        <div class="product-img-bg"><img src="assets/Pre-Fried-Fish-an-Chip.jpg" alt="ฟิชแอนชิป"></div>
-        <div class="product-overlay"><button class="product-quick-btn">ดูรายละเอียด</button></div>
+        <div class="product-img-bg"><img src="assets/Breaded-Fish-Nugget.jpg" alt="ฟิชฟิงเกอร์" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
       </div>
       <div class="product-info">
-        <h3>ฟิชแอนชิปทอดสำเร็จรูป</h3>
-        <p>Pre-Fried Fish & Chips อุ่นง่ายในหม้อทอดไร้น้ำมัน</p>
-        <div class="product-tags"><span>Pre-Fried</span><span>Easy Cook</span></div>
+        <h3 data-en="Fish Finger / Fish Nugget">ฟิชฟิงเกอร์ / ฟิชนักเก็ต</h3>
+        <p data-en="Fish Fingers & Nuggets for kids and adults alike. Crispy coating with real fish inside.">Fish Finger & Fish Nugget สำหรับเด็กและผู้ใหญ่ แป้งกรอบ เนื้อปลาแท้</p>
+        <div class="product-tags"><span>Kids Meal</span><span>HALAL</span><span>Easy Cook</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>วัตถุดิบ</td><td>เนื้อปลาขาว (Pollock / Cod)</td></tr>
+          <tr><td>ลักษณะ</td><td>ชุบเกล็ดขนมปัง / Pre-Fried</td></tr>
+          <tr><td>วิธีปรุง</td><td>ทอด, อบ, หรืออุ่นในไมโครเวฟ</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="ready">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Breaded-Dusted-Fish.jpg" alt="ปลาคลุกแป้ง" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Dusted Fish">ปลาคลุกแป้ง (Dusted Fish)</h3>
+        <p data-en="Dusted Fish with a special thin coating — crispy outside, juicy and tender inside.">Dusted Fish เคลือบแป้งบางพิเศษ กรอบภายนอก นุ่มชุ่มฉ่ำภายใน</p>
+        <div class="product-tags"><span>Dusted</span><span>Ready-to-Fry</span><span>HALAL</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>วัตถุดิบ</td><td>เนื้อปลาขาว คุณภาพสูง</td></tr>
+          <tr><td>ลักษณะ</td><td>คลุกแป้งบาง ไม่ชุบไข่</td></tr>
+          <tr><td>วิธีปรุง</td><td>ทอดในน้ำมันร้อน 180°C, 4–6 นาที</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, HALAL</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="ready">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Pre-Fried-Fish-an-Chip.jpg" alt="ฟิชแอนชิป" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Pre-Fried Fish & Chips">ฟิชแอนชิปทอดสำเร็จรูป</h3>
+        <p data-en="Pre-Fried Fish & Chips — easy to reheat in an air fryer or microwave. Serve-ready.">Pre-Fried Fish & Chips อุ่นง่ายในหม้อทอดไร้น้ำมัน หรือไมโครเวฟ พร้อมเสิร์ฟ</p>
+        <div class="product-tags"><span>Pre-Fried</span><span>Air Fryer</span><span>HALAL</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>วัตถุดิบ</td><td>เนื้อปลาขาว + มันฝรั่ง</td></tr>
+          <tr><td>ลักษณะ</td><td>ทอดสำเร็จรูปพร้อมอุ่น</td></tr>
+          <tr><td>วิธีปรุง</td><td>Air Fryer 180°C, 5 นาที หรือไมโครเวฟ</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="ready">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/Pre-Fried-Fish-Cod.jpg" alt="ปลาค็อดทอดสำเร็จรูป" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Pre-Fried Cod">ปลาค็อดทอดสำเร็จรูป</h3>
+        <p data-en="Pre-Fried Cod made with real Cod fish. Heat for just 5 minutes and serve.">Pre-Fried Cod เนื้อปลาค็อดแท้ ทอดสำเร็จรูป อุ่นเพียง 5 นาที พร้อมเสิร์ฟ</p>
+        <div class="product-tags"><span>Pre-Fried</span><span>Cod</span><span>HALAL</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>วัตถุดิบ</td><td>เนื้อปลาค็อด (Pollock/Cod)</td></tr>
+          <tr><td>ลักษณะ</td><td>ชุบแป้งทอดสำเร็จรูป</td></tr>
+          <tr><td>วิธีปรุง</td><td>Air Fryer หรือเตาอบ 180°C, 5 นาที</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, BRC, HALAL</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="ready">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/สำเนาของ-หนังปลาทอด.jpg" alt="หนังปลาทอดกรอบ" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+        <span class="product-badge">New</span>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Crispy Fish Skin">หนังปลาทอดกรอบ</h3>
+        <p data-en="Crispy Fish Skin — a healthy snack, low in fat, high in protein. Deliciously crunchy every bite.">Crispy Fish Skin สแน็กเพื่อสุขภาพ ไขมันต่ำ โปรตีนสูง กรอบอร่อยทุกคำ</p>
+        <div class="product-tags"><span>Snack</span><span>High Protein</span><span>HALAL</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>วัตถุดิบ</td><td>หนังปลาธรรมชาติ</td></tr>
+          <tr><td>ลักษณะ</td><td>ทอดกรอบ / Puffed</td></tr>
+          <tr><td>พลังงาน</td><td>โปรตีนสูง ไขมันต่ำ</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, HALAL, GMP</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="product-card reveal-up" data-category="ready">
+      <div class="product-img-wrap">
+        <div class="product-img-bg"><img src="assets/หนังปลา-Kroops-รสทรัฟเฟิล.jpg" alt="หนังปลา Kroops รสทรัฟเฟิล" loading="lazy"></div>
+        <div class="product-overlay"><button class="product-quick-btn" data-en="View Details">ดูรายละเอียด</button></div>
+        <span class="product-badge">Premium</span>
+      </div>
+      <div class="product-info">
+        <h3 data-en="Kroops Fish Skin — Truffle Flavor">หนังปลา Kroops รสทรัฟเฟิล</h3>
+        <p data-en="Kroops Fish Skin Truffle Flavor — premium snack with rich truffle taste. Available at 7-Eleven.">Kroops Fish Skin Truffle Flavor สแน็กพรีเมียม รสทรัฟเฟิลเข้มข้น จำหน่ายใน 7-Eleven</p>
+        <div class="product-tags"><span>Truffle</span><span>7-Eleven</span><span>Premium Snack</span></div>
+      </div>
+      <div class="product-spec" style="display:none">
+        <table class="spec-table">
+          <tr><td>แบรนด์</td><td>Kroops</td></tr>
+          <tr><td>รสชาติ</td><td>ทรัฟเฟิล (Truffle Flavor)</td></tr>
+          <tr><td>ช่องทางจำหน่าย</td><td>7-Eleven ทั่วประเทศ</td></tr>
+          <tr><td>มาตรฐาน</td><td>HACCP, HALAL, GMP</td></tr>
+        </table>
       </div>
     </div>
 
@@ -339,14 +573,14 @@
 ════════════════════════════════════════ -->
 <div class="cta-strip reveal-up">
   <div class="cta-strip-glow"></div>
-  <h2>สนใจสั่งซื้อหรือ<span class="gradient-text">สอบถามราคา?</span></h2>
-  <p>ทีม Sales ของเราพร้อมส่ง Quotation และ Specification Sheet ให้ท่านทันที</p>
+  <h2 data-en="Interested in Ordering or<span class='gradient-text'>Requesting a Quote?</span>">สนใจสั่งซื้อหรือ<span class="gradient-text">สอบถามราคา?</span></h2>
+  <p data-en="Our Sales team is ready to send you a Quotation and Specification Sheet immediately.">ทีม Sales ของเราพร้อมส่ง Quotation และ Specification Sheet ให้ท่านทันที</p>
   <div class="hero-buttons">
     <a href="contact.html" class="btn btn-primary">
-      ขอใบเสนอราคา
+      <span data-en="Request a Quote">ขอใบเสนอราคา</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
     </a>
-    <a href="services.html" class="btn btn-outline">ดูบริการ OEM</a>
+    <a href="services.html" class="btn btn-outline" data-en="View OEM Services">ดูบริการ OEM</a>
   </div>
 </div>
 
@@ -355,20 +589,19 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="nav-logo">
-        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+        <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
       </a>
-      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม ส่งออกกว่า 15 ประเทศ</p>
+      <p data-en="COLD CHAIN SOLUTIONS — Leading Premium Frozen Seafood, Exporting to 15+ Countries">COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม ส่งออกกว่า 15 ประเทศ</p>
       <div class="social-links">
-        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
-        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+        <a href="https://www.facebook.com/profile.php?id=61579693530022" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10V9h4v2a6 6 0 0 1 2-3zm-9 1H3v12h4V9zM5 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></a><a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.6-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="white" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
       </div>
     </div>
     <div class="footer-col">
       <h4 data-en="Products">ผลิตภัณฑ์</h4>
       <ul>
-        <li><a href="products.html">อาหารทะเลสดแช่แข็ง</a></li>
-        <li><a href="products.html">สินค้าชุบแป้งทอด</a></li>
-        <li><a href="products.html">อาหารพร้อมทาน</a></li>
+        <li><a href="products.html" data-en="Fresh Frozen Seafood">อาหารทะเลสดแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Breaded Products">สินค้าชุบแป้งทอด</a></li>
+        <li><a href="products.html" data-en="Ready-to-Cook">อาหารพร้อมทาน</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -376,30 +609,51 @@
       <ul>
         <li><a href="services.html">OEM / ODM</a></li>
         <li><a href="services.html">Global Export</a></li>
-        <li><a href="contact.html">ติดต่อเรา</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-en="More">เพิ่มเติม</h4>
       <ul>
-        <li><a href="about.html">เกี่ยวกับเรา</a></li>
-        <li><a href="about.html#certifications">มาตรฐานสากล</a></li>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p>
+    <p>© 2024 BANGKOK SEAFOOD Co., Ltd. All rights reserved.</p>
   </div>
 </footer>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="modalTitle" style="font-family:'Kanit',sans-serif;font-size:1.3rem;font-weight:700"></h3>
-      <button class="modal-close" id="modalClose">✕</button>
+<!-- Product Drawer -->
+<div class="product-drawer" id="productDrawer">
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <div class="drawer-panel">
+    <button class="drawer-close-btn" id="drawerClose" aria-label="ปิด">✕</button>
+    <div class="drawer-img-col">
+      <img id="drawerImg" src="" alt="">
+      <div class="drawer-img-overlay"></div>
+      <div class="drawer-img-label">
+        <small id="drawerImgTag"></small>
+        <span id="drawerImgTitle"></span>
+      </div>
     </div>
-    <div class="modal-body" id="modalBody"></div>
+    <div class="drawer-body-col">
+      <div class="drawer-body-inner">
+        <div class="drawer-cat-tag" id="drawerCat"></div>
+        <h2 class="drawer-title" id="drawerTitle"></h2>
+        <p class="drawer-desc" id="drawerDesc"></p>
+        <div class="drawer-tags" id="drawerTags"></div>
+        <hr class="drawer-hr">
+        <div class="drawer-spec-label" data-en="Specifications">ข้อมูลจำเพาะ</div>
+        <table class="drawer-spec-table" id="drawerSpec"><tbody></tbody></table>
+        <div class="drawer-cta-row">
+          <a href="contact.html" class="btn btn-primary" data-en="Price Inquiry / Request Quotation">
+            สอบถามราคา / ขอ Quotation
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -407,6 +661,8 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 
-<script src="main.js?v=1777128500000"></script>
+<script src="main.js?v=1778486366747"></script>
 </body>
 </html>
+
+

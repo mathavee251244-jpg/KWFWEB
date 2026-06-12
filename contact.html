@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="th" data-theme="dark">
+﻿<!DOCTYPE html>
+<html lang="th" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ติดต่อเรา — KINGWELL FIRST (Bangkok Seafood)</title>
-  <meta name="description" content="ติดต่อทีมงาน KINGWELL FIRST (Bangkok Seafood) เพื่อสอบถามข้อมูลผลิตภัณฑ์ ขอใบเสนอราคา หรือบริการ OEM/ODM เราพร้อมตอบกลับภายใน 24 ชั่วโมง">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=1.0.2" />
+  <script>(function(){var t=localStorage.getItem('kwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <title>ติดต่อเรา — BANGKOK SEAFOOD</title>
+  <meta name="description" content="ติดต่อทีมงาน BANGKOK SEAFOOD เพื่อสอบถามข้อมูลผลิตภัณฑ์ ขอใบเสนอราคา หรือบริการ OEM/ODM เราพร้อมตอบกลับภายใน 24 ชั่วโมง">    <link rel="icon" type="image/png" href="assets/LOGO_BKSF.png">
+  <link rel="apple-touch-icon" href="assets/LOGO_BKSF.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1778486366747" />
 </head>
 <body>
 
@@ -18,8 +18,8 @@
 
 <div class="loader" id="loader">
   <div class="loader-inner">
-    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
-    <p class="loader-text">Freshness Guaranteed</p>
+    <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="loader-logo">
+    <p class="loader-text" data-en="Contact">ติดต่อ</p>
     <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
   </div>
 </div>
@@ -28,19 +28,21 @@
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
-      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      <span class="nav-brand-name">Bangkok Seafood</span>
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
       <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
       <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="brand.html" class="nav-link" data-en="Brands">แบรนด์</a></li>
       <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
       <li><a href="contact.html"  class="nav-link active" data-en="Contact">ติดต่อ</a></li>
     </ul>
     <div class="nav-actions">
       <button class="lang-btn" id="langBtn">EN</button>
       <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
-        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
         <div class="toggle-thumb"></div>
       </button>
       <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
@@ -49,92 +51,147 @@
   <div class="nav-progress" id="navProgress"></div>
 </nav>
 
-<!-- PAGE HERO -->
+<!-- ═══ PAGE HERO ═══ -->
 <div class="page-hero">
   <div class="page-hero-bg">
-    <div style="position:absolute;inset:0;background:linear-gradient(45deg, var(--accent-dark), var(--bg));opacity:0.8"></div>
+    <img src="assets/Bangkok Seafood Front office 1.jpg" alt="Contact BANGKOK SEAFOOD">
+    <div class="page-hero-overlay"></div>
   </div>
-  <div class="page-hero-tag">Contact Us</div>
-  <h1 class="page-hero-title">เริ่มต้อนความร่วมมือ<br/><span class="gradient-text">ไปกับเรา</span></h1>
-  <p class="page-hero-desc">เรายินดีให้คำปรึกษาและตอบทุกข้อสงสัยของคุณ</p>
-  <div class="page-hero-breadcrumb">
-    <a href="index.html">หน้าแรก</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>ติดต่อ</span>
+  <div class="page-hero-content">
+    <div class="page-hero-tag">Get In Touch</div>
+    <h1 class="page-hero-title">
+      <span class="page-hero-subtitle" data-en="Start Your Partnership">เริ่มต้นความร่วมมือ</span>
+      <span data-en="Contact Us">ติดต่อ</span>
+    </h1>
+    <p class="page-hero-desc" data-en="We're happy to consult and answer all inquiries. Quotations sent within 24 hours.">เรายินดีให้คำปรึกษาและตอบทุกข้อสงสัย พร้อมส่ง Quotation ภายใน 24 ชั่วโมง</p>
+    <div class="page-hero-breadcrumb">
+      <a href="index.html" data-en="Home">หน้าแรก</a>
+      <span class="breadcrumb-sep">/</span>
+      <span data-en="Contact">ติดต่อ</span>
+    </div>
   </div>
 </div>
 
-<!-- CONTACT MAIN -->
-<div class="section-wrap">
-  <div class="contact-grid">
-    <!-- INFO -->
-    <div class="contact-info reveal-left">
-      <span class="section-tag">ข้อมูลติดต่อ</span>
-      <h2 class="section-title">ช่องทาง<span class="gradient-text">การสื่อสาร</span></h2>
-      <p>ไม่ว่าคุณจะเป็นผู้ประกอบการรายใหญ่หรือรายย่อย เราพร้อมให้บริการด้วยความเต็มใจ</p>
+<!-- ═══ CONTACT EDITORIAL ═══ -->
+<div class="contact-editorial">
 
-      <div class="contact-details">
-        <div class="contact-item">
-          <span class="contact-icon">📍</span>
-          <div>
-            <strong>สำนักงานใหญ่</strong>
-            <span>123 ถ.สาทรใต้ แขวงทุ่งมหาเมฆ<br/>เขตสาทร กรุงเทพมหานคร 10120</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <span class="contact-icon">📞</span>
-          <div>
-            <strong>โทรศัพท์</strong>
-            <span>+66 2 XXX XXXX</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <span class="contact-icon">📧</span>
-          <div>
-            <strong>อีเมล</strong>
-            <span>info@kingwellfirst.com</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <span class="contact-icon">🕒</span>
-          <div>
-            <strong>เวลาทำการ</strong>
-            <span>จันทร์–ศุกร์: 08:30–17:30 น.</span>
-          </div>
-        </div>
+  <!-- INFO COLUMN -->
+  <div class="contact-editorial-info">
+    <div class="story-section-tag reveal-left" style="margin-bottom:28px">Contact Information</div>
+    <h2 class="contact-info-title reveal-left" data-en="Communication<br/>Channels">
+      ช่องทาง<br/>การสื่อสาร
+    </h2>
+    <p class="contact-info-desc reveal-left" data-en="Whether you're a large or small business, we're ready to serve you with full dedication.">
+      ไม่ว่าคุณจะเป็นผู้ประกอบการรายใหญ่หรือรายย่อย เราพร้อมให้บริการด้วยความเต็มใจ
+    </p>
+
+    <div class="contact-detail-item reveal-left">
+      <div class="contact-detail-icon">📍</div>
+      <div>
+        <span class="contact-detail-label" data-en="Headquarters">สำนักงานใหญ่</span>
+        <div class="contact-detail-val" data-en="66/8,66/19 Ekachai Rd., Na Di Subdistrict, Mueang Samut Sakhon District,&lt;br/&gt;Samut Sakhon 74000,">66/8,66/19 ถ. เอกชัย ตำบลนาดี อำเภอเมืองสมุทรสาคร<br/>สมุทรสาคร 74000</div>
       </div>
     </div>
 
-    <!-- FORM -->
-    <div class="contact-form-wrap reveal-right">
-      <form class="contact-form" id="contactForm">
+    <div class="contact-detail-item reveal-left">
+      <div class="contact-detail-icon">📞</div>
+      <div>
+        <span class="contact-detail-label" data-en="Phone">โทรศัพท์</span>
+        <div class="contact-detail-val">+66 34 834 452-4</div>
+      </div>
+    </div>
+
+    <div class="contact-detail-item reveal-left">
+      <div class="contact-detail-icon">📧</div>
+      <div>
+        <span class="contact-detail-label" data-en="Email">อีเมล</span>
+        <div class="contact-detail-val">admin@bangkokseafood.co.th</div>
+      </div>
+    </div>
+
+    <div class="contact-detail-item reveal-left">
+      <div class="contact-detail-icon">🕒</div>
+      <div>
+        <span class="contact-detail-label" data-en="Business Hours">เวลาทำการ</span>
+        <div class="contact-detail-val" data-en="Mon–Fri: 08:00–17:00&lt;br/&gt;Sat–Sun: Closed">จันทร์–เสาร์: 08:00–17:00 น.<br/>อาทิตย์: ปิดทำการ</div>
+      </div>
+    </div>
+
+    <div class="contact-detail-item reveal-left">
+      <div class="contact-detail-icon">⏱</div>
+      <div>
+        <span class="contact-detail-label">Response Time</span>
+        <div class="contact-detail-val" data-en="Reply within 24 hours">ตอบกลับภายใน 24 ชั่วโมง</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM COLUMN -->
+  <div class="contact-editorial-form">
+    <h3 class="contact-form-title reveal-right" data-en="Send Us a Message">ส่งข้อความหาเรา</h3>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
         <div class="form-group">
-          <label>ชื่อ-นามสกุล *</label>
-          <input type="text" placeholder="กรุณากรอกชื่อของคุณ" required />
+          <label data-en="Full Name *">ชื่อ-นามสกุล *</label>
+          <input type="text" name="from_name" placeholder="กรุณากรอกชื่อของคุณ" data-en-placeholder="Your full name" required />
         </div>
         <div class="form-group">
-          <label>อีเมล *</label>
-          <input type="email" placeholder="email@example.com" required />
+          <label data-en="Email *">อีเมล *</label>
+          <input type="email" name="from_email" placeholder="email@example.com" required />
         </div>
-        <div class="form-group">
-          <label>หัวข้อติดต่อ *</label>
-          <select required>
-            <option value="">เลือกหัวข้อ</option>
-            <option>สอบถามผลิตภัณฑ์</option>
-            <option>ขอใบเสนอราคา</option>
-            <option>บริการ OEM / ODM</option>
-            <option>อื่นๆ</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>รายละเอียด *</label>
-          <textarea rows="5" placeholder="กรุณากรอกรายละเอียดที่ต้องการสอบถาม" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">
-          <span>ส่งข้อความ</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-        </button>
-      </form>
+      </div>
+      <div class="form-group">
+        <label data-en="Company / Organization">บริษัท / องค์กร</label>
+        <input type="text" name="company" placeholder="ชื่อบริษัทหรือองค์กรของคุณ (ถ้ามี)" data-en-placeholder="Company name (if applicable)" />
+      </div>
+      <div class="form-group">
+        <label data-en="Subject *">หัวข้อติดต่อ *</label>
+        <select name="subject" required>
+          <option value="" data-en="Select a topic">เลือกหัวข้อ</option>
+          <option data-en="Product Inquiry">สอบถามผลิตภัณฑ์</option>
+          <option data-en="Request Quotation">ขอใบเสนอราคา</option>
+          <option data-en="OEM / ODM Service">บริการ OEM / ODM</option>
+          <option data-en="Export Inquiry">สอบถามการส่งออก</option>
+          <option data-en="Other">อื่นๆ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-en="Message *">รายละเอียด *</label>
+        <textarea name="message" rows="6" placeholder="กรุณากรอกรายละเอียดที่ต้องการสอบถาม เช่น ชนิดสินค้า ปริมาณ ประเทศปลายทาง ฯลฯ" data-en-placeholder="Please describe your inquiry — product type, quantity, destination country, etc." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">
+        <span data-en="Send Message">ส่งข้อความ</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </form>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast-inner">
+    <span class="toast-icon">✓</span>
+    <span class="toast-msg" data-en="Message sent successfully!">ส่งข้อความสำเร็จแล้ว</span>
+  </div>
+</div>
+
+<!-- MAP -->
+<div class="map-section">
+  <div class="map-label reveal-up" data-en="Our Location · Bangkok Seafood Co., Ltd.">ที่ตั้งของเรา · Bangkok Seafood Co., Ltd.</div>
+  <div class="map-grid">
+    <div class="map-item">
+      <div class="map-item-label" data-en="Street Map">แผนที่</div>
+      <iframe
+        src="https://maps.google.com/maps?q=13.5751479,100.3076096&z=17&output=embed"
+        width="100%" height="100%" style="border:0;display:block;min-height:380px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bangkok Seafood Location - Map">
+      </iframe>
+    </div>
+    <div class="map-item">
+      <div class="map-item-label" data-en="Satellite View">มุมมอง 3D</div>
+      <iframe
+        src="https://maps.google.com/maps?q=13.5751479,100.3076096&z=18&output=embed&t=k"
+        width="100%" height="100%" style="border:0;display:block;min-height:380px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bangkok Seafood Location - Satellite">
+      </iframe>
     </div>
   </div>
 </div>
@@ -144,20 +201,19 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="nav-logo">
-        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+        <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
       </a>
-      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
+      <p data-en="COLD CHAIN SOLUTIONS — Leading Premium Frozen Seafood, International Standards">COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
       <div class="social-links">
-        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
-        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+        <a href="https://www.facebook.com/profile.php?id=61579693530022" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10V9h4v2a6 6 0 0 1 2-3zm-9 1H3v12h4V9zM5 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></a><a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.6-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="white" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
       </div>
     </div>
     <div class="footer-col">
       <h4 data-en="Products">ผลิตภัณฑ์</h4>
       <ul>
-        <li><a href="products.html">อาหารทะเลสดแช่แข็ง</a></li>
-        <li><a href="products.html">สินค้าชุบแป้งทอด</a></li>
-        <li><a href="products.html">อาหารพร้อมทาน</a></li>
+        <li><a href="products.html" data-en="Fresh Frozen Seafood">อาหารทะเลสดแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Breaded Products">สินค้าชุบแป้งทอด</a></li>
+        <li><a href="products.html" data-en="Ready-to-Cook">อาหารพร้อมทาน</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -165,20 +221,45 @@
       <ul>
         <li><a href="services.html">OEM / ODM</a></li>
         <li><a href="services.html">Global Export</a></li>
-        <li><a href="contact.html">ติดต่อเรา</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-en="More">เพิ่มเติม</h4>
       <ul>
-        <li><a href="about.html">เกี่ยวกับเรา</a></li>
-        <li><a href="about.html#certifications">มาตรฐานสากล</a></li>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom"><p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p></div>
+  <div class="footer-bottom"><p>© 2024 BANGKOK SEAFOOD Co., Ltd. All rights reserved.</p></div>
 </footer>
 
-<script src="main.js?v=1.0.2"></script>
+<script src="main.js?v=1778486366747"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+emailjs.init('1xLl1Ei8yxNfY6bVv');
+window.sendContactEmail = function() {
+  return emailjs.sendForm('service_jgmzjbh', 'template_6z39vof', '#contactForm');
+};
+</script>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js';
+const app = initializeApp({
+  apiKey: "AIzaSyBvbAn5xKwNQ8QQE39B7GJjRB09I7vc9KA",
+  authDomain: "webmay-251244.firebaseapp.com",
+  projectId: "webmay-251244",
+  storageBucket: "webmay-251244.firebasestorage.app",
+  messagingSenderId: "380945381652",
+  appId: "1:380945381652:web:b5cc908c8326b5cb246a01"
+});
+const db = getFirestore(app);
+window.saveContactToFirestore = async (data) => {
+  await addDoc(collection(db, 'contacts'), { ...data, createdAt: serverTimestamp() });
+};
+</script>
 </body>
 </html>
+
+
+

@@ -1,0 +1,96 @@
+﻿ลำดับ,Username,ชื่อ,แผนก,อีเมล,สิทธิ์,สถานะ
+1,admin,Admin,ไอที,admin@bangkokseafood.co.th,IT Manager,ใช้งาน
+2,mathavee.it,Mathavee,ไอที,mathavee.it@bangkokseafood.co.th,IT Staff,ใช้งาน
+3,purit.it,Purit,ไอที,purit.it@bangkokseafood.co.th,IT Staff,ใช้งาน
+4,acc,Acc,บัญชี,acc@bangkokseafood.co.th,พนักงาน,ใช้งาน
+5,acc006,ACC 006,บัญชี,acc006@bangkokseafood.co.th,พนักงาน,ใช้งาน
+6,acc008,ACC 008,บัญชี,acc008@bangkokseafood.co.th,พนักงาน,ใช้งาน
+7,accounting,Accounting,บัญชี,accounting@bangkokseafood.co.th,พนักงาน,ใช้งาน
+8,ta.acc,Ta,บัญชี,ta.acc@bangkokseafood.co.th,พนักงาน,ใช้งาน
+9,hr,HR,ทรัพยากรบุคคล,hr@bangkokseafood.co.th,พนักงาน,ใช้งาน
+10,hrmo,HR Mo,ทรัพยากรบุคคล,hrmo@bangkokseafood.co.th,พนักงาน,ใช้งาน
+11,hrsu,HR Su,ทรัพยากรบุคคล,hrsu@bangkokseafood.co.th,พนักงาน,ใช้งาน
+12,hrtee,HR Tee,ทรัพยากรบุคคล,hrtee@bangkokseafood.co.th,พนักงาน,ใช้งาน
+13,hrying,HR Ying,ทรัพยากรบุคคล,hrying@bangkokseafood.co.th,พนักงาน,ใช้งาน
+14,interpreter.hr,Interpreter,ทรัพยากรบุคคล,interpreter.hr@bangkokseafood.co.th,พนักงาน,ใช้งาน
+15,sale,Sale,ขาย,sale@bangkokseafood.co.th,พนักงาน,ใช้งาน
+16,sale_admin,Sale Admin,ขาย,sale_admin@bangkokseafood.co.th,พนักงาน,ใช้งาน
+17,sale_admin01,Sale Admin 01,ขาย,sale_admin01@bangkokseafood.co.th,พนักงาน,ใช้งาน
+18,cs3,CS 3,ขาย,cs3@bangkokseafood.co.th,พนักงาน,ใช้งาน
+19,cs4,CS 4,ขาย,cs4@bangkokseafood.co.th,พนักงาน,ใช้งาน
+20,cs5,CS 5,ขาย,cs5@bangkokseafood.co.th,พนักงาน,ใช้งาน
+21,cs6,CS 6,ขาย,cs6@bangkokseafood.co.th,พนักงาน,ใช้งาน
+22,cs7,CS 7,ขาย,cs7@bangkokseafood.co.th,พนักงาน,ใช้งาน
+23,cs8,CS 8,ขาย,cs8@bangkokseafood.co.th,พนักงาน,ใช้งาน
+24,cs12,CS 12,ขาย,cs12@bangkokseafood.co.th,พนักงาน,ใช้งาน
+25,phawinee.cs,Phawinee,ขาย,phawinee.cs@bangkokseafood.co.th,พนักงาน,ใช้งาน
+26,poo.cs,Poo,ขาย,poo.cs@bangkokseafood.co.th,พนักงาน,ใช้งาน
+27,ketsirin.c,Ketsirin,ขาย,ketsirin.c@bangkokseafood.co.th,พนักงาน,ใช้งาน
+28,taweewan.c,Taweewan,ขาย,taweewan.c@bangkokseafood.co.th,พนักงาน,ใช้งาน
+29,payroll,Payroll,เงินเดือน,payroll@bangkokseafood.co.th,พนักงาน,ใช้งาน
+30,epayslip,ePayslip,เงินเดือน,epayslip@bangkokseafood.co.th,พนักงาน,ใช้งาน
+31,imex,IMEX,IMEX,imex@bangkokseafood.co.th,พนักงาน,ใช้งาน
+32,imex002,IMEX 002,IMEX,imex002@bangkokseafood.co.th,พนักงาน,ใช้งาน
+33,wh01,WH 01,คลังสินค้า,wh01@bangkokseafood.co.th,พนักงาน,ใช้งาน
+34,store,Store,คลังสินค้า,store@bangkokseafood.co.th,พนักงาน,ใช้งาน
+35,wh,WH,คลังสินค้า,wh@bangkokseafood.co.th,พนักงาน,ไม่ใช้งาน
+36,pd,PD,ผลิต,pd@bangkokseafood.co.th,พนักงาน,ใช้งาน
+37,pd008,PD 008,ผลิต,pd008@bangkokseafood.co.th,พนักงาน,ใช้งาน
+38,pd009,PD 009,ผลิต,pd009@bangkokseafood.co.th,พนักงาน,ใช้งาน
+39,pd010,PD 010,ผลิต,pd010@bangkokseafood.co.th,พนักงาน,ใช้งาน
+40,pd013,PD 013,ผลิต,pd013@bangkokseafood.co.th,พนักงาน,ใช้งาน
+41,pd014,PD 014,ผลิต,pd014@bangkokseafood.co.th,พนักงาน,ใช้งาน
+42,pd015,PD 015,ผลิต,pd015@bangkokseafood.co.th,พนักงาน,ใช้งาน
+43,pd016,PD 016,ผลิต,pd016@bangkokseafood.co.th,พนักงาน,ใช้งาน
+44,jiraporn.pd,Jiraporn,ผลิต,jiraporn.pd@bangkokseafood.co.th,พนักงาน,ใช้งาน
+45,kukkikpd,Kukkik,ผลิต,kukkikpd@bangkokseafood.co.th,พนักงาน,ใช้งาน
+46,nutchira.pd,Nutchira,ผลิต,nutchira.pd@bangkokseafood.co.th,พนักงาน,ใช้งาน
+47,piyapon.pd,Piyapon,ผลิต,piyapon.pd@bangkokseafood.co.th,พนักงาน,ใช้งาน
+48,sarocha.pd,Sarocha,ผลิต,sarocha.pd@bangkokseafood.co.th,พนักงาน,ใช้งาน
+49,qa,Yui,QA/QC,qa@bangkokseafood.co.th,พนักงาน,ใช้งาน
+50,qa002,QA 002,QA/QC,qa002@bangkokseafood.co.th,พนักงาน,ใช้งาน
+51,qa003,QA 003,QA/QC,qa003@bangkokseafood.co.th,พนักงาน,ใช้งาน
+52,qc.lab,QC Lab,QA/QC,qc.lab@bangkokseafood.co.th,พนักงาน,ใช้งาน
+53,qc001,QC 001,QA/QC,qc001@bangkokseafood.co.th,พนักงาน,ใช้งาน
+54,qc004,QC 004,QA/QC,qc004@bangkokseafood.co.th,พนักงาน,ใช้งาน
+55,qc005,QC 005,QA/QC,qc005@bangkokseafood.co.th,พนักงาน,ใช้งาน
+56,qc007,QC 007,QA/QC,qc007@bangkokseafood.co.th,พนักงาน,ใช้งาน
+57,qc008,QC 008,QA/QC,qc008@bangkokseafood.co.th,พนักงาน,ใช้งาน
+58,qc009,QC 009,QA/QC,qc009@bangkokseafood.co.th,พนักงาน,ใช้งาน
+59,qc006,QC 006,QA/QC,qc006@bangkokseafood.co.th,พนักงาน,ไม่ใช้งาน
+60,quiz,Quiz,QA/QC,quiz@bangkokseafood.co.th,พนักงาน,ไม่ใช้งาน
+61,en,Engineer,วิศวกรรม,en@bangkokseafood.co.th,พนักงาน,ใช้งาน
+62,en001,EN 001,วิศวกรรม,en001@bangkokseafood.co.th,พนักงาน,ใช้งาน
+63,en002,EN 002,วิศวกรรม,en002@bangkokseafood.co.th,พนักงาน,ใช้งาน
+64,en003,EN 003,วิศวกรรม,en003@bangkokseafood.co.th,พนักงาน,ใช้งาน
+65,enm,EN Manager,วิศวกรรม,enm@bangkokseafood.co.th,พนักงาน,ใช้งาน
+66,rd,RD,R&D,rd@bangkokseafood.co.th,พนักงาน,ใช้งาน
+67,rd2,RD 2,R&D,rd2@bangkokseafood.co.th,พนักงาน,ใช้งาน
+68,rd3,RD 3,R&D,rd3@bangkokseafood.co.th,พนักงาน,ใช้งาน
+69,safety,Aonjira,ความปลอดภัย,safety@bangkokseafood.co.th,พนักงาน,ใช้งาน
+70,rose_safety,Suchada,ความปลอดภัย,rose_safety@bangkokseafood.co.th,พนักงาน,ใช้งาน
+71,ploy.pr,Ploy,ประชาสัมพันธ์,ploy.pr@bangkokseafood.co.th,พนักงาน,ใช้งาน
+72,pr,PR,ประชาสัมพันธ์,pr@bangkokseafood.co.th,พนักงาน,ไม่ใช้งาน
+73,fern,Fern,ทั่วไป,fern@bangkokseafood.co.th,พนักงาน,ใช้งาน
+74,info,Info,ทั่วไป,info@bangkokseafood.co.th,พนักงาน,ใช้งาน
+75,conference,Conference,ทั่วไป,conference@bangkokseafood.co.th,พนักงาน,ใช้งาน
+76,dc,DC,ทั่วไป,dc@bangkokseafood.co.th,พนักงาน,ใช้งาน
+77,joy,Joy,ทั่วไป,joy@bangkokseafood.co.th,พนักงาน,ใช้งาน
+78,pop,Jirachai,ทั่วไป,pop@bangkokseafood.co.th,พนักงาน,ใช้งาน
+79,pongpat,Pongpat,ทั่วไป,pongpat@bangkokseafood.co.th,พนักงาน,ใช้งาน
+80,jammy,Jammy,ทั่วไป,jammy@bangkokseafood.co.th,พนักงาน,ใช้งาน
+81,jirapat,Jirapat,ทั่วไป,jirapat@bangkokseafood.co.th,พนักงาน,ใช้งาน
+82,meaw,Meaw,ทั่วไป,meaw@bangkokseafood.co.th,พนักงาน,ใช้งาน
+83,min,Min,ทั่วไป,min@bangkokseafood.co.th,พนักงาน,ใช้งาน
+84,nantawan.b,Nantawan,ทั่วไป,nantawan.b@bangkokseafood.co.th,พนักงาน,ใช้งาน
+85,nok,Nok,ทั่วไป,nok@bangkokseafood.co.th,พนักงาน,ใช้งาน
+86,nontawan,Nontawan,ทั่วไป,nontawan@bangkokseafood.co.th,พนักงาน,ใช้งาน
+87,nuch,Nuch,ทั่วไป,nuch@bangkokseafood.co.th,พนักงาน,ใช้งาน
+88,oil,Oil,ทั่วไป,oil@bangkokseafood.co.th,พนักงาน,ใช้งาน
+89,som,Som,ทั่วไป,som@bangkokseafood.co.th,พนักงาน,ใช้งาน
+90,sirirat.b,Sirirat,ทั่วไป,sirirat.b@bangkokseafood.co.th,พนักงาน,ใช้งาน
+91,yodkhwan.p,Yodkhwan,ทั่วไป,yodkhwan.p@bangkokseafood.co.th,พนักงาน,ใช้งาน
+92,theptat.b,Theptat,ทั่วไป,theptat.b@bangkokseafood.co.th,พนักงาน,ใช้งาน
+93,suphitsara.t,Suphitsara,ทั่วไป,suphitsara.t@bangkokseafood.co.th,พนักงาน,ใช้งาน
+94,somchai.k,Somchai,ทั่วไป,somchai.k@bangkokseafood.co.th,พนักงาน,ใช้งาน
+95,khawnporn.p,Khawnporn,ทั่วไป,khawnporn.p@bangkokseafood.co.th,พนักงาน,ใช้งาน

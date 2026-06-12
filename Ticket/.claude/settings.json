@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/nb007/Downloads/**)",
+      "Bash(npx tsc *)",
+      "Read(//c/Users/nb007/Desktop/Chat/**)",
+      "Bash(npm install *)",
+      "Read(//c/Users/nb007/.claude/projects/c--Users-nb007-Desktop-Ticket/memory/**)"
+    ]
+  }
+}

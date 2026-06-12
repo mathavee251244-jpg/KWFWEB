@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dist-server/
+database/
+uploads/
+.firebase/
+.env
+*.local
+ss_*.png
+ss_*.jpg

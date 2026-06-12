@@ -1,0 +1,1143 @@
+﻿<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>(function(){var t=localStorage.getItem('kwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <title>Atlantic Salmon — BANGKOK SEAFOOD</title>
+  <meta name="description" content="ปลาแซลมอนแอตแลนติกนำเข้าจากนอร์เวย์ เกรดพรีเมียม IQF คุณภาพส่งออก โดย BANGKOK SEAFOOD">    <link rel="icon" type="image/png" href="assets/LOGO_BKSF.png">
+  <link rel="apple-touch-icon" href="assets/LOGO_BKSF.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1778486366747" />
+
+  <style>
+    /* ─── PAGE-SPECIFIC: PRODUCT DETAIL (donmolinico.es inspired) ─── */
+
+    /* ── HERO ── */
+    .pd-hero {
+      position: relative;
+      height: 100svh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .pd-hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      transform: scale(1.06);
+      transition: transform 6s ease;
+    }
+    .pd-hero-img.loaded { transform: scale(1); }
+    .pd-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0,20,51,0.92) 0%,
+        rgba(0,20,51,0.45) 40%,
+        rgba(0,0,0,0.1) 100%
+      );
+    }
+    .pd-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 8vw 80px;
+      width: 100%;
+    }
+    .pd-hero-cat {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .pd-hero-cat::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.7;
+    }
+    .pd-hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(3rem, 9vw, 8.5rem);
+      font-weight: 900;
+      line-height: 0.92;
+      color: #fff;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .pd-hero-title span {
+      display: block;
+      font-size: 0.52em;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 6px;
+    }
+    .pd-hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-family: 'Cinzel', serif;
+    }
+    .pd-hero-scroll-line {
+      width: 50px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .pd-hero-scroll-line::after {
+      content: '';
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      animation: scroll-hint 2s ease-in-out infinite;
+    }
+    @keyframes scroll-hint { 0%{left:-100%} 100%{left:100%} }
+
+    /* ── PRODUCT SPLIT SECTION ── */
+    .pd-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+    .pd-split-img {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+    .pd-split-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .pd-split-img-caption {
+      position: absolute;
+      bottom: 32px;
+      left: 32px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+    }
+    .pd-split-body {
+      padding: 100px 8% 100px 10%;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* Origin badge */
+    .pd-origin {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--border-accent);
+      padding: 8px 20px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 36px;
+      align-self: flex-start;
+    }
+    [data-theme="dark"] .pd-origin { color: var(--text-2); }
+    .pd-origin-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* Product name */
+    .pd-name {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--primary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    [data-theme="dark"] .pd-name { color: var(--text); }
+    .pd-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    /* Divider */
+    .pd-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 36px 0;
+    }
+
+    /* Description */
+    .pd-desc {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--text-2);
+      margin-bottom: 40px;
+    }
+
+    /* Tags */
+    .pd-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 44px;
+    }
+    .pd-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border: 1px solid var(--border-accent);
+      color: var(--primary-lt);
+    }
+    [data-theme="dark"] .pd-tag { color: var(--text-2); }
+
+    /* Weight options */
+    .pd-options-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 14px;
+    }
+    .pd-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 44px;
+    }
+    .pd-option {
+      padding: 10px 22px;
+      border: 1px solid var(--border-accent);
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.25s;
+      color: var(--text);
+      background: transparent;
+    }
+    .pd-option:hover,
+    .pd-option.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    [data-theme="dark"] .pd-option:hover,
+    [data-theme="dark"] .pd-option.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+
+    /* CTA area */
+    .pd-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .pd-btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 18px 40px;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .pd-btn-primary:hover {
+      background: var(--primary-lt);
+      transform: translateY(-1px);
+    }
+    .pd-btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 16px 40px;
+      background: transparent;
+      color: var(--primary);
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border: 1px solid var(--border-accent);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .pd-btn-secondary:hover {
+      border-color: var(--primary);
+      background: var(--bg-2);
+    }
+    [data-theme="dark"] .pd-btn-secondary { color: var(--text); }
+
+    /* ── STORY SECTION ── */
+    .pd-story {
+      background: var(--primary-dk);
+      color: #fff;
+      padding: 140px 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .pd-story-quote {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: #fff;
+      position: relative;
+    }
+    .pd-story-quote::before {
+      content: '"';
+      display: block;
+      font-size: 6rem;
+      line-height: 0.5;
+      color: var(--accent);
+      opacity: 0.4;
+      font-weight: 900;
+      margin-bottom: 24px;
+    }
+    .pd-story-quote em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .pd-story-text {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .pd-story-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .pd-story-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.6;
+    }
+    .pd-story-body {
+      font-size: 1rem;
+      line-height: 1.95;
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ── SPECS BAR ── */
+    .pd-specs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+    }
+    .pd-spec-item {
+      padding: 60px 5%;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: background 0.3s;
+    }
+    .pd-spec-item:hover { background: var(--bg-2); }
+    .pd-spec-icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    .pd-spec-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .pd-spec-value {
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+    }
+    [data-theme="dark"] .pd-spec-value { color: var(--text); }
+    .pd-spec-desc {
+      font-size: 0.82rem;
+      color: var(--text-3);
+      line-height: 1.6;
+    }
+
+    /* ── ACCORDION ── */
+    .pd-accordion-wrap {
+      padding: 80px 8vw;
+      background: var(--bg-2);
+    }
+    .pd-accordion-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .pd-accordion-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+    }
+    [data-theme="dark"] .pd-accordion-title { color: var(--text); }
+    .pd-accordion {
+      max-width: 860px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+    }
+    .pd-acc-item { border-bottom: 1px solid var(--border); }
+    .pd-acc-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text);
+    }
+    .pd-acc-trigger-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+    [data-theme="dark"] .pd-acc-trigger-label { color: var(--text); }
+    .pd-acc-icon {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+      color: var(--primary);
+      transition: transform 0.3s, background 0.3s;
+    }
+    [data-theme="dark"] .pd-acc-icon { color: var(--text-2); }
+    .pd-acc-item.open .pd-acc-icon {
+      transform: rotate(45deg);
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .pd-acc-body {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+    }
+    .pd-acc-item.open .pd-acc-body { max-height: 600px; }
+    .pd-acc-inner {
+      padding: 0 0 36px;
+    }
+    .pd-acc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .pd-acc-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+    .pd-acc-table tr:last-child { border-bottom: none; }
+    .pd-acc-table td {
+      padding: 13px 0;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+    .pd-acc-table td:first-child {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      width: 44%;
+    }
+
+    /* ── GALLERY FILM STRIP ── */
+    .pd-gallery {
+      padding: 0;
+      overflow: hidden;
+    }
+    .pd-gallery-label {
+      padding: 60px 8vw 36px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .pd-gallery-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .pd-gallery-strip {
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+      padding: 0 8vw 80px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+    .pd-gallery-strip::-webkit-scrollbar { display: none; }
+    .pd-gallery-strip:active { cursor: grabbing; }
+    .pd-gallery-frame {
+      flex-shrink: 0;
+      width: clamp(220px, 28vw, 380px);
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+    .pd-gallery-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .pd-gallery-frame:hover img { transform: scale(1.05); }
+
+    /* ── RELATED PRODUCTS ── */
+    .pd-related {
+      padding: 100px 8vw;
+      border-top: 1px solid var(--border);
+    }
+    .pd-related-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+    }
+    .pd-related-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary);
+    }
+    [data-theme="dark"] .pd-related-title { color: var(--text); }
+    .pd-related-link {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.25s;
+    }
+    .pd-related-link:hover { border-color: var(--accent); }
+    .pd-related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .pd-related-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .pd-related-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.65s cubic-bezier(0.4,0,0.2,1);
+    }
+    .pd-related-card:hover img { transform: scale(1.06); }
+    .pd-related-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,20,51,0.88) 0%, transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px;
+      transform: translateY(10px);
+      opacity: 0;
+      transition: all 0.4s ease;
+    }
+    .pd-related-card:hover .pd-related-card-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pd-related-card-always {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 24px;
+      background: linear-gradient(to top, rgba(0,20,51,0.75) 0%, transparent 100%);
+    }
+    .pd-related-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .pd-related-sub {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+    }
+    .pd-related-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid rgba(200,168,75,0.4);
+      padding-bottom: 3px;
+    }
+
+    /* ── BACK BREADCRUMB ── */
+    .pd-back {
+      padding: 20px 8vw;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      border-bottom: 1px solid var(--border);
+      margin-top: 80px;
+    }
+    .pd-back a { color: var(--primary); transition: color 0.2s; }
+    .pd-back a:hover { color: var(--accent); }
+    [data-theme="dark"] .pd-back a { color: var(--text-2); }
+    .pd-back-sep { opacity: 0.35; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .pd-split {
+        grid-template-columns: 1fr;
+      }
+      .pd-split-img {
+        position: relative;
+        height: 60vw;
+        min-height: 300px;
+      }
+      .pd-split-body {
+        padding: 60px 6% 80px;
+      }
+      .pd-story {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        padding: 80px 6%;
+      }
+      .pd-specs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pd-related-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pd-related-grid .pd-related-card:last-child {
+        display: none;
+      }
+    }
+    @media (max-width: 580px) {
+      .pd-hero-content { padding: 0 5% 60px; }
+      .pd-specs { grid-template-columns: 1fr 1fr; }
+      .pd-related-grid { grid-template-columns: 1fr; }
+      .pd-related-grid .pd-related-card:last-child { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="loader-logo">
+    <p class="loader-text" data-en="Products">ผลิตภัณฑ์</p>
+    <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      <span class="nav-brand-name">Bangkok Seafood</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
+      <li><a href="products.html" class="nav-link active" data-en="Products">ผลิตภัณฑ์</a></li>
+      <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="brand.html" class="nav-link" data-en="Brands">แบรนด์</a></li>
+      <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
+      <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
+        <span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        <div class="toggle-thumb"></div>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="pd-hero">
+  <img src="assets/Fish-Salmon.jpeg" alt="Atlantic Salmon" class="pd-hero-img" id="pdHeroImg">
+  <div class="pd-hero-overlay"></div>
+  <div class="pd-hero-content">
+    <div class="pd-hero-cat reveal-up">Premium Seafood — IQF Frozen</div>
+    <h1 class="pd-hero-title reveal-up">
+      <span>Atlantic</span>
+      Salmon
+    </h1>
+    <div class="pd-hero-scroll reveal-up">
+      <div class="pd-hero-scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="pd-back">
+  <a href="index.html">หน้าแรก</a>
+  <span class="pd-back-sep">/</span>
+  <a href="products.html">ผลิตภัณฑ์</a>
+  <span class="pd-back-sep">/</span>
+  <span>Atlantic Salmon</span>
+</div>
+
+<!-- ═══ PRODUCT SPLIT ═══ -->
+<div class="pd-split">
+  <!-- Sticky image -->
+  <div class="pd-split-img">
+    <img src="assets/Fish-Salmon.jpeg" alt="Atlantic Salmon">
+    <div class="pd-split-img-caption">Norway × BANGKOK SEAFOOD</div>
+  </div>
+
+  <!-- Details -->
+  <div class="pd-split-body">
+    <div class="pd-origin reveal-left">
+      <span class="pd-origin-dot"></span>
+      นำเข้าจากนอร์เวย์ · Norway Origin
+    </div>
+
+    <div class="pd-name reveal-left">Atlantic<br>Salmon</div>
+    <div class="pd-subtitle reveal-left">ปลาแซลมอนแอตแลนติก · Premium Grade</div>
+
+    <hr class="pd-rule">
+
+    <p class="pd-desc reveal-left">
+      ปลาแซลมอนแอตแลนติกคัดเกรด A นำเข้าตรงจากฟาร์มมาตรฐานนอร์เวย์
+      ผ่านกระบวนการแช่แข็งรวดเร็ว IQF เพื่อรักษาความชุ่มฉ่ำ เนื้อสัมผัส
+      และคุณค่าทางโภชนาการไว้ได้อย่างสมบูรณ์แบบ พร้อมมาตรฐานความปลอดภัย
+      ระดับสากล HACCP & BRC ตลอดห่วงโซ่ความเย็น
+    </p>
+
+    <div class="pd-tags reveal-left">
+      <span class="pd-tag">IQF Frozen</span>
+      <span class="pd-tag">HACCP Certified</span>
+      <span class="pd-tag">BRC Grade A</span>
+      <span class="pd-tag">No Preservatives</span>
+      <span class="pd-tag">Export Grade</span>
+    </div>
+
+    <div class="pd-options-label reveal-left">ขนาดบรรจุ / Pack Size</div>
+    <div class="pd-options reveal-left">
+      <button class="pd-option active">1 kg</button>
+      <button class="pd-option">5 kg</button>
+      <button class="pd-option">10 kg</button>
+      <button class="pd-option">25 kg</button>
+    </div>
+
+    <div class="pd-cta reveal-left">
+      <a href="contact.html" class="pd-btn-primary">
+        สอบถามราคา / Request Quote
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+      </a>
+      <a href="products.html" class="pd-btn-secondary">
+        ← ดูผลิตภัณฑ์ทั้งหมด
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STORY SECTION ═══ -->
+<div class="pd-story">
+  <div class="pd-story-quote reveal-left">
+    จากน่านน้ำ<br><em>นอร์เวย์</em><br>สู่มือคุณ
+  </div>
+  <div class="pd-story-text reveal-right">
+    <div class="pd-story-label">Our Story</div>
+    <p class="pd-story-body">
+      ปลาแซลมอนของเราเดินทางมาจากฟยอร์ดอันบริสุทธิ์ของนอร์เวย์
+      ซึ่งน้ำทะเลเย็นสะอาดและสภาพแวดล้อมธรรมชาติที่สมบูรณ์
+      ทำให้ปลาเติบโตได้อย่างแข็งแรงและมีคุณภาพสูงสุด
+    </p>
+    <p class="pd-story-body">
+      เมื่อถึงโรงงานของเรา ปลาทุกตัวผ่านการคัดเลือกด้วยมือ
+      ก่อนเข้าสู่กระบวนการแช่แข็ง IQF อุณหภูมิ -40°C ภายใน
+      4 ชั่วโมงหลังจับ เพื่อรักษาความสดแบบ "Just Caught"
+      และส่งมอบให้ถึงมือลูกค้าทั่วโลกใน 15 ประเทศ
+    </p>
+    <p class="pd-story-body">
+      ทุกกระบวนการอยู่ภายใต้การควบคุมมาตรฐาน HACCP, BRC, และ EU
+      เพื่อให้มั่นใจว่าลูกค้าทุกท่านได้รับสิ่งที่ดีที่สุดจากท้องทะเล
+    </p>
+  </div>
+</div>
+
+<!-- ═══ SPECS BAR ═══ -->
+<div class="pd-specs">
+  <div class="pd-spec-item reveal-up">
+    <div class="pd-spec-icon">🇳🇴</div>
+    <div class="pd-spec-label">แหล่งที่มา / Origin</div>
+    <div class="pd-spec-value">Norway</div>
+    <div class="pd-spec-desc">Norwegian Atlantic Salmon ฟาร์มมาตรฐาน ASC</div>
+  </div>
+  <div class="pd-spec-item reveal-up" data-delay="80">
+    <div class="pd-spec-icon">❄️</div>
+    <div class="pd-spec-label">กระบวนการ / Process</div>
+    <div class="pd-spec-value">IQF −40°C</div>
+    <div class="pd-spec-desc">Individual Quick Frozen ภายใน 4 ชม.หลังจับ</div>
+  </div>
+  <div class="pd-spec-item reveal-up" data-delay="160">
+    <div class="pd-spec-icon">✅</div>
+    <div class="pd-spec-label">มาตรฐาน / Certifications</div>
+    <div class="pd-spec-value">HACCP · BRC</div>
+    <div class="pd-spec-desc">EU Export · FDA Registered · Halal Available</div>
+  </div>
+  <div class="pd-spec-item reveal-up" data-delay="240">
+    <div class="pd-spec-icon">🌡️</div>
+    <div class="pd-spec-label">การเก็บรักษา / Storage</div>
+    <div class="pd-spec-value">−18°C</div>
+    <div class="pd-spec-desc">อายุ 24 เดือน ในอุณหภูมิ −18°C หรือต่ำกว่า</div>
+  </div>
+</div>
+
+<!-- ═══ ACCORDION ═══ -->
+<div class="pd-accordion-wrap">
+  <div class="pd-accordion-header reveal-up">
+    <div class="section-tag">Product Information</div>
+    <div class="pd-accordion-title">รายละเอียดสินค้า</div>
+  </div>
+
+  <div class="pd-accordion" id="pdAccordion">
+
+    <div class="pd-acc-item">
+      <button class="pd-acc-trigger">
+        <span class="pd-acc-trigger-label">ข้อมูลโภชนาการ / Nutrition Facts</span>
+        <span class="pd-acc-icon">+</span>
+      </button>
+      <div class="pd-acc-body">
+        <div class="pd-acc-inner">
+          <table class="pd-acc-table">
+            <tbody>
+              <tr><td>พลังงาน / Energy</td><td>208 kcal / 100g</td></tr>
+              <tr><td>โปรตีน / Protein</td><td>20.4 g / 100g</td></tr>
+              <tr><td>ไขมันรวม / Total Fat</td><td>13.4 g / 100g</td></tr>
+              <tr><td>ไขมัน Omega-3</td><td>2.3 g / 100g</td></tr>
+              <tr><td>คาร์โบไฮเดรต</td><td>0 g / 100g</td></tr>
+              <tr><td>โซเดียม / Sodium</td><td>59 mg / 100g</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-acc-item">
+      <button class="pd-acc-trigger">
+        <span class="pd-acc-trigger-label">ข้อมูลบรรจุภัณฑ์ / Packaging</span>
+        <span class="pd-acc-icon">+</span>
+      </button>
+      <div class="pd-acc-body">
+        <div class="pd-acc-inner">
+          <table class="pd-acc-table">
+            <tbody>
+              <tr><td>ขนาดบรรจุ</td><td>1 / 5 / 10 / 25 kg ต่อถุง</td></tr>
+              <tr><td>วัสดุบรรจุภัณฑ์</td><td>PE Vacuum Bag + Carton Box</td></tr>
+              <tr><td>จำนวนต่อกล่อง</td><td>4 ถุง × 5 kg = 20 kg/carton</td></tr>
+              <tr><td>การพิมพ์ฉลาก</td><td>OEM Private Label Available</td></tr>
+              <tr><td>Shelf Life</td><td>24 เดือน ที่ −18°C</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-acc-item">
+      <button class="pd-acc-trigger">
+        <span class="pd-acc-trigger-label">การขนส่งและ Cold Chain / Logistics</span>
+        <span class="pd-acc-icon">+</span>
+      </button>
+      <div class="pd-acc-body">
+        <div class="pd-acc-inner">
+          <table class="pd-acc-table">
+            <tbody>
+              <tr><td>MOQ (ปริมาณขั้นต่ำ)</td><td>500 kg</td></tr>
+              <tr><td>Lead Time</td><td>7–14 วันทำการ</td></tr>
+              <tr><td>การขนส่ง</td><td>Reefer Container (FCL/LCL)</td></tr>
+              <tr><td>Incoterms</td><td>EXW / FOB / CIF</td></tr>
+              <tr><td>ท่าเรือ</td><td>Laem Chabang Port, Thailand</td></tr>
+              <tr><td>ปลายทาง</td><td>ส่งออกกว่า 15 ประเทศทั่วโลก</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="pd-acc-item">
+      <button class="pd-acc-trigger">
+        <span class="pd-acc-trigger-label">บริการ OEM / ODM</span>
+        <span class="pd-acc-icon">+</span>
+      </button>
+      <div class="pd-acc-body">
+        <div class="pd-acc-inner">
+          <table class="pd-acc-table">
+            <tbody>
+              <tr><td>Private Label</td><td>พิมพ์ฉลากและบรรจุภัณฑ์ตามแบรนด์คุณ</td></tr>
+              <tr><td>Product Development</td><td>R&D ปรับสูตรและ spec ตามความต้องการ</td></tr>
+              <tr><td>Portion Control</td><td>ตัดแบ่งขนาดตามสเปค (portion cut)</td></tr>
+              <tr><td>Marinade / Seasoning</td><td>ปรุงรสล่วงหน้าตามสูตร</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ GALLERY FILM STRIP ═══ -->
+<div class="pd-gallery">
+  <div class="pd-gallery-label reveal-up">Gallery · ภาพผลิตภัณฑ์</div>
+  <div class="pd-gallery-strip" id="galleryStrip">
+    <div class="pd-gallery-frame"><img src="assets/Fish-Salmon.jpeg" alt="Salmon 1" loading="lazy"></div>
+    <div class="pd-gallery-frame"><img src="assets/Fish-Halibut.jpg" alt="Halibut" loading="lazy"></div>
+    <div class="pd-gallery-frame"><img src="assets/Fish-Black-Cod.jpg" alt="Black Cod" loading="lazy"></div>
+    <div class="pd-gallery-frame"><img src="assets/Fish-Seabass.jpg" alt="Seabass" loading="lazy"></div>
+    <div class="pd-gallery-frame"><img src="assets/Fish-Grouper.jpg" alt="Grouper" loading="lazy"></div>
+    <div class="pd-gallery-frame"><img src="assets/สำเนาของ-Fish-Production-Line-4-.-Bangkok-Seafood-co.ltd_.jpg" alt="Production Line" loading="lazy"></div>
+  </div>
+</div>
+
+<!-- ═══ RELATED PRODUCTS ═══ -->
+<div class="pd-related">
+  <div class="pd-related-header reveal-up">
+    <div class="pd-related-title">ผลิตภัณฑ์อื่น</div>
+    <a href="products.html" class="pd-related-link">
+      ดูทั้งหมด
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+  <div class="pd-related-grid">
+    <div class="pd-related-card reveal-up">
+      <img src="assets/Shrimp-Vannamei.jpeg" alt="Shrimp" loading="lazy">
+      <div class="pd-related-card-always">
+        <div class="pd-related-name">Vannamei Shrimp</div>
+        <div class="pd-related-sub">กุ้งขาวแวนนาไม · Export Grade</div>
+      </div>
+      <div class="pd-related-card-overlay">
+        <div class="pd-related-name">Vannamei Shrimp</div>
+        <div class="pd-related-sub">กุ้งขาวแวนนาไม</div>
+        <a href="products.html" class="pd-related-btn">ดูรายละเอียด →</a>
+      </div>
+    </div>
+    <div class="pd-related-card reveal-up" data-delay="100">
+      <img src="assets/Breaded-Squid-Ring.jpg" alt="Squid Ring" loading="lazy">
+      <div class="pd-related-card-always">
+        <div class="pd-related-name">Breaded Squid Ring</div>
+        <div class="pd-related-sub">ปลาหมึกวงชุบแป้งทอด</div>
+      </div>
+      <div class="pd-related-card-overlay">
+        <div class="pd-related-name">Breaded Squid Ring</div>
+        <div class="pd-related-sub">ปลาหมึกวงชุบแป้งทอด</div>
+        <a href="products.html" class="pd-related-btn">ดูรายละเอียด →</a>
+      </div>
+    </div>
+    <div class="pd-related-card reveal-up" data-delay="200">
+      <img src="assets/Fish-Seabass.jpg" alt="Seabass" loading="lazy">
+      <div class="pd-related-card-always">
+        <div class="pd-related-name">Asian Seabass</div>
+        <div class="pd-related-sub">ปลากะพง · Premium Whole</div>
+      </div>
+      <div class="pd-related-card-overlay">
+        <div class="pd-related-name">Asian Seabass</div>
+        <div class="pd-related-sub">ปลากะพงขาว</div>
+        <a href="products.html" class="pd-related-btn">ดูรายละเอียด →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      </a>
+      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/profile.php?id=61579693530022" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10V9h4v2a6 6 0 0 1 2-3zm-9 1H3v12h4V9zM5 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></a><a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.6-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="white" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Products">ผลิตภัณฑ์</h4>
+      <ul>
+        <li><a href="products.html">อาหารทะเลสดแช่แข็ง</a></li>
+        <li><a href="products.html">สินค้าชุบแป้งทอด</a></li>
+        <li><a href="products.html">อาหารพร้อมทาน</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Services">บริการ</h4>
+      <ul>
+        <li><a href="services.html">OEM / ODM</a></li>
+        <li><a href="services.html">Global Export</a></li>
+        <li><a href="contact.html">ติดต่อเรา</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="More">เพิ่มเติม</h4>
+      <ul>
+        <li><a href="about.html">เกี่ยวกับเรา</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 BANGKOK SEAFOOD Co., Ltd. All rights reserved.</p></div>
+</footer>
+
+<script src="main.js?v=1778486366747"></script>
+<script>
+/* ─── HERO IMAGE SCALE IN ─── */
+const heroImg = document.getElementById('pdHeroImg');
+if (heroImg) {
+  if (heroImg.complete) heroImg.classList.add('loaded');
+  else heroImg.addEventListener('load', () => heroImg.classList.add('loaded'));
+}
+
+/* ─── PACK SIZE OPTIONS ─── */
+document.querySelectorAll('.pd-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pd-option').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+/* ─── ACCORDION ─── */
+document.querySelectorAll('.pd-acc-trigger').forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const item = trigger.closest('.pd-acc-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.pd-acc-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+/* ─── GALLERY DRAG SCROLL ─── */
+const strip = document.getElementById('galleryStrip');
+if (strip) {
+  let isDown = false, startX, scrollLeft;
+  strip.addEventListener('mousedown', e => {
+    isDown = true;
+    startX = e.pageX - strip.offsetLeft;
+    scrollLeft = strip.scrollLeft;
+  });
+  document.addEventListener('mouseup', () => isDown = false);
+  strip.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - strip.offsetLeft;
+    strip.scrollLeft = scrollLeft - (x - startX) * 1.2;
+  });
+}
+</script>
+</body>
+</html>
+
+
+

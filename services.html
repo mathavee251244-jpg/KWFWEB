@@ -1,35 +1,15 @@
-<!DOCTYPE html>
-<html lang="th" data-theme="dark">
+﻿<!DOCTYPE html>
+<html lang="th" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>บริการของเรา — KINGWELL FIRST (Bangkok Seafood)</title>
-  <meta name="description" content="บริการ OEM/ODM อาหารทะเลครบวงจร การพัฒนาสูตรอาหาร (R&D) และการส่งออกทั่วโลก ภายใต้มาตรฐาน IQF และความปลอดภัยระดับสากล">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=1.0.2" />
-  <style>
-    .process-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin:60px 0}
-    .process-step{text-align:center;padding:0 16px;position:relative}
-    .process-step:not(:last-child)::after{
-      content:'→';position:absolute;right:-12px;top:32px;
-      font-size:1.5rem;color:var(--accent);opacity:.5;
-    }
-    .process-num{
-      width:64px;height:64px;background:var(--gradient);border-radius:50%;
-      display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
-      font-family:'Kanit',sans-serif;font-size:1.4rem;font-weight:900;color:#fff;
-      box-shadow:0 0 24px rgba(0,212,255,.3);
-    }
-    .process-title{font-family:'Kanit',sans-serif;font-weight:700;margin-bottom:8px}
-    .process-desc{font-size:.82rem;color:var(--text-2);line-height:1.6}
-    @media(max-width:768px){
-      .process-grid{grid-template-columns:1fr;gap:24px}
-      .process-step:not(:last-child)::after{display:none}
-    }
-  </style>
+  <script>(function(){var t=localStorage.getItem('kwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <title>บริการของเรา — BANGKOK SEAFOOD</title>
+  <meta name="description" content="บริการ OEM/ODM อาหารทะเลครบวงจร การพัฒนาสูตรอาหาร (R&D) และการส่งออกทั่วโลก ภายใต้มาตรฐาน IQF และความปลอดภัยระดับสากล">    <link rel="icon" type="image/png" href="assets/LOGO_BKSF.png">
+  <link rel="apple-touch-icon" href="assets/LOGO_BKSF.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1778486366747" />
 </head>
 <body>
 
@@ -38,8 +18,8 @@
 
 <div class="loader" id="loader">
   <div class="loader-inner">
-    <img src="assets/Logo.png" alt="KINGWELL FIRST" class="loader-logo">
-    <p class="loader-text">Freshness Guaranteed</p>
+    <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="loader-logo">
+    <p class="loader-text" data-en="Services">บริการ</p>
     <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
   </div>
 </div>
@@ -48,19 +28,21 @@
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
-      <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+      <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      <span class="nav-brand-name">Bangkok Seafood</span>
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
       <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
       <li><a href="services.html" class="nav-link active" data-en="Services">บริการ</a></li>
+      <li><a href="brand.html" class="nav-link" data-en="Brands">แบรนด์</a></li>
       <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
       <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
     </ul>
     <div class="nav-actions">
       <button class="lang-btn" id="langBtn">EN</button>
       <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
-        <span class="sun">☀️</span><span class="moon">🌙</span>
+        <span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
         <div class="toggle-thumb"></div>
       </button>
       <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
@@ -69,97 +51,179 @@
   <div class="nav-progress" id="navProgress"></div>
 </nav>
 
-<!-- PAGE HERO -->
+<!-- ═══ PAGE HERO ═══ -->
 <div class="page-hero">
   <div class="page-hero-bg">
-    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1920" alt="Services"
-         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.15">
+    <img src="assets/Pal.jpg" alt="Services">
+    <div class="page-hero-overlay"></div>
   </div>
-  <div class="page-hero-tag">Services</div>
-  <h1 class="page-hero-title">โซลูชันครบวงจร<br/><span class="gradient-text">เพื่อธุรกิจของคุณ</span></h1>
-  <p class="page-hero-desc">จากความเชี่ยวชาญด้านการผลิต สู่การส่งออกระดับสากล</p>
-  <div class="page-hero-breadcrumb">
-    <a href="index.html">หน้าแรก</a>
-    <span class="breadcrumb-sep">/</span>
-    <span>บริการ</span>
-  </div>
-</div>
-
-<!-- SERVICES GRID -->
-<div class="section-wrap">
-  <div class="section-header reveal-up">
-    <span class="section-tag">ความเชี่ยวชาญ</span>
-    <h2 class="section-title">บริการระดับ<br/><span class="gradient-text">มืออาชีพ</span></h2>
-  </div>
-
-  <div class="services-grid">
-    <div class="service-card reveal-up">
-      <div class="service-icon">🏭</div>
-      <h3>OEM / ODM</h3>
-      <p>รับผลิตและพัฒนาผลิตภัณฑ์อาหารทะเลภายใต้แบรนด์ของคุณ พร้อมให้คำปรึกษาด้านบรรจุภัณฑ์</p>
-    </div>
-    <div class="service-card reveal-up" data-delay="100">
-      <div class="service-icon">🌏</div>
-      <h3>Global Export</h3>
-      <p>ส่งออกผลิตภัณฑ์คุณภาพสู่กว่า 15 ประเทศทั่วโลก พร้อมการจัดการด้านโลจิสติกส์ที่รวดเร็ว</p>
-    </div>
-    <div class="service-card reveal-up" data-delay="200">
-      <div class="service-icon">🧪</div>
-      <h3>R&D Support</h3>
-      <p>ทีมวิจัยและพัฒนาผลิตภัณฑ์เพื่อตอบโจทย์เทรนด์ตลาดและรสชาติที่ลูกค้าต้องการ</p>
-    </div>
-    <div class="service-card reveal-up" data-delay="300">
-      <div class="service-icon">❄️</div>
-      <h3>IQF Processing</h3>
-      <p>กระบวนการแช่แข็งรายชิ้นที่ทันสมัย รักษาความสดและคุณภาพวัตถุดิบได้ยาวนาน</p>
+  <div class="page-hero-content">
+    <div class="page-hero-tag">Our Services</div>
+    <h1 class="page-hero-title">
+      <span data-en="Complete Solutions">โซลูชันครบวงจร</span>
+      <span class="gradient-text" data-en="Services">บริการ</span>
+    </h1>
+    <p class="page-hero-desc" data-en="From production expertise to international export — all in one place.">จากความเชี่ยวชาญด้านการผลิต สู่การส่งออกระดับสากล ครบในที่เดียว</p>
+    <div class="page-hero-breadcrumb">
+      <a href="index.html" data-en="Home">หน้าแรก</a>
+      <span class="breadcrumb-sep">/</span>
+      <span data-en="Services">บริการ</span>
     </div>
   </div>
 </div>
 
-<!-- PRODUCTION PROCESS -->
-<div class="section-wrap--bg">
-  <div class="section-header reveal-up">
-    <span class="section-tag">Production Process</span>
-    <h2 class="section-title">ขั้นตอน<span class="gradient-text">การผลิตมาตรฐาน</span></h2>
+<!-- ═══ SERVICES EDITORIAL (alternating) ═══ -->
+<div class="service-editorial-wrap">
+<div class="service-editorial">
+
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/OEM.jpg" alt="OEM ODM" loading="lazy">
+    </div>
+    <div class="service-editorial-body reveal-right">
+      <div class="service-editorial-num">01</div>
+      <div class="service-editorial-label">Manufacturing</div>
+      <h2 class="service-editorial-title">OEM / ODM</h2>
+      <p class="service-editorial-desc" data-en="Full-service seafood manufacturing under your brand — from packaging design and formula development to mass production, with HACCP and BRC standards at every step.">
+        รับผลิตและพัฒนาผลิตภัณฑ์อาหารทะเลภายใต้แบรนด์ของคุณ ครบวงจรตั้งแต่
+        การออกแบบบรรจุภัณฑ์ การพัฒนาสูตร ไปจนถึงการผลิตจำนวนมาก
+        ด้วยมาตรฐาน HACCP และ BRC ในทุกขั้นตอน
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat">Private Label &amp; Custom Packaging</div>
+        <div class="service-editorial-feat">Product Formula Development</div>
+        <div class="service-editorial-feat">Portion Control &amp; Custom Cut</div>
+        <div class="service-editorial-feat">Marinade / Pre-seasoning Options</div>
+      </div>
+      <div style="margin-top:28px">
+        <a href="contact.html" class="btn btn-primary" style="display:inline-flex" data-en="Request Consultation">ขอรับคำปรึกษา</a>
+      </div>
+    </div>
   </div>
 
-  <div class="process-grid reveal-up">
-    <div class="process-step">
-      <div class="process-num">1</div>
-      <div class="process-title">Sourcing</div>
-      <p class="process-desc">คัดสรรวัตถุดิบจากแหล่งธรรมชาติที่ยั่งยืน</p>
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/photorealistic-wild-tuna-day-celebration.jpg" alt="Global Export" loading="lazy">
     </div>
-    <div class="process-step">
-      <div class="process-num">2</div>
-      <div class="process-title">Cleaning</div>
-      <p class="process-desc">ทำความสะอาดด้วยระบบน้ำมาตรฐานโรงงาน</p>
+    <div class="service-editorial-body reveal-left">
+      <div class="service-editorial-num">02</div>
+      <div class="service-editorial-label">Logistics</div>
+      <h2 class="service-editorial-title">Global Export</h2>
+      <p class="service-editorial-desc" data-en="Exporting quality products to 15+ countries worldwide with fast logistics management, covering the entire Cold Chain under Incoterms EXW, FOB, and CIF.">
+        ส่งออกผลิตภัณฑ์คุณภาพสู่กว่า 15 ประเทศทั่วโลก พร้อมการจัดการ
+        ด้านโลจิสติกส์ที่รวดเร็ว ครอบคลุม Cold Chain ตลอดห่วงโซ่อุปทาน
+        ภายใต้ Incoterms EXW, FOB, และ CIF
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat">15+ Countries Worldwide</div>
+        <div class="service-editorial-feat">Reefer Container FCL / LCL</div>
+        <div class="service-editorial-feat">Full Documentation Support</div>
+        <div class="service-editorial-feat">EU, US, Japan Market Ready</div>
+      </div>
+      <div style="margin-top:28px">
+        <a href="contact.html" class="btn btn-primary" style="display:inline-flex" data-en="Export Inquiry">สอบถามการส่งออก</a>
+      </div>
     </div>
-    <div class="process-step">
-      <div class="process-num">3</div>
-      <div class="process-title">IQF Freezing</div>
-      <p class="process-desc">แช่แข็งรวดเร็วด้วยระบบ IQF ที่ทันสมัย</p>
+  </div>
+
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/ererere.jpg" alt="R&D" loading="lazy">
     </div>
-    <div class="process-step">
-      <div class="process-num">4</div>
-      <div class="process-title">Packing</div>
-      <p class="process-desc">บรรจุลงบรรจุภัณฑ์มาตรฐานเพื่อการขนส่ง</p>
+    <div class="service-editorial-body reveal-right">
+      <div class="service-editorial-num">03</div>
+      <div class="service-editorial-label">Innovation</div>
+      <h2 class="service-editorial-title">R&amp;D Support</h2>
+      <p class="service-editorial-desc" data-en="An experienced product R&amp;D team designing formulas and product specs tailored to the needs of target markets and consumer preferences in each country.">
+        ทีมวิจัยและพัฒนาผลิตภัณฑ์ที่มีประสบการณ์ คอยออกแบบสูตรและ spec
+        ผลิตภัณฑ์ให้ตรงกับความต้องการของตลาดเป้าหมายและรสนิยมของผู้บริโภค
+        ในแต่ละประเทศ
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat">Market Trend Analysis</div>
+        <div class="service-editorial-feat">Custom Recipe &amp; Seasoning</div>
+        <div class="service-editorial-feat">Shelf Life Testing</div>
+        <div class="service-editorial-feat">Sensory Evaluation Panel</div>
+      </div>
+      <div style="margin-top:28px">
+        <a href="contact.html" class="btn btn-primary" style="display:inline-flex" data-en="Consult R&amp;D Team">ปรึกษาทีม R&amp;D</a>
+      </div>
     </div>
-    <div class="process-step">
-      <div class="process-num">5</div>
-      <div class="process-title">Distribution</div>
-      <p class="process-desc">จัดส่งสินค้าสู่มือลูกค้าทั้งในและต่างประเทศ</p>
+  </div>
+
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/สำเนาของ-Fish-Production-Line-4-.-Bangkok-Seafood-co.ltd_.jpg" alt="IQF Processing" loading="lazy">
+    </div>
+    <div class="service-editorial-body reveal-left">
+      <div class="service-editorial-num">04</div>
+      <div class="service-editorial-label">Technology</div>
+      <h2 class="service-editorial-title">IQF Processing</h2>
+      <p class="service-editorial-desc" data-en="State-of-the-art Individual Quick Freezing process at −40°C within 4 hours of catch — preserving texture, flavor, and nutritional value at their best.">
+        กระบวนการแช่แข็งรายชิ้น (Individual Quick Freezing) ที่ทันสมัย
+        อุณหภูมิ −40°C ภายใน 4 ชั่วโมงหลังจับ รักษาโครงสร้างเนื้อสัมผัส
+        รสชาติ และคุณค่าทางโภชนาการได้ดีที่สุด
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat">−40°C Flash Freezing</div>
+        <div class="service-editorial-feat">No Ice Crystal Damage</div>
+        <div class="service-editorial-feat">24-Month Shelf Life</div>
+        <div class="service-editorial-feat">Portion-perfect Individual Pieces</div>
+      </div>
+      <div style="margin-top:28px">
+        <a href="contact.html" class="btn btn-primary" style="display:inline-flex" data-en="Process Inquiry">สอบถามกระบวนการ</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══ PROCESS ═══ -->
+<div class="process-editorial">
+  <div class="process-editorial-header reveal-up">
+    <div class="process-editorial-tag">Production Process</div>
+    <h2 class="process-editorial-title" data-en="Standard<br/>Production Process">
+      ขั้นตอน<br/>การผลิตมาตรฐาน
+    </h2>
+  </div>
+  <div class="process-editorial-grid">
+    <div class="process-editorial-step reveal-up">
+      <div class="process-step-num">01</div>
+      <div class="process-step-title">Sourcing</div>
+      <p class="process-step-desc" data-en="Sourcing from sustainable natural origins and ASC/MSC certified farms">คัดสรรวัตถุดิบจากแหล่งธรรมชาติที่ยั่งยืนและฟาร์มมาตรฐาน ASC/MSC</p>
+    </div>
+    <div class="process-editorial-step reveal-up" data-delay="80">
+      <div class="process-step-num">02</div>
+      <div class="process-step-title">Cleaning</div>
+      <p class="process-step-desc" data-en="Cleaned with factory-grade water systems under strict HACCP control">ทำความสะอาดด้วยระบบน้ำมาตรฐานโรงงาน ภายใต้การควบคุม HACCP</p>
+    </div>
+    <div class="process-editorial-step reveal-up" data-delay="160">
+      <div class="process-step-num">03</div>
+      <div class="process-step-title">IQF Freezing</div>
+      <p class="process-step-desc" data-en="Flash frozen at −40°C with modern IQF system within 4 hours of catch">แช่แข็งรวดเร็ว −40°C ด้วยระบบ IQF ที่ทันสมัย ภายใน 4 ชม.หลังจับ</p>
+    </div>
+    <div class="process-editorial-step reveal-up" data-delay="240">
+      <div class="process-step-num">04</div>
+      <div class="process-step-title">Packing</div>
+      <p class="process-step-desc" data-en="Packed in standard PE Vacuum Bags + Carton Boxes">บรรจุลงบรรจุภัณฑ์มาตรฐาน PE Vacuum Bag + Carton Box</p>
+    </div>
+    <div class="process-editorial-step reveal-up" data-delay="320">
+      <div class="process-step-num">05</div>
+      <div class="process-step-title">Distribution</div>
+      <p class="process-step-desc" data-en="Delivered via Reefer Container Cold Chain at −18°C to customers worldwide">จัดส่งด้วย Reefer Container Cold Chain −18°C สู่มือลูกค้าทั่วโลก</p>
     </div>
   </div>
 </div>
 
-<!-- CTA -->
+<!-- ═══ CTA ═══ -->
 <div class="cta-strip reveal-up">
   <div class="cta-strip-glow"></div>
-  <h2>ต้องการสร้าง<span class="gradient-text">แบรนด์ของคุณเอง?</span></h2>
-  <p>ทีมงานผู้เชี่ยวชาญของเราพร้อมให้คำปรึกษาและออกแบบผลิตภัณฑ์ให้คุณ</p>
+  <h2 data-en="Want to Build<span class='gradient-text'>Your Own Brand?</span>">ต้องการสร้าง<span class="gradient-text">แบรนด์ของคุณเอง?</span></h2>
+  <p data-en="Our team of experts is ready to consult and develop the perfect product for you.">ทีมงานผู้เชี่ยวชาญของเราพร้อมให้คำปรึกษาและออกแบบผลิตภัณฑ์ให้คุณ</p>
   <div class="hero-buttons">
-    <a href="contact.html" class="btn btn-primary">ขอรับคำปรึกษา</a>
-    <a href="about.html" class="btn btn-outline">รู้จักเรามากขึ้น</a>
+    <a href="contact.html" class="btn btn-primary" data-en="Request Consultation">ขอรับคำปรึกษา</a>
+    <a href="about.html" class="btn btn-outline" data-en="Learn More About Us">รู้จักเรามากขึ้น</a>
   </div>
 </div>
 
@@ -168,20 +232,19 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <a href="index.html" class="nav-logo">
-        <img src="assets/Logo.png" alt="KINGWELL FIRST" class="nav-logo-img">
+        <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
       </a>
-      <p>COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
+      <p data-en="COLD CHAIN SOLUTIONS — Leading Premium Frozen Seafood, International Standards">COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
       <div class="social-links">
-        <a href="#" class="social-btn">f</a><a href="#" class="social-btn">in</a>
-        <a href="#" class="social-btn">ig</a><a href="#" class="social-btn">yt</a>
+        <a href="https://www.facebook.com/profile.php?id=61579693530022" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10V9h4v2a6 6 0 0 1 2-3zm-9 1H3v12h4V9zM5 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></a><a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.6-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="white" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
       </div>
     </div>
     <div class="footer-col">
       <h4 data-en="Products">ผลิตภัณฑ์</h4>
       <ul>
-        <li><a href="products.html">อาหารทะเลสดแช่แข็ง</a></li>
-        <li><a href="products.html">สินค้าชุบแป้งทอด</a></li>
-        <li><a href="products.html">อาหารพร้อมทาน</a></li>
+        <li><a href="products.html" data-en="Fresh Frozen Seafood">อาหารทะเลสดแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Breaded Products">สินค้าชุบแป้งทอด</a></li>
+        <li><a href="products.html" data-en="Ready-to-Cook">อาหารพร้อมทาน</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -189,20 +252,22 @@
       <ul>
         <li><a href="services.html">OEM / ODM</a></li>
         <li><a href="services.html">Global Export</a></li>
-        <li><a href="contact.html">ติดต่อเรา</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4 data-en="More">เพิ่มเติม</h4>
       <ul>
-        <li><a href="about.html">เกี่ยวกับเรา</a></li>
-        <li><a href="about.html#certifications">มาตรฐานสากล</a></li>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom"><p>© 2024 KINGWELL FIRST Co., Ltd. All rights reserved.</p></div>
+  <div class="footer-bottom"><p>© 2024 BANGKOK SEAFOOD Co., Ltd. All rights reserved.</p></div>
 </footer>
 
-<script src="main.js?v=1.0.2"></script>
+<script src="main.js?v=1778486366747"></script>
 </body>
 </html>
+
+
+

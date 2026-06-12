@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>(function(){var t=localStorage.getItem('kwf-theme');if(t)document.documentElement.setAttribute('data-theme',t);})()</script>
+  <title>แบรนด์ของเรา — BANGKOK SEAFOOD</title>
+  <meta name="description" content="4 แบรนด์อาหารทะเลของ BANGKOK SEAFOOD — Alaska King, SEA DELI, Kroops, Healthyday">    <link rel="icon" type="image/png" href="assets/LOGO_BKSF.png">
+  <link rel="apple-touch-icon" href="assets/LOGO_BKSF.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Playfair+Display:wght@400;700;900&family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=1778486366747" />
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<div class="loader" id="loader">
+  <div class="loader-inner">
+    <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="loader-logo">
+    <p class="loader-text" data-en="Brands">แบรนด์</p>
+    <div class="loader-bar"><div class="loader-progress" id="loaderProgress"></div></div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      <span class="nav-brand-name">Bangkok Seafood</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html"    class="nav-link" data-en="Home">หน้าแรก</a></li>
+      <li><a href="products.html" class="nav-link" data-en="Products">ผลิตภัณฑ์</a></li>
+      <li><a href="services.html" class="nav-link" data-en="Services">บริการ</a></li>
+      <li><a href="brand.html"    class="nav-link active" data-en="Brands">แบรนด์</a></li>
+      <li><a href="about.html"    class="nav-link" data-en="About Us">เกี่ยวกับเรา</a></li>
+      <li><a href="contact.html"  class="nav-link" data-en="Contact">ติดต่อ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="lang-btn" id="langBtn">EN</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="สลับธีม">
+        <span class="sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+        <div class="toggle-thumb"></div>
+      </button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<!-- ═══ PAGE HERO ═══ -->
+<div class="page-hero">
+  <div class="page-hero-bg">
+    <img src="assets/Food-Packaging-Design-Lovely-Package.jpeg" alt="Our Brands">
+    <div class="page-hero-overlay"></div>
+  </div>
+  <div class="page-hero-content">
+    <div class="page-hero-tag">Our Brands</div>
+    <h1 class="page-hero-title">
+      <span data-en="Brand Portfolio">แบรนด์ผลิตภัณฑ์</span>
+      <span class="gradient-text" data-en="Brands">แบรนด์</span>
+    </h1>
+    <p class="page-hero-desc" data-en="4 distinct brands — each crafted for different markets and consumer lifestyles.">4 แบรนด์ที่แตกต่าง ตอบโจทย์ทุกตลาดและไลฟ์สไตล์ผู้บริโภค</p>
+    <div class="page-hero-breadcrumb">
+      <a href="index.html" data-en="Home">หน้าแรก</a>
+      <span class="breadcrumb-sep">/</span>
+      <span data-en="Brands">แบรนด์</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BRAND EDITORIAL (alternating) ═══ -->
+<div class="service-editorial-wrap">
+<div class="service-editorial">
+
+  <!-- 01 Alaska King -->
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/Brand/Alaska king/Alaskaking.png" alt="Alaska King" loading="lazy">
+    </div>
+    <div class="service-editorial-body reveal-right">
+      <div class="service-editorial-num">01</div>
+      <div class="service-editorial-label">Premium Seafood Brand</div>
+      <img src="assets/Brand/Alaska king/logo_Alaskaking.png" alt="Alaska King"
+           style="max-height:68px;max-width:200px;object-fit:contain;display:block;margin:8px 0 12px">
+      <h2 class="service-editorial-title">Alaska King</h2>
+      <p class="service-editorial-desc" data-en="Premium wild-caught seafood from Alaskan and Norwegian waters — salmon, black cod, pollock, halibut and more. The choice of fine dining and quality-conscious consumers.">
+        อาหารทะเลคุณภาพพรีเมียมจากน่านน้ำอลาสกาและนอร์เวย์ ทั้งแซลมอน แบล็คคอด พอลล็อค ฮาลิบัท
+        สำหรับตลาด Fine Dining และผู้บริโภคที่ใส่ใจคุณภาพ
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat" data-en="Wild &amp; Natural — No artificial additives">Wild &amp; Natural — จับจากธรรมชาติ ไม่ผ่านการปรุงแต่ง</div>
+        <div class="service-editorial-feat" data-en="Premium Grade — Fine Dining quality">Premium Grade — คุณภาพระดับ Fine Dining</div>
+        <div class="service-editorial-feat" data-en="Certified — International standards">Certified — รับรองมาตรฐานสากล</div>
+      </div>
+      <div style="margin-top:28px">
+        <button class="btn btn-primary" data-brand="alaska" data-en="View Products">ดูผลิตภัณฑ์</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 SEA DELI -->
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/Brand/SEA DELI/bksf-seadeli-main.jpg"
+           srcset="assets/Brand/SEA DELI/bksf-seadeli-main-300.jpg 300w,
+                   assets/Brand/SEA DELI/bksf-seadeli-main-600.jpg 600w,
+                   assets/Brand/SEA DELI/bksf-seadeli-main.jpg 800w"
+           sizes="(max-width: 860px) 100vw, 50vw"
+           alt="SEA DELI" width="800" height="800" loading="lazy">
+    </div>
+    <div class="service-editorial-body reveal-left">
+      <div class="service-editorial-num">02</div>
+      <div class="service-editorial-label">Ready-to-Cook Brand</div>
+      <img src="assets/Brand/SEA DELI/logo SeaDeli.png" alt="SEA DELI"
+           style="max-height:68px;max-width:200px;object-fit:contain;display:block;margin:8px 0 12px">
+      <h2 class="service-editorial-title">SEA DELI</h2>
+      <p class="service-editorial-desc" data-en="Convenient ready-to-cook seafood — fish sticks, shrimp karaage, breaded squid and more. Designed for modern lifestyles that demand speed without sacrificing taste.">
+        ผลิตภัณฑ์อาหารทะเลพร้อมปรุงที่สะดวกรวดเร็ว ทั้งฟิชสติ๊ก กุ้งคาราอาเกะ หมึกชุบแป้ง
+        สำหรับไลฟ์สไตล์ยุคใหม่ที่ต้องการความรวดเร็วโดยไม่เสียรสชาติ
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat" data-en="Ready in Minutes — Serve in 5 minutes">Ready in Minutes — พร้อมเสิร์ฟใน 5 นาที</div>
+        <div class="service-editorial-feat" data-en="Quality Assured — Carefully selected">Quality Assured — ผ่านการคัดสรรคุณภาพ</div>
+        <div class="service-editorial-feat" data-en="Modern Lifestyle — For today's living">Modern Lifestyle — ตอบโจทย์ชีวิตยุคใหม่</div>
+      </div>
+      <div style="margin-top:28px">
+        <button class="btn btn-primary" data-brand="seadeli" data-en="View Products">ดูผลิตภัณฑ์</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 Kroops -->
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/Brand/Kroops/bksf-kroops-main.jpg"
+           srcset="assets/Brand/Kroops/bksf-kroops-main-300.jpg 300w,
+                   assets/Brand/Kroops/bksf-kroops-main-600.jpg 600w,
+                   assets/Brand/Kroops/bksf-kroops-main.jpg 800w"
+           sizes="(max-width: 860px) 100vw, 50vw"
+           alt="Kroops" width="800" height="800" loading="lazy">
+    </div>
+    <div class="service-editorial-body reveal-right">
+      <div class="service-editorial-num">03</div>
+      <div class="service-editorial-label">Fish Skin Snack Brand</div>
+      <img src="assets/Brand/Kroops/logo_Kroops.png" alt="Kroops"
+           style="max-height:68px;max-width:200px;object-fit:contain;display:block;margin:8px 0 12px">
+      <h2 class="service-editorial-title">Kroops</h2>
+      <p class="service-editorial-desc" data-en="Crispy fish skin snacks made from real fish skin — high protein, low cholesterol. Available in original and truffle flavors.">
+        สแน็คหนังปลาทอดกรอบ ทำจากหนังปลาแท้ อุดมด้วยโปรตีน คอเลสเตอรอลต่ำ
+        มีทั้งรสออริจินัลและรสทรัฟเฟิล ผลิตภัณฑ์ที่โดดเด่นในตลาด
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat" data-en="100% Real Fish Skin">100% หนังปลาแท้</div>
+        <div class="service-editorial-feat" data-en="High Protein — Low Cholesterol">โปรตีนสูง — คอเลสเตอรอลต่ำ</div>
+        <div class="service-editorial-feat" data-en="Premium Flavors — Original &amp; Truffle">ออริจินัล &amp; ทรัฟเฟิล</div>
+      </div>
+      <div style="margin-top:28px">
+        <button class="btn btn-primary" data-brand="kroops" data-en="View Products">ดูผลิตภัณฑ์</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 Healthyday -->
+  <div class="service-editorial-item">
+    <div class="service-editorial-img reveal-up">
+      <img src="assets/Brand/Healthyday/bksf-healthyday-main.jpeg"
+           srcset="assets/Brand/Healthyday/bksf-healthyday-main-300.jpeg 300w,
+                   assets/Brand/Healthyday/bksf-healthyday-main.jpeg 800w"
+           sizes="(max-width: 860px) 100vw, 50vw"
+           alt="Healthyday" width="800" height="800" loading="lazy">
+    </div>
+    <div class="service-editorial-body reveal-left">
+      <div class="service-editorial-num">04</div>
+      <div class="service-editorial-label">Health &amp; Lifestyle Brand</div>
+      <span style="font-family:'Cinzel',serif;font-size:1.4rem;font-weight:900;
+                   color:var(--primary);letter-spacing:.08em;display:block;margin:8px 0 12px">HEALTHYDAY</span>
+      <h2 class="service-editorial-title">Healthyday</h2>
+      <p class="service-editorial-desc" data-en="Eco-conscious seafood and packaging for health-oriented consumers. Beautiful recyclable packaging that is both stylish and environmentally responsible.">
+        ผลิตภัณฑ์อาหารทะเลและบรรจุภัณฑ์ที่ใส่ใจสิ่งแวดล้อม
+        ออกแบบสำหรับผู้บริโภคที่รักสุขภาพและรักโลก
+      </p>
+      <div class="service-editorial-features">
+        <div class="service-editorial-feat" data-en="Eco Packaging — Recyclable materials">Eco Packaging — บรรจุภัณฑ์รีไซเคิลได้</div>
+        <div class="service-editorial-feat" data-en="Health First — Selected for wellness">Health First — คัดสรรเพื่อสุขภาพ</div>
+        <div class="service-editorial-feat" data-en="Ocean Friendly — Sustainable sourcing">Ocean Friendly — รักษ์มหาสมุทร</div>
+      </div>
+      <div style="margin-top:28px">
+        <button class="btn btn-primary" data-brand="healthyday" data-en="View Products">ดูผลิตภัณฑ์</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ═══ BRAND MODAL ═══ -->
+<div class="brand-modal" id="brandModal">
+  <div class="brand-modal-backdrop" id="brandModalBackdrop"></div>
+  <button class="brand-modal-close" id="brandModalClose">✕</button>
+  <div class="brand-modal-panel" id="brandModalPanel">
+    <div class="bm-img-panel" id="brandModalImgPanel">
+      <img id="brandModalMainImg" src="" alt="">
+      <div class="bm-product-caption" id="brandModalCaption"></div>
+    </div>
+    <div class="bm-info-panel">
+      <div class="bm-logo-wrap" id="brandModalLogoWrap"></div>
+      <div class="bm-tag" id="brandModalTag"></div>
+      <p class="bm-desc" id="brandModalDesc"></p>
+      <div class="bm-thumbs" id="brandModalThumbs"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-strip reveal-up">
+  <div class="cta-strip-glow"></div>
+  <h2 data-en="Interested in Our <span class='gradient-text'>Brands?</span>">สนใจแบรนด์ของเรา<span class="gradient-text">ติดต่อเลย</span></h2>
+  <p data-en="Get in touch to discuss OEM/ODM opportunities or brand collaboration.">สอบถามโอกาสร่วมมือ OEM/ODM หรือความร่วมมือด้านแบรนด์</p>
+  <div class="hero-buttons">
+    <a href="contact.html" class="btn btn-primary" data-en="Contact Us">ติดต่อสอบถาม</a>
+    <a href="products.html" class="btn btn-outline" data-en="View Products">ดูผลิตภัณฑ์</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/LOGO_BKSF.png" alt="BANGKOK SEAFOOD" class="nav-logo-img">
+      </a>
+      <p data-en="COLD CHAIN SOLUTIONS — Leading Premium Frozen Seafood, International Standards">COLD CHAIN SOLUTIONS — ผู้นำด้านอาหารทะเลแช่แข็งพรีเมียม มาตรฐานสากล</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/profile.php?id=61579693530022" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7H10V9h4v2a6 6 0 0 1 2-3zm-9 1H3v12h4V9zM5 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></a><a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.6-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon fill="white" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Products">ผลิตภัณฑ์</h4>
+      <ul>
+        <li><a href="products.html" data-en="Fresh Frozen Seafood">อาหารทะเลสดแช่แข็ง</a></li>
+        <li><a href="products.html" data-en="Breaded Products">สินค้าชุบแป้งทอด</a></li>
+        <li><a href="products.html" data-en="Ready-to-Cook">อาหารพร้อมทาน</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="Services">บริการ</h4>
+      <ul>
+        <li><a href="services.html">OEM / ODM</a></li>
+        <li><a href="services.html">Global Export</a></li>
+        <li><a href="contact.html" data-en="Contact Us">ติดต่อเรา</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-en="More">เพิ่มเติม</h4>
+      <ul>
+        <li><a href="brand.html" data-en="Our Brands">แบรนด์ของเรา</a></li>
+        <li><a href="about.html" data-en="About Us">เกี่ยวกับเรา</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 BANGKOK SEAFOOD Co., Ltd. All rights reserved.</p></div>
+</footer>
+
+<script src="main.js?v=1778486366747"></script>
+<script>
+(function(){
+  const BRANDS = {
+    alaska: {
+      logo:'assets/Brand/Alaska king/logo_Alaskaking.png', logoIsImg:true,
+      tag:'Premium Seafood Brand', name:'Alaska King',
+      desc:'อาหารทะเลคุณภาพพรีเมียมจากน่านน้ำอลาสกาและนอร์เวย์ ทั้งแซลมอน แบล็คคอด พอลล็อค ฮาลิบัท และอีกมาก สำหรับตลาด Fine Dining และผู้บริโภคที่ใส่ใจคุณภาพ',
+      descEn:'Premium wild-caught seafood from Alaskan and Norwegian waters — salmon, black cod, pollock, halibut and more. The choice of fine dining and quality-conscious consumers.',
+      images:[
+        {src:'assets/Brand/Alaska king/01 Pr.Salmon.png',                                        alt:'Alaska Salmon'},
+        {src:'assets/Brand/Alaska king/02 Pr.BlackCod.JPG',                                      alt:'Alaska Black Cod'},
+        {src:'assets/Brand/Alaska king/04 Pr.Pollock.JPG',                                       alt:'Alaska Pollock'},
+        {src:'assets/Brand/Alaska king/05 Pr.Mackerel.JPG',                                      alt:'Norwegian Mackerel'},
+        {src:'assets/Brand/Alaska king/07 Pr.Haddock.JPG',                                       alt:'Norwegian Haddock'},
+        {src:'assets/Brand/Alaska king/03 Pr.Sole.JPG',                                          alt:'Alaska Sole'},
+        {src:'assets/Brand/Alaska king/Miso Glazed Alaska Black Cod 3.JPG',                      alt:'Miso Black Cod'},
+        {src:'assets/Brand/Alaska king/แซลมอนเทอริยากิ (1).jpg',                                alt:'Salmon Teriyaki'},
+        {src:'assets/Brand/Alaska king/แซลมอนข้าวผัด (1).jpg',                                  alt:'Salmon Fried Rice'},
+        {src:'assets/Brand/Alaska king/Almond Crusted Alaska Sole (1).JPG',                      alt:'Almond Sole'},
+        {src:'assets/Brand/Alaska king/พอลล็อค อลาสกาชุบแป้งทอดราดซอสกะเพรา (1).JPG',         alt:'Pollock Basil'},
+        {src:'assets/Brand/Alaska king/ปลาฮาลิบัทกรีนแลนด์ย่างเนย 1.JPG',                      alt:'Grilled Halibut'},
+      ]
+    },
+    seadeli: {
+      logo:'assets/Brand/SEA DELI/logo SeaDeli.png', logoIsImg:true,
+      tag:'Ready-to-Cook Brand', name:'SEA DELI',
+      desc:'ผลิตภัณฑ์อาหารทะเลพร้อมปรุงที่สะดวกรวดเร็ว ทั้งฟิชสติ๊ก กุ้งคาราอาเกะ หมึกชุบแป้ง และอีกมาก สำหรับไลฟ์สไตล์ยุคใหม่',
+      descEn:'Convenient ready-to-cook seafood — fish sticks, shrimp karaage, breaded squid and more. Designed for modern lifestyles that demand speed without sacrificing taste.',
+      images:[
+        {src:'assets/Brand/SEA DELI/Fishstick.png',          alt:'Fish Stick'},
+        {src:'assets/Brand/SEA DELI/กุ้งคาราอาเกะ.png',     alt:'Shrimp Karaage'},
+        {src:'assets/Brand/SEA DELI/หมึกคลุกเเป้ง.png',     alt:'Breaded Squid'},
+        {src:'assets/Brand/SEA DELI/MP1A9634.jpg',           alt:'SEA DELI'},
+        {src:'assets/Brand/SEA DELI/1691487802391.jpg',      alt:'SEA DELI Products'},
+        {src:'assets/Brand/SEA DELI/bangkokseafood0409.jpg', alt:'Bangkok Seafood SEA DELI'},
+      ]
+    },
+    kroops: {
+      logo:'assets/Brand/Kroops/logo_Kroops.png', logoIsImg:true,
+      tag:'Fish Skin Snack Brand', name:'Kroops',
+      desc:'สแน็คหนังปลาทอดกรอบ ทำจากหนังปลาแท้ๆ อุดมด้วยโปรตีน มีทั้งรสออริจินัลและรสทรัฟเฟิล ผลิตภัณฑ์ที่โดดเด่นในตลาด',
+      descEn:'Crispy fish skin snacks made from real fish skin — high protein, low cholesterol. Available in original and truffle flavors.',
+      images:[
+        {src:'assets/Brand/Kroops/หนังปลาทอด.png',                 alt:'Kroops Fish Skin'},
+        {src:'assets/Brand/Kroops/หนังปลา Kroops (1).png',         alt:'Kroops Original'},
+        {src:'assets/Brand/Kroops/หนังปลา Kroops รสทรัฟเฟิล.png', alt:'Kroops Truffle'},
+        {src:'assets/Brand/Kroops/หนังปลาทอด (2).png',             alt:'Kroops Crispy'},
+      ]
+    },
+    healthyday: {
+      logoIsImg:false, logoText:'HEALTHYDAY',
+      tag:'Health & Lifestyle Brand', name:'Healthyday',
+      desc:'ผลิตภัณฑ์อาหารทะเลและบรรจุภัณฑ์ที่ใส่ใจสิ่งแวดล้อม ออกแบบสำหรับผู้บริโภคที่รักสุขภาพและรักโลก',
+      descEn:'Eco-conscious seafood and packaging for health-oriented consumers. Beautiful recyclable packaging solutions that are both stylish and environmentally responsible.',
+      images:[
+        {src:'assets/Brand/Healthyday/Afishionado-Fights-to-Prevent-Ocean-Waste-with-Great-Looking-Recyclable-Bags.jpeg', alt:'Healthyday Eco Packaging'},
+      ]
+    }
+  };
+
+  const modal    = document.getElementById('brandModal');
+  const backdrop = document.getElementById('brandModalBackdrop');
+  const closeBtn = document.getElementById('brandModalClose');
+  const imgPanel = document.getElementById('brandModalImgPanel');
+  const mainImg  = document.getElementById('brandModalMainImg');
+  const logoWrap  = document.getElementById('brandModalLogoWrap');
+  const tagEl     = document.getElementById('brandModalTag');
+  const descEl    = document.getElementById('brandModalDesc');
+  const thumbsEl  = document.getElementById('brandModalThumbs');
+  const captionEl = document.getElementById('brandModalCaption');
+
+  let activeBrand = null;
+
+  function setCaption(text) {
+    captionEl.textContent = text;
+    captionEl.classList.toggle('show', !!text);
+  }
+
+  function buildThumbsHTML(imgs, startIdx) {
+    return imgs.map((img, i) =>
+      `<div class="bm-thumb${startIdx===0&&i===0?' active':''}" data-idx="${startIdx+i}">
+        <img src="${img.src}" alt="${img.alt}" loading="lazy">
+      </div>`
+    ).join('');
+  }
+
+  // Single delegated listener — avoids duplicate handlers on re-open
+  thumbsEl.addEventListener('click', e => {
+    const thumb = e.target.closest('.bm-thumb');
+    if (!thumb || !activeBrand) return;
+    const img = activeBrand.images[+thumb.dataset.idx];
+    mainImg.style.opacity = '0';
+    setCaption('');
+    setTimeout(() => {
+      mainImg.src = img.src; mainImg.alt = img.alt; mainImg.style.opacity = '1';
+      setCaption(img.alt);
+    }, 220);
+    thumbsEl.querySelectorAll('.bm-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  });
+
+  function openModal(key) {
+    const b = BRANDS[key];
+    if (!b) return;
+    activeBrand = b;
+
+    imgPanel.dataset.bg = key;
+    mainImg.style.opacity = '1';
+    mainImg.src = b.images[0].src;
+    mainImg.alt = b.images[0].alt;
+    setCaption(b.images[0].alt);
+    logoWrap.innerHTML = b.logoIsImg
+      ? `<img src="${b.logo}" alt="${b.name}">`
+      : `<span class="bm-logo-text">${b.logoText}</span>`;
+    tagEl.textContent  = b.tag;
+    descEl.textContent = isEn ? b.descEn : b.desc;
+
+    const shown = Math.min(3, b.images.length);
+    thumbsEl.innerHTML = buildThumbsHTML(b.images.slice(0, shown), 0);
+
+    if (b.images.length > shown) {
+      const moreBtn = document.createElement('button');
+      moreBtn.className = 'bm-load-more';
+      moreBtn.textContent = `+ ${b.images.length - shown} more`;
+      moreBtn.addEventListener('click', () => {
+        moreBtn.remove();
+        thumbsEl.insertAdjacentHTML('beforeend', buildThumbsHTML(b.images.slice(shown), shown));
+      });
+      thumbsEl.appendChild(moreBtn);
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    activeBrand = null;
+  }
+
+  document.querySelectorAll('[data-brand]').forEach(btn => {
+    btn.addEventListener('click', () => openModal(btn.dataset.brand));
+  });
+  backdrop?.addEventListener('click', closeModal);
+  closeBtn?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+</script>
+</body>
+</html>
+

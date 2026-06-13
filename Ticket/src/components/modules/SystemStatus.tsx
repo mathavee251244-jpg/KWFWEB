@@ -1,9 +1,11 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, AlertTriangle, Clock, Wrench, ChevronDown, Activity, Plus, Trash2, X } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, Clock, Wrench, ChevronDown, Activity, Plus, Trash2, X, HardDrive, RefreshCw, Thermometer } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { ServiceStatus, Maintenance } from '../../types';
 import { SERVICE_STATUS_LABELS } from '../../types';
+import { getNASStorage } from '../../api/nas';
+import type { NASStorageResult, NASVolume } from '../../api/nas';
 
 const statusConfig: Record<ServiceStatus, { color: string; bg: string; border: string; dot: string; icon: React.ReactNode }> = {
   operational:   { color: 'text-green-300',  bg: 'bg-green-500/10',  border: 'border-green-500/25',  dot: 'bg-green-400',  icon: <CheckCircle2 size={14} className="text-green-400" /> },
@@ -119,6 +121,151 @@ function AddMaintenanceModal({ onClose, onAdd }: {
   );
 }
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function fmtBytes(bytes: string | number): string {
+  const n = typeof bytes === 'string' ? parseInt(bytes, 10) : bytes;
+  if (isNaN(n) || n <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  let i = 0; let val = n;
+  while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
+  return `${val.toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
+}
+
+// ── NAS Widget ─────────────────────────────────────────────────────────────────
+function NasWidget() {
+  const [data, setData] = useState<NASStorageResult | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [lastFetched, setLastFetched] = useState<Date | null>(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const result = await getNASStorage();
+      setData(result);
+      setLastFetched(new Date());
+    } catch {
+      setData({ configured: true, ok: false, error: 'เชื่อมต่อ server ไม่ได้' });
+    } finally { setLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    load();
+    const id = setInterval(load, 60_000);
+    return () => clearInterval(id);
+  }, [load]);
+
+  if (!data) return null;
+  if (!data.configured) return null; // ไม่ได้ตั้งค่า NAS_URL — ซ่อน widget ไว้
+
+  const volumes: NASVolume[] = data.volumes ?? [];
+
+  const volStatus = (s: string) => {
+    if (s === 'normal')    return { label: 'ปกติ',    cls: 'text-green-400 bg-green-500/10 border-green-500/20' };
+    if (s === 'degraded')  return { label: 'ผิดปกติ',  cls: 'text-amber-400 bg-amber-500/10 border-amber-500/20' };
+    if (s === 'crashed')   return { label: 'พัง',     cls: 'text-red-400   bg-red-500/10   border-red-500/20' };
+    return { label: s, cls: 'text-slate-400 bg-slate-500/10 border-slate-500/20' };
+  };
+
+  return (
+    <div className="glass-card rounded-xl p-4 mb-5">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <HardDrive size={15} className="text-sky-400" />
+          <span className="text-[14px] font-semibold text-white/85">Synology NAS</span>
+          {lastFetched && (
+            <span className="text-[10px] text-white/30">
+              อัปเดต {lastFetched.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}
+            </span>
+          )}
+        </div>
+        <button onClick={load} disabled={loading}
+          className="flex items-center gap-1 text-[11px] text-white/40 hover:text-white/70 transition-colors disabled:opacity-40">
+          <RefreshCw size={11} className={loading ? 'animate-spin' : ''} />
+          {loading ? 'กำลังโหลด...' : 'รีเฟรช'}
+        </button>
+      </div>
+
+      {!data.ok && data.error ? (
+        <div className="flex items-center gap-2 text-[12px] text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+          <AlertTriangle size={14} />
+          เชื่อมต่อ NAS ไม่ได้: {data.error}
+        </div>
+      ) : volumes.length === 0 ? (
+        <div className="text-center py-4 text-white/30 text-[12px]">ไม่พบข้อมูล Volume</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {volumes.map((vol) => {
+            const total = parseInt(vol.total_size, 10) || 0;
+            const used  = parseInt(vol.used_size,  10) || 0;
+            const free  = total - used;
+            const pct   = total > 0 ? Math.round((used / total) * 100) : 0;
+            const st    = volStatus(vol.status);
+            const barColor = pct >= 90 ? '#ef4444' : pct >= 75 ? '#f59e0b' : '#22c55e';
+            const name = vol.display_name || vol.volume_path;
+
+            return (
+              <div key={vol.volume_path} className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3.5">
+                <div className="flex items-center justify-between mb-2.5">
+                  <div className="flex items-center gap-1.5">
+                    <HardDrive size={12} className="text-white/50" />
+                    <span className="text-[12px] font-medium text-white/80 truncate">{name}</span>
+                  </div>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded border font-medium ${st.cls}`}>{st.label}</span>
+                </div>
+
+                {/* Progress bar */}
+                <div className="relative h-2 bg-white/[0.08] rounded-full overflow-hidden mb-2.5">
+                  <div className="absolute left-0 top-0 h-full rounded-full transition-all duration-700"
+                    style={{ width: `${pct}%`, background: barColor, boxShadow: `0 0 8px ${barColor}55` }} />
+                </div>
+
+                <div className="flex items-center justify-between text-[10px] text-white/45 mb-1">
+                  <span style={{ color: barColor }} className="font-semibold">{pct}% ใช้ไป</span>
+                  <span className="text-white/30">{vol.fs_type.toUpperCase()}</span>
+                </div>
+
+                <div className="grid grid-cols-3 gap-1 text-center mt-2">
+                  {[
+                    { label: 'ทั้งหมด', value: fmtBytes(total), color: 'text-white/60' },
+                    { label: 'ใช้ไป',   value: fmtBytes(used),  color: pct >= 90 ? 'text-red-400' : pct >= 75 ? 'text-amber-400' : 'text-white/60' },
+                    { label: 'เหลือ',   value: fmtBytes(free),  color: 'text-green-400' },
+                  ].map(({ label, value, color }) => (
+                    <div key={label} className="bg-white/[0.04] rounded-lg py-1.5 px-1">
+                      <div className={`text-[11px] font-semibold ${color}`}>{value}</div>
+                      <div className="text-[9px] text-white/25 mt-0.5">{label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Disks temperature (if available) */}
+      {data.ok && (data.disks ?? []).length > 0 && (
+        <div className="mt-3 pt-3 border-t border-white/[0.06]">
+          <div className="flex items-center gap-1.5 mb-2">
+            <Thermometer size={11} className="text-white/35" />
+            <span className="text-[10px] text-white/35">อุณหภูมิ HDD/SSD</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {(data.disks ?? []).map(disk => {
+              const tempColor = disk.temp >= 55 ? 'text-red-400' : disk.temp >= 45 ? 'text-amber-400' : 'text-green-400';
+              return (
+                <div key={disk.id} className="flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.07] rounded-lg px-2.5 py-1.5">
+                  <span className="text-[10px] text-white/55 truncate max-w-[80px]">{disk.name}</span>
+                  <span className={`text-[10px] font-semibold ${tempColor}`}>{disk.temp}°C</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function SystemStatus() {
   const { currentUser, services, maintenances, updateServiceStatus, navigate,
@@ -144,6 +291,9 @@ export default function SystemStatus() {
           </p>
         </div>
       </div>
+
+      {/* NAS Storage Widget */}
+      <NasWidget />
 
       {/* Overall Status Banner */}
       <div className={`rounded-xl p-4 mb-5 flex items-center gap-3 ${statusConfig[overallStatus].bg} border ${statusConfig[overallStatus].border}`}>

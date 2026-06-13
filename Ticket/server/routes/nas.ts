@@ -5,14 +5,16 @@ import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
 
-const NAS_URL  = (process.env.NAS_URL  ?? '').replace(/\/$/, '');
-const NAS_USER = process.env.NAS_USER ?? '';
-const NAS_PASS = process.env.NAS_PASS ?? '';
+interface NASConfig { index: number; url: string; user: string; pass: string; }
 
-let sessionCache: { sid: string; expires: number } | null = null;
-let storageCache: { data: unknown; expires: number } | null = null;
+// Support NAS1_URL…NAS4_URL, fallback: NAS_URL = NAS 1
+const NAS_CONFIGS: NASConfig[] = [1, 2, 3, 4].map(i => ({
+  index: i,
+  url:  (process.env[`NAS${i}_URL`]  ?? (i === 1 ? process.env.NAS_URL  ?? '' : '')).replace(/\/$/, ''),
+  user: process.env[`NAS${i}_USER`] ?? (i === 1 ? process.env.NAS_USER ?? '' : ''),
+  pass: process.env[`NAS${i}_PASS`] ?? (i === 1 ? process.env.NAS_PASS ?? '' : ''),
+})).filter(c => c.url && c.user && c.pass);
 
-// Low-level HTTP/HTTPS fetch — bypasses self-signed cert on LAN NAS
 function fetchNAS(url: string): Promise<unknown> {
   return new Promise((resolve, reject) => {
     const mod = url.startsWith('https') ? https : http;
@@ -31,48 +33,39 @@ function fetchNAS(url: string): Promise<unknown> {
 
 interface SynoAuth { success: boolean; data?: { sid: string }; error?: { code: number } }
 
-async function getSession(): Promise<string> {
-  if (sessionCache && sessionCache.expires > Date.now()) return sessionCache.sid;
-  const url = `${NAS_URL}/webapi/auth.cgi?api=SYNO.API.Auth&version=3&method=login` +
-    `&account=${encodeURIComponent(NAS_USER)}&passwd=${encodeURIComponent(NAS_PASS)}` +
+// Separate session + storage cache per NAS index
+const sessionCaches = new Map<number, { sid: string; expires: number }>();
+const storageCaches = new Map<number, { data: { volumes: NASVolume[]; disks: NASDisk[] }; expires: number }>();
+
+async function getSession(cfg: NASConfig): Promise<string> {
+  const cached = sessionCaches.get(cfg.index);
+  if (cached && cached.expires > Date.now()) return cached.sid;
+  const url = `${cfg.url}/webapi/auth.cgi?api=SYNO.API.Auth&version=3&method=login` +
+    `&account=${encodeURIComponent(cfg.user)}&passwd=${encodeURIComponent(cfg.pass)}` +
     `&session=helpdesk&format=sid`;
   const data = await fetchNAS(url) as SynoAuth;
   if (!data.success || !data.data?.sid) {
-    throw new Error(`NAS login failed (error code: ${data.error?.code ?? 'unknown'})`);
+    throw new Error(`NAS ${cfg.index} login failed (code: ${data.error?.code ?? 'unknown'})`);
   }
-  sessionCache = { sid: data.data.sid, expires: Date.now() + 3_600_000 };
-  return sessionCache.sid;
+  sessionCaches.set(cfg.index, { sid: data.data.sid, expires: Date.now() + 3_600_000 });
+  return data.data.sid;
 }
 
-// Raw Synology DSM API shapes (may vary by DSM version)
+// Raw Synology DSM API shapes
 interface RawSynoVolume {
-  vol_path?: string;
-  id?: string;
-  vol_desc?: string;
-  status?: string;
-  summary_status?: string;
-  fs_type?: string;
-  raid_type?: string;
+  vol_path?: string; id?: string; vol_desc?: string;
+  status?: string; summary_status?: string;
+  fs_type?: string; raid_type?: string;
   size?: { total?: string | number; used?: string | number };
-  // older DSM flat fields
-  total_size?: string | number;
-  used_size?: string | number;
-  volume_path?: string;
-  display_name?: string;
+  total_size?: string | number; used_size?: string | number;
+  volume_path?: string; display_name?: string;
 }
 interface RawSynoDisk {
-  id?: string;
-  name?: string;
-  model?: string;
-  longName?: string;
-  status?: string;
-  temp?: number;
+  id?: string; name?: string; model?: string; longName?: string;
+  status?: string; temp?: number;
   size_total?: string | number;
-  serial?: string;
-  serial_number?: string;
-  firm?: string;
-  type?: string;   // 'disk', 'ssd', 'nvme', 'esata', 'usb'
-  num?: number;    // bay slot number (if provided by DSM)
+  serial?: string; serial_number?: string;
+  firm?: string; type?: string; num?: number;
 }
 interface SynoStorage {
   success: boolean;
@@ -80,27 +73,23 @@ interface SynoStorage {
   error?: { code: number };
 }
 
-// Normalized shape sent to frontend (DSM-version agnostic)
+// Normalized shapes sent to frontend
 export interface NASVolume {
-  path: string;
-  name: string;
-  total: number;
-  used: number;
-  free: number;
-  status: string;
-  fsType: string;
-  raidType: string;
+  path: string; name: string;
+  total: number; used: number; free: number;
+  status: string; fsType: string; raidType: string;
 }
 export interface NASDisk {
-  id: string;
-  name: string;
-  model: string;
-  status: string;
-  temp: number;
-  slot: number;    // bay number (1-based)
-  size: number;    // bytes
-  type: string;    // 'hdd' | 'ssd' | 'nvme' | 'usb'
-  serial: string;
+  id: string; name: string; model: string;
+  status: string; temp: number;
+  slot: number; size: number; type: string; serial: string;
+}
+export interface NASDevice {
+  index: number; name: string;
+  ok: boolean;
+  volumes: NASVolume[];
+  disks: NASDisk[];
+  error?: string;
 }
 
 function normalizeVolume(v: RawSynoVolume): NASVolume {
@@ -108,51 +97,35 @@ function normalizeVolume(v: RawSynoVolume): NASVolume {
   const name  = v.vol_desc ?? v.id ?? path;
   const total = Number(v.size?.total ?? v.total_size ?? 0);
   const used  = Number(v.size?.used  ?? v.used_size  ?? 0);
-  return {
-    path,
-    name: name || path,
-    total,
-    used,
-    free: total - used,
-    status:   v.status ?? v.summary_status ?? 'unknown',
-    fsType:   v.fs_type   ?? '',
-    raidType: v.raid_type ?? '',
-  };
+  return { path, name: name || path, total, used, free: total - used,
+    status: v.status ?? v.summary_status ?? 'unknown',
+    fsType: v.fs_type ?? '', raidType: v.raid_type ?? '' };
 }
 function normalizeDisk(d: RawSynoDisk): NASDisk {
   const id = d.id ?? '';
-  // Extract slot number: "sata1" → 1, "nvme2" → 2
   const slotMatch = id.match(/(\d+)$/);
   const slot = d.num ?? (slotMatch ? parseInt(slotMatch[1], 10) : 0);
-  // Infer drive type from id or type field
-  let type = 'hdd';
   const rawType = (d.type ?? '').toLowerCase();
-  if (rawType === 'ssd' || rawType.includes('ssd'))    type = 'ssd';
-  else if (id.includes('nvme') || rawType === 'nvme')  type = 'nvme';
-  else if (id.includes('usb')  || rawType === 'usb')   type = 'usb';
-  return {
-    id,
-    name:   d.name   ?? '',
-    model:  d.model  ?? d.longName ?? '',
-    status: d.status ?? 'unknown',
-    temp:   d.temp   ?? 0,
-    slot,
-    size:   Number(d.size_total ?? 0),
-    type,
-    serial: d.serial ?? d.serial_number ?? '',
-  };
+  const type = rawType === 'ssd' || rawType.includes('ssd') ? 'ssd'
+    : id.includes('nvme') || rawType === 'nvme' ? 'nvme'
+    : id.includes('usb')  || rawType === 'usb'  ? 'usb'
+    : 'hdd';
+  return { id, name: d.name ?? '', model: d.model ?? d.longName ?? '',
+    status: d.status ?? 'unknown', temp: d.temp ?? 0,
+    slot, size: Number(d.size_total ?? 0), type,
+    serial: d.serial ?? d.serial_number ?? '' };
 }
 
-async function queryStorage(): Promise<{ volumes: NASVolume[]; disks: NASDisk[] }> {
-  const sid = await getSession();
-  const url = `${NAS_URL}/webapi/entry.cgi?api=SYNO.Storage.CGI.Storage&version=1&method=load_info&_sid=${sid}`;
+async function queryStorage(cfg: NASConfig): Promise<{ volumes: NASVolume[]; disks: NASDisk[] }> {
+  const sid = await getSession(cfg);
+  const url = `${cfg.url}/webapi/entry.cgi?api=SYNO.Storage.CGI.Storage&version=1&method=load_info&_sid=${sid}`;
   let d = await fetchNAS(url) as SynoStorage;
   if (!d.success) {
-    sessionCache = null;
-    const sid2 = await getSession();
-    const url2 = `${NAS_URL}/webapi/entry.cgi?api=SYNO.Storage.CGI.Storage&version=1&method=load_info&_sid=${sid2}`;
+    sessionCaches.delete(cfg.index);
+    const sid2 = await getSession(cfg);
+    const url2 = `${cfg.url}/webapi/entry.cgi?api=SYNO.Storage.CGI.Storage&version=1&method=load_info&_sid=${sid2}`;
     d = await fetchNAS(url2) as SynoStorage;
-    if (!d.success) throw new Error(`NAS storage query failed (code: ${d.error?.code ?? 'unknown'})`);
+    if (!d.success) throw new Error(`NAS ${cfg.index} storage query failed (code: ${d.error?.code ?? 'unknown'})`);
   }
   return {
     volumes: (d.data?.volumes ?? []).map(normalizeVolume),
@@ -160,30 +133,33 @@ async function queryStorage(): Promise<{ volumes: NASVolume[]; disks: NASDisk[] 
   };
 }
 
-// GET /api/nas/storage
+// GET /api/nas/storage  — returns { devices: NASDevice[] }
 router.get('/storage', requireAuth, async (_req, res) => {
-  if (!NAS_URL || !NAS_USER || !NAS_PASS) {
-    res.json({ configured: false }); return;
-  }
+  if (NAS_CONFIGS.length === 0) { res.json({ devices: [] }); return; }
 
-  if (storageCache && storageCache.expires > Date.now()) {
-    res.json({ configured: true, ok: true, ...(storageCache.data as object) }); return;
-  }
+  const results = await Promise.allSettled(
+    NAS_CONFIGS.map(async cfg => {
+      const cached = storageCaches.get(cfg.index);
+      if (cached && cached.expires > Date.now()) {
+        return { index: cfg.index, name: `NAS ${cfg.index}`, ok: true, ...cached.data } as NASDevice;
+      }
+      const { volumes, disks } = await queryStorage(cfg);
+      storageCaches.set(cfg.index, { data: { volumes, disks }, expires: Date.now() + 60_000 });
+      return { index: cfg.index, name: `NAS ${cfg.index}`, ok: true, volumes, disks } as NASDevice;
+    })
+  );
 
-  try {
-    const { volumes, disks } = await queryStorage();
-    const payload = { volumes, disks };
-    storageCache = { data: payload, expires: Date.now() + 60_000 };
-    res.json({ configured: true, ok: true, ...payload });
-  } catch (err) {
-    sessionCache = null;
-    storageCache = null;
-    res.status(500).json({
-      configured: true,
-      ok: false,
-      error: err instanceof Error ? err.message : 'Failed to connect to NAS',
-    });
-  }
+  const devices: NASDevice[] = results.map((r, i) => {
+    if (r.status === 'fulfilled') return r.value;
+    const cfg = NAS_CONFIGS[i];
+    sessionCaches.delete(cfg.index); storageCaches.delete(cfg.index);
+    return {
+      index: cfg.index, name: `NAS ${cfg.index}`, ok: false, volumes: [], disks: [],
+      error: r.reason instanceof Error ? r.reason.message : 'Failed to connect',
+    };
+  });
+
+  res.json({ devices });
 });
 
 export default router;

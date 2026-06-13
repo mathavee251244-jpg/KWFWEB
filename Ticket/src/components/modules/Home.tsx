@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import { getNASStorage } from '../../api/nas';
-import type { NASStorageResult } from '../../api/nas';
+import type { NASDevice } from '../../api/nas';
 
 function fmtBytes(bytes: number): string {
   if (!bytes || bytes <= 0) return '0 B';
@@ -19,30 +19,29 @@ function fmtBytes(bytes: number): string {
 }
 
 function NasHomeCard() {
-  const [data, setData]       = useState<NASStorageResult | null>(null);
+  const [devices, setDevices] = useState<NASDevice[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     setLoading(true);
-    try { setData(await getNASStorage()); }
-    catch { setData({ configured: true, ok: false, error: 'เชื่อมต่อไม่ได้' }); }
+    try { setDevices(await getNASStorage()); }
+    catch { /* keep prev */ }
     finally { setLoading(false); }
   }, []);
 
-  useEffect(() => {
-    load();
-    const id = setInterval(load, 60_000);
-    return () => clearInterval(id);
-  }, [load]);
+  useEffect(() => { load(); const id = setInterval(load, 60_000); return () => clearInterval(id); }, [load]);
 
-  if (!data || !data.configured) return null;
+  if (!loading && devices.length === 0) return null;
 
-  const volumes  = data.volumes ?? [];
-  const totalAll = volumes.reduce((s, v) => s + v.total, 0);
-  const usedAll  = volumes.reduce((s, v) => s + v.used, 0);
+  // Aggregate across all configured NAS
+  const allVolumes = devices.flatMap(d => d.ok ? d.volumes : []);
+  const totalAll = allVolumes.reduce((s, v) => s + v.total, 0);
+  const usedAll  = allVolumes.reduce((s, v) => s + v.used, 0);
   const freeAll  = totalAll - usedAll;
   const pctAll   = totalAll > 0 ? Math.round((usedAll / totalAll) * 100) : 0;
   const barColor = pctAll >= 90 ? '#ef4444' : pctAll >= 75 ? '#f59e0b' : '#22c55e';
+
+  if (!loading && allVolumes.length === 0 && devices.every(d => !d.ok)) return null;
 
   return (
     <div className="glass-card rounded-xl p-4 mb-6">
@@ -58,15 +57,13 @@ function NasHomeCard() {
         </button>
       </div>
 
-      {!data.ok ? (
-        <div className="flex items-center gap-2 text-[12px] text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-3 py-2.5">
-          <AlertTriangle size={13} /> เชื่อมต่อ NAS ไม่ได้: {data.error}
-        </div>
-      ) : volumes.length === 0 ? (
-        <div className="text-white/30 text-[12px]">ไม่พบข้อมูล Volume</div>
+      {loading && allVolumes.length === 0 ? (
+        <div className="text-[11px] text-white/30">กำลังโหลด...</div>
+      ) : allVolumes.length === 0 ? (
+        <div className="text-[11px] text-red-400/70">เชื่อมต่อ NAS ไม่ได้</div>
       ) : (
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-          {/* Aggregate */}
+          {/* Aggregate progress */}
           <div className="flex-1 min-w-[180px]">
             <div className="flex justify-between text-[11px] text-white/50 mb-1.5">
               <span>ใช้ไป <span className="text-white/70 font-medium">{fmtBytes(usedAll)}</span> / {fmtBytes(totalAll)}</span>
@@ -78,38 +75,25 @@ function NasHomeCard() {
             </div>
             <div className="text-[10px] text-white/30 mt-1">
               ว่าง: <span className="text-green-400 font-medium">{fmtBytes(freeAll)}</span>
+              {devices.length > 1 && <span className="ml-2">{devices.length} NAS</span>}
             </div>
           </div>
 
-          {/* Volume pills */}
+          {/* Volume pills per device */}
           <div className="flex flex-wrap gap-2 shrink-0">
-            {volumes.map(vol => {
+            {devices.map(d => d.ok && d.volumes.map(vol => {
               const pct = vol.total > 0 ? Math.round((vol.used / vol.total) * 100) : 0;
               const c   = pct >= 90 ? '#ef4444' : pct >= 75 ? '#f59e0b' : '#22c55e';
               return (
-                <div key={vol.path}
+                <div key={`${d.index}-${vol.path}`}
                   className="flex items-center gap-2 bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-1.5">
                   <HardDrive size={11} className="text-white/40" />
+                  <span className="text-[11px] text-white/55">{d.name}</span>
                   <span className="text-[11px] text-white/70">{vol.name || vol.path}</span>
                   <span className="text-[11px] font-bold" style={{ color: c }}>{pct}%</span>
-                  <span className="text-[10px] text-white/35">{fmtBytes(vol.free)} ว่าง</span>
                 </div>
               );
-            })}
-
-            {(data.disks ?? []).length > 0 && (
-              <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.07] rounded-xl px-3 py-1.5">
-                <Thermometer size={11} className="text-white/35" />
-                {(data.disks ?? []).map(d => {
-                  const tc = d.temp >= 55 ? 'text-red-400' : d.temp >= 45 ? 'text-amber-400' : 'text-green-400';
-                  return (
-                    <span key={d.id} className="text-[10px] text-white/50">
-                      {d.name} <span className={`font-semibold ${tc}`}>{d.temp}°C</span>
-                    </span>
-                  );
-                })}
-              </div>
-            )}
+            }))}
           </div>
         </div>
       )}

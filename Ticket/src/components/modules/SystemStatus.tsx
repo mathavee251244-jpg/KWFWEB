@@ -122,11 +122,10 @@ function AddMaintenanceModal({ onClose, onAdd }: {
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
-function fmtBytes(bytes: string | number): string {
-  const n = typeof bytes === 'string' ? parseInt(bytes, 10) : bytes;
-  if (isNaN(n) || n <= 0) return '0 B';
+function fmtBytes(bytes: number): string {
+  if (!bytes || bytes <= 0) return '0 B';
   const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  let i = 0; let val = n;
+  let i = 0; let val = bytes;
   while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
   return `${val.toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
 }
@@ -195,20 +194,17 @@ function NasWidget() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {volumes.map((vol) => {
-            const total = parseInt(vol.total_size, 10) || 0;
-            const used  = parseInt(vol.used_size,  10) || 0;
-            const free  = total - used;
-            const pct   = total > 0 ? Math.round((used / total) * 100) : 0;
-            const st    = volStatus(vol.status);
+            const pct      = vol.total > 0 ? Math.round((vol.used / vol.total) * 100) : 0;
+            const st       = volStatus(vol.status);
             const barColor = pct >= 90 ? '#ef4444' : pct >= 75 ? '#f59e0b' : '#22c55e';
-            const name = vol.display_name || vol.volume_path;
+            const label    = vol.name || vol.path;
 
             return (
-              <div key={vol.volume_path} className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3.5">
+              <div key={vol.path} className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3.5">
                 <div className="flex items-center justify-between mb-2.5">
                   <div className="flex items-center gap-1.5">
                     <HardDrive size={12} className="text-white/50" />
-                    <span className="text-[12px] font-medium text-white/80 truncate">{name}</span>
+                    <span className="text-[12px] font-medium text-white/80 truncate">{label}</span>
                   </div>
                   <span className={`text-[10px] px-1.5 py-0.5 rounded border font-medium ${st.cls}`}>{st.label}</span>
                 </div>
@@ -221,14 +217,14 @@ function NasWidget() {
 
                 <div className="flex items-center justify-between text-[10px] text-white/45 mb-1">
                   <span style={{ color: barColor }} className="font-semibold">{pct}% ใช้ไป</span>
-                  <span className="text-white/30">{vol.fs_type.toUpperCase()}</span>
+                  {vol.fsType && <span className="text-white/30">{vol.fsType.toUpperCase()}</span>}
                 </div>
 
                 <div className="grid grid-cols-3 gap-1 text-center mt-2">
                   {[
-                    { label: 'ทั้งหมด', value: fmtBytes(total), color: 'text-white/60' },
-                    { label: 'ใช้ไป',   value: fmtBytes(used),  color: pct >= 90 ? 'text-red-400' : pct >= 75 ? 'text-amber-400' : 'text-white/60' },
-                    { label: 'เหลือ',   value: fmtBytes(free),  color: 'text-green-400' },
+                    { label: 'ทั้งหมด', value: fmtBytes(vol.total), color: 'text-white/60' },
+                    { label: 'ใช้ไป',   value: fmtBytes(vol.used),  color: pct >= 90 ? 'text-red-400' : pct >= 75 ? 'text-amber-400' : 'text-white/60' },
+                    { label: 'เหลือ',   value: fmtBytes(vol.free),  color: 'text-green-400' },
                   ].map(({ label, value, color }) => (
                     <div key={label} className="bg-white/[0.04] rounded-lg py-1.5 px-1">
                       <div className={`text-[11px] font-semibold ${color}`}>{value}</div>

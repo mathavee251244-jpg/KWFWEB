@@ -1,13 +1,14 @@
 import { api } from './client';
 
 export interface NASVolume {
-  volume_path: string;
-  display_name: string;
-  total_size: string;
-  used_size: string;
-  avail_size: string;
+  path: string;
+  name: string;
+  total: number;    // bytes
+  used: number;     // bytes
+  free: number;     // bytes
   status: string;
-  fs_type: string;
+  fsType: string;
+  raidType: string;
 }
 
 export interface NASDisk {
@@ -15,7 +16,6 @@ export interface NASDisk {
   name: string;
   model: string;
   status: string;
-  size_total: string;
   temp: number;
 }
 

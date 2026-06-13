@@ -44,49 +44,96 @@ async function getSession(): Promise<string> {
   return sessionCache.sid;
 }
 
+// Raw Synology DSM API shapes (may vary by DSM version)
+interface RawSynoVolume {
+  vol_path?: string;
+  id?: string;
+  vol_desc?: string;
+  status?: string;
+  summary_status?: string;
+  fs_type?: string;
+  raid_type?: string;
+  size?: { total?: string | number; used?: string | number };
+  // older DSM flat fields
+  total_size?: string | number;
+  used_size?: string | number;
+  volume_path?: string;
+  display_name?: string;
+}
+interface RawSynoDisk {
+  id?: string;
+  name?: string;
+  model?: string;
+  status?: string;
+  temp?: number;
+  size_total?: string;
+}
 interface SynoStorage {
   success: boolean;
-  data?: {
-    volumes?: NASVolume[];
-    disks?: NASDisk[];
-    env?: { cmd_smarttest_enabled: boolean };
-  };
+  data?: { volumes?: RawSynoVolume[]; disks?: RawSynoDisk[]; };
   error?: { code: number };
 }
 
+// Normalized shape sent to frontend (DSM-version agnostic)
 export interface NASVolume {
-  volume_path: string;
-  display_name: string;
-  total_size: string;
-  used_size: string;
-  avail_size: string;
+  path: string;
+  name: string;
+  total: number;    // bytes
+  used: number;     // bytes
+  free: number;     // bytes
   status: string;
-  fs_type: string;
+  fsType: string;
+  raidType: string;
 }
-
 export interface NASDisk {
   id: string;
   name: string;
   model: string;
   status: string;
-  size_total: string;
   temp: number;
 }
 
-async function queryStorage(): Promise<SynoStorage['data']> {
+function normalizeVolume(v: RawSynoVolume): NASVolume {
+  const path  = v.vol_path ?? v.volume_path ?? '';
+  const name  = v.vol_desc ?? v.id ?? path;
+  const total = Number(v.size?.total ?? v.total_size ?? 0);
+  const used  = Number(v.size?.used  ?? v.used_size  ?? 0);
+  return {
+    path,
+    name: name || path,
+    total,
+    used,
+    free: total - used,
+    status:   v.status ?? v.summary_status ?? 'unknown',
+    fsType:   v.fs_type   ?? '',
+    raidType: v.raid_type ?? '',
+  };
+}
+function normalizeDisk(d: RawSynoDisk): NASDisk {
+  return {
+    id:     d.id    ?? '',
+    name:   d.name  ?? '',
+    model:  d.model ?? '',
+    status: d.status ?? 'unknown',
+    temp:   d.temp  ?? 0,
+  };
+}
+
+async function queryStorage(): Promise<{ volumes: NASVolume[]; disks: NASDisk[] }> {
   const sid = await getSession();
   const url = `${NAS_URL}/webapi/entry.cgi?api=SYNO.Storage.CGI.Storage&version=1&method=load_info&_sid=${sid}`;
-  const d = await fetchNAS(url) as SynoStorage;
+  let d = await fetchNAS(url) as SynoStorage;
   if (!d.success) {
-    // Try once more with a fresh session
     sessionCache = null;
     const sid2 = await getSession();
     const url2 = `${NAS_URL}/webapi/entry.cgi?api=SYNO.Storage.CGI.Storage&version=1&method=load_info&_sid=${sid2}`;
-    const d2 = await fetchNAS(url2) as SynoStorage;
-    if (!d2.success) throw new Error(`NAS storage query failed (code: ${d2.error?.code ?? 'unknown'})`);
-    return d2.data;
+    d = await fetchNAS(url2) as SynoStorage;
+    if (!d.success) throw new Error(`NAS storage query failed (code: ${d.error?.code ?? 'unknown'})`);
   }
-  return d.data;
+  return {
+    volumes: (d.data?.volumes ?? []).map(normalizeVolume),
+    disks:   (d.data?.disks   ?? []).map(normalizeDisk),
+  };
 }
 
 // GET /api/nas/storage
@@ -100,9 +147,10 @@ router.get('/storage', requireAuth, async (_req, res) => {
   }
 
   try {
-    const data = await queryStorage();
-    storageCache = { data, expires: Date.now() + 60_000 };
-    res.json({ configured: true, ok: true, ...data });
+    const { volumes, disks } = await queryStorage();
+    const payload = { volumes, disks };
+    storageCache = { data: payload, expires: Date.now() + 60_000 };
+    res.json({ configured: true, ok: true, ...payload });
   } catch (err) {
     sessionCache = null;
     storageCache = null;

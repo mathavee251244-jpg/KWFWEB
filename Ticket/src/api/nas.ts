@@ -3,9 +3,9 @@ import { api } from './client';
 export interface NASVolume {
   path: string;
   name: string;
-  total: number;    // bytes
-  used: number;     // bytes
-  free: number;     // bytes
+  total: number;
+  used: number;
+  free: number;
   status: string;
   fsType: string;
   raidType: string;
@@ -17,6 +17,10 @@ export interface NASDisk {
   model: string;
   status: string;
   temp: number;
+  slot: number;
+  size: number;
+  type: string;
+  serial: string;
 }
 
 export interface NASStorageResult {

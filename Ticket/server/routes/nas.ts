@@ -64,9 +64,15 @@ interface RawSynoDisk {
   id?: string;
   name?: string;
   model?: string;
+  longName?: string;
   status?: string;
   temp?: number;
-  size_total?: string;
+  size_total?: string | number;
+  serial?: string;
+  serial_number?: string;
+  firm?: string;
+  type?: string;   // 'disk', 'ssd', 'nvme', 'esata', 'usb'
+  num?: number;    // bay slot number (if provided by DSM)
 }
 interface SynoStorage {
   success: boolean;
@@ -78,9 +84,9 @@ interface SynoStorage {
 export interface NASVolume {
   path: string;
   name: string;
-  total: number;    // bytes
-  used: number;     // bytes
-  free: number;     // bytes
+  total: number;
+  used: number;
+  free: number;
   status: string;
   fsType: string;
   raidType: string;
@@ -91,6 +97,10 @@ export interface NASDisk {
   model: string;
   status: string;
   temp: number;
+  slot: number;    // bay number (1-based)
+  size: number;    // bytes
+  type: string;    // 'hdd' | 'ssd' | 'nvme' | 'usb'
+  serial: string;
 }
 
 function normalizeVolume(v: RawSynoVolume): NASVolume {
@@ -110,12 +120,26 @@ function normalizeVolume(v: RawSynoVolume): NASVolume {
   };
 }
 function normalizeDisk(d: RawSynoDisk): NASDisk {
+  const id = d.id ?? '';
+  // Extract slot number: "sata1" → 1, "nvme2" → 2
+  const slotMatch = id.match(/(\d+)$/);
+  const slot = d.num ?? (slotMatch ? parseInt(slotMatch[1], 10) : 0);
+  // Infer drive type from id or type field
+  let type = 'hdd';
+  const rawType = (d.type ?? '').toLowerCase();
+  if (rawType === 'ssd' || rawType.includes('ssd'))    type = 'ssd';
+  else if (id.includes('nvme') || rawType === 'nvme')  type = 'nvme';
+  else if (id.includes('usb')  || rawType === 'usb')   type = 'usb';
   return {
-    id:     d.id    ?? '',
-    name:   d.name  ?? '',
-    model:  d.model ?? '',
+    id,
+    name:   d.name   ?? '',
+    model:  d.model  ?? d.longName ?? '',
     status: d.status ?? 'unknown',
-    temp:   d.temp  ?? 0,
+    temp:   d.temp   ?? 0,
+    slot,
+    size:   Number(d.size_total ?? 0),
+    type,
+    serial: d.serial ?? d.serial_number ?? '',
   };
 }
 

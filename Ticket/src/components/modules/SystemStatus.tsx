@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, AlertTriangle, Clock, Wrench, ChevronDown, Activity, Plus, Trash2, X, HardDrive, RefreshCw, Thermometer } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, Clock, Wrench, ChevronDown, Activity, Plus, Trash2, X, HardDrive, RefreshCw, Layers, Server } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { ServiceStatus, Maintenance } from '../../types';
 import { SERVICE_STATUS_LABELS } from '../../types';
@@ -130,133 +130,206 @@ function fmtBytes(bytes: number): string {
   return `${val.toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
 }
 
-// ── NAS Widget ─────────────────────────────────────────────────────────────────
+// ── NAS Widget — Storage Manager view ─────────────────────────────────────────
 function NasWidget() {
-  const [data, setData] = useState<NASStorageResult | null>(null);
+  const [data, setData]       = useState<NASStorageResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastFetched, setLastFetched] = useState<Date | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
-    try {
-      const result = await getNASStorage();
-      setData(result);
-      setLastFetched(new Date());
-    } catch {
-      setData({ configured: true, ok: false, error: 'เชื่อมต่อ server ไม่ได้' });
-    } finally { setLoading(false); }
+    try { const r = await getNASStorage(); setData(r); setLastFetched(new Date()); }
+    catch { setData({ configured: true, ok: false, error: 'เชื่อมต่อ server ไม่ได้' }); }
+    finally { setLoading(false); }
   }, []);
 
-  useEffect(() => {
-    load();
-    const id = setInterval(load, 60_000);
-    return () => clearInterval(id);
-  }, [load]);
+  useEffect(() => { load(); const id = setInterval(load, 60_000); return () => clearInterval(id); }, [load]);
 
-  if (!data) return null;
-  if (!data.configured) return null; // ไม่ได้ตั้งค่า NAS_URL — ซ่อน widget ไว้
+  if (!data || !data.configured) return null;
 
-  const volumes: NASVolume[] = data.volumes ?? [];
+  const volumes = data.volumes ?? [];
+  const disks   = [...(data.disks ?? [])].sort((a, b) => (a.slot || 0) - (b.slot || 0));
 
-  const volStatus = (s: string) => {
-    if (s === 'normal')    return { label: 'ปกติ',    cls: 'text-green-400 bg-green-500/10 border-green-500/20' };
-    if (s === 'degraded')  return { label: 'ผิดปกติ',  cls: 'text-amber-400 bg-amber-500/10 border-amber-500/20' };
-    if (s === 'crashed')   return { label: 'พัง',     cls: 'text-red-400   bg-red-500/10   border-red-500/20' };
+  const volStatusStyle = (s: string) => {
+    if (s === 'normal')   return { label: 'ปกติ',    cls: 'text-green-400 bg-green-500/10 border-green-500/20' };
+    if (s === 'degraded') return { label: 'ผิดปกติ', cls: 'text-amber-400 bg-amber-500/10 border-amber-500/20' };
+    if (s === 'crashed')  return { label: 'พัง',     cls: 'text-red-400   bg-red-500/10   border-red-500/20' };
     return { label: s, cls: 'text-slate-400 bg-slate-500/10 border-slate-500/20' };
   };
 
   return (
-    <div className="glass-card rounded-xl p-4 mb-5">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <HardDrive size={15} className="text-sky-400" />
-          <span className="text-[14px] font-semibold text-white/85">Synology NAS</span>
+    <div className="glass-card rounded-xl p-5 mb-5">
+
+      {/* ── Header ── */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+            style={{ background: 'rgba(14,165,233,0.15)', border: '1px solid rgba(14,165,233,0.3)' }}>
+            <HardDrive size={15} className="text-sky-400" />
+          </div>
+          <div>
+            <div className="text-[14px] font-semibold text-white/85">Synology NAS</div>
+            <div className="text-[9px] text-white/30 tracking-widest uppercase">Storage Manager</div>
+          </div>
           {lastFetched && (
-            <span className="text-[10px] text-white/30">
+            <span className="text-[10px] text-white/20 ml-1 hidden sm:block">
               อัปเดต {lastFetched.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}
             </span>
           )}
         </div>
         <button onClick={load} disabled={loading}
-          className="flex items-center gap-1 text-[11px] text-white/40 hover:text-white/70 transition-colors disabled:opacity-40">
+          className="flex items-center gap-1.5 text-[11px] text-white/40 hover:text-white/70 transition-colors disabled:opacity-40">
           <RefreshCw size={11} className={loading ? 'animate-spin' : ''} />
           {loading ? 'กำลังโหลด...' : 'รีเฟรช'}
         </button>
       </div>
 
-      {!data.ok && data.error ? (
+      {/* ── Error ── */}
+      {!data.ok && data.error && (
         <div className="flex items-center gap-2 text-[12px] text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
-          <AlertTriangle size={14} />
-          เชื่อมต่อ NAS ไม่ได้: {data.error}
-        </div>
-      ) : volumes.length === 0 ? (
-        <div className="text-center py-4 text-white/30 text-[12px]">ไม่พบข้อมูล Volume</div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {volumes.map((vol) => {
-            const pct      = vol.total > 0 ? Math.round((vol.used / vol.total) * 100) : 0;
-            const st       = volStatus(vol.status);
-            const barColor = pct >= 90 ? '#ef4444' : pct >= 75 ? '#f59e0b' : '#22c55e';
-            const label    = vol.name || vol.path;
-
-            return (
-              <div key={vol.path} className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3.5">
-                <div className="flex items-center justify-between mb-2.5">
-                  <div className="flex items-center gap-1.5">
-                    <HardDrive size={12} className="text-white/50" />
-                    <span className="text-[12px] font-medium text-white/80 truncate">{label}</span>
-                  </div>
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded border font-medium ${st.cls}`}>{st.label}</span>
-                </div>
-
-                {/* Progress bar */}
-                <div className="relative h-2 bg-white/[0.08] rounded-full overflow-hidden mb-2.5">
-                  <div className="absolute left-0 top-0 h-full rounded-full transition-all duration-700"
-                    style={{ width: `${pct}%`, background: barColor, boxShadow: `0 0 8px ${barColor}55` }} />
-                </div>
-
-                <div className="flex items-center justify-between text-[10px] text-white/45 mb-1">
-                  <span style={{ color: barColor }} className="font-semibold">{pct}% ใช้ไป</span>
-                  {vol.fsType && <span className="text-white/30">{vol.fsType.toUpperCase()}</span>}
-                </div>
-
-                <div className="grid grid-cols-3 gap-1 text-center mt-2">
-                  {[
-                    { label: 'ทั้งหมด', value: fmtBytes(vol.total), color: 'text-white/60' },
-                    { label: 'ใช้ไป',   value: fmtBytes(vol.used),  color: pct >= 90 ? 'text-red-400' : pct >= 75 ? 'text-amber-400' : 'text-white/60' },
-                    { label: 'เหลือ',   value: fmtBytes(vol.free),  color: 'text-green-400' },
-                  ].map(({ label, value, color }) => (
-                    <div key={label} className="bg-white/[0.04] rounded-lg py-1.5 px-1">
-                      <div className={`text-[11px] font-semibold ${color}`}>{value}</div>
-                      <div className="text-[9px] text-white/25 mt-0.5">{label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+          <AlertTriangle size={14} /> เชื่อมต่อ NAS ไม่ได้: {data.error}
         </div>
       )}
 
-      {/* Disks temperature (if available) */}
-      {data.ok && (data.disks ?? []).length > 0 && (
-        <div className="mt-3 pt-3 border-t border-white/[0.06]">
-          <div className="flex items-center gap-1.5 mb-2">
-            <Thermometer size={11} className="text-white/35" />
-            <span className="text-[10px] text-white/35">อุณหภูมิ HDD/SSD</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {(data.disks ?? []).map(disk => {
-              const tempColor = disk.temp >= 55 ? 'text-red-400' : disk.temp >= 45 ? 'text-amber-400' : 'text-green-400';
-              return (
-                <div key={disk.id} className="flex items-center gap-1.5 bg-white/[0.04] border border-white/[0.07] rounded-lg px-2.5 py-1.5">
-                  <span className="text-[10px] text-white/55 truncate max-w-[80px]">{disk.name}</span>
-                  <span className={`text-[10px] font-semibold ${tempColor}`}>{disk.temp}°C</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+      {data.ok && (
+        <>
+          {/* ── Volumes ── */}
+          {volumes.length > 0 && (
+            <div className="mb-5">
+              <div className="flex items-center gap-1.5 mb-3">
+                <Layers size={10} className="text-white/25" />
+                <span className="text-[10px] text-white/25 uppercase tracking-widest font-medium">Volumes</span>
+                <span className="text-[10px] text-white/15">· {volumes.length}</span>
+              </div>
+              <div className={`grid gap-3 ${volumes.length > 1 ? 'sm:grid-cols-2' : ''}`}>
+                {volumes.map(vol => {
+                  const pct      = vol.total > 0 ? Math.round((vol.used / vol.total) * 100) : 0;
+                  const barColor = pct >= 90 ? '#ef4444' : pct >= 75 ? '#f59e0b' : '#22c55e';
+                  const vs       = volStatusStyle(vol.status);
+                  return (
+                    <div key={vol.path} className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-4">
+                      {/* Volume header */}
+                      <div className="flex items-start justify-between mb-3 gap-2">
+                        <div className="min-w-0">
+                          <div className="text-[13px] font-semibold text-white/80 truncate">
+                            {vol.name || vol.path}
+                          </div>
+                          <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                            {vol.path && vol.name !== vol.path && (
+                              <span className="text-[9px] text-white/30 font-mono">{vol.path}</span>
+                            )}
+                            {vol.fsType && (
+                              <span className="text-[9px] text-white/40 bg-white/[0.06] border border-white/[0.08] px-1.5 py-0.5 rounded font-mono">
+                                {vol.fsType.toUpperCase()}
+                              </span>
+                            )}
+                            {vol.raidType && (
+                              <span className="text-[9px] text-sky-300/70 bg-sky-500/[0.10] border border-sky-500/20 px-1.5 py-0.5 rounded font-mono">
+                                {vol.raidType}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <span className={`text-[10px] px-2 py-0.5 rounded-lg border font-medium shrink-0 ${vs.cls}`}>
+                          {vs.label}
+                        </span>
+                      </div>
+
+                      {/* Progress bar */}
+                      <div className="h-2.5 bg-white/[0.07] rounded-full overflow-hidden mb-3">
+                        <div className="h-full rounded-full transition-all duration-700"
+                          style={{ width: `${pct}%`, background: barColor, boxShadow: `0 0 10px ${barColor}55` }} />
+                      </div>
+
+                      {/* Usage stats */}
+                      <div className="grid grid-cols-3 gap-2 text-center">
+                        {[
+                          { label: 'ใช้ไป',   value: fmtBytes(vol.used),  color: barColor },
+                          { label: 'ว่าง',    value: fmtBytes(vol.free),  color: '#22c55e' },
+                          { label: 'ทั้งหมด', value: fmtBytes(vol.total), color: 'rgba(255,255,255,0.5)' },
+                        ].map(({ label, value, color }) => (
+                          <div key={label} className="bg-white/[0.04] rounded-lg py-2">
+                            <div className="text-[12px] font-semibold" style={{ color }}>{value}</div>
+                            <div className="text-[9px] text-white/25 mt-0.5">{label}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="text-right mt-1.5 text-[10px] font-semibold" style={{ color: barColor }}>
+                        {pct}% ใช้ไปแล้ว
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* ── Drive Bays ── */}
+          {disks.length > 0 && (
+            <div>
+              <div className="flex items-center gap-1.5 mb-3">
+                <Server size={10} className="text-white/25" />
+                <span className="text-[10px] text-white/25 uppercase tracking-widest font-medium">Drive Bays</span>
+                <span className="text-[10px] text-white/15">· {disks.length} drives</span>
+              </div>
+              <div className="grid gap-2"
+                style={{ gridTemplateColumns: `repeat(${Math.min(disks.length, 6)}, minmax(0, 1fr))` }}>
+                {disks.map(disk => {
+                  const isOk     = disk.status === 'normal';
+                  const isWarn   = disk.status === 'warning';
+                  const dotColor = isOk ? 'bg-green-400' : isWarn ? 'bg-amber-400' : 'bg-red-400';
+                  const statusLabel = isOk ? 'ปกติ' : isWarn ? 'เตือน' : disk.status === 'error' ? 'ผิดปกติ' : disk.status;
+                  const borderColor = isOk ? 'rgba(255,255,255,0.08)' : isWarn ? 'rgba(245,158,11,0.3)' : 'rgba(239,68,68,0.3)';
+                  const tempColor   = disk.temp >= 55 ? '#ef4444' : disk.temp >= 45 ? '#f59e0b' : '#22c55e';
+                  const shortModel  = disk.model ? (disk.model.split('-')[0] || disk.model) : '—';
+                  const slotLabel   = disk.slot > 0 ? `Disk ${disk.slot}` : disk.id.toUpperCase();
+
+                  return (
+                    <div key={disk.id}
+                      className="flex flex-col items-center gap-1.5 rounded-xl p-2.5 text-center"
+                      style={{ background: 'rgba(255,255,255,0.04)', border: `1px solid ${borderColor}` }}>
+
+                      {/* Slot label */}
+                      <div className="text-[8px] text-white/25 font-mono uppercase tracking-wider">{slotLabel}</div>
+
+                      {/* Drive icon */}
+                      <div className="w-9 h-11 rounded-lg flex flex-col items-center justify-center gap-0.5"
+                        style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <HardDrive size={15} className="text-white/45" />
+                        {disk.type !== 'hdd' && (
+                          <span className="text-[7px] text-sky-400/60 font-bold uppercase">{disk.type}</span>
+                        )}
+                      </div>
+
+                      {/* Model */}
+                      <div className="text-[9px] text-white/60 font-medium leading-tight truncate w-full px-0.5">
+                        {shortModel}
+                      </div>
+
+                      {/* Size */}
+                      {disk.size > 0 && (
+                        <div className="text-[9px] text-white/35 leading-tight">{fmtBytes(disk.size)}</div>
+                      )}
+
+                      {/* Temperature */}
+                      {disk.temp > 0 && (
+                        <div className="text-[11px] font-bold leading-tight" style={{ color: tempColor }}>
+                          {disk.temp}°C
+                        </div>
+                      )}
+
+                      {/* Status */}
+                      <div className="flex items-center gap-1 mt-0.5">
+                        <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor}`} />
+                        <span className="text-[8px] text-white/30">{statusLabel}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

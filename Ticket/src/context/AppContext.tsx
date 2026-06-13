@@ -135,8 +135,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     // socket on the second call, so without this sock.on() would stack up handlers.
     const APP_EVENTS = [
       'ticket:resolved', 'ticket:created', 'ticket:updated',
-      'ticket:status_changed', 'ticket:assigned', 'ticket:comment',
-      'chat:message', 'user:avatar',
+      'ticket:status_changed', 'ticket:assigned', 'ticket:assigned_to_you',
+      'ticket:comment', 'chat:message', 'user:avatar',
     ] as const;
     APP_EVENTS.forEach(ev => sock.off(ev));
 
@@ -190,12 +190,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       const user = currentUserRef.current;
       if ((user.role === 'it_staff' || user.role === 'it_manager') && ticket.requesterId !== user.id) {
         addNotification({
-          type: 'ticket_comment',
-          title: `Ticket ใหม่ · ${ticket.id}`,
+          type: 'ticket_new',
+          title: `🎫 Ticket ใหม่ · ${ticket.id}`,
           message: `${ticket.requesterName} (${ticket.department}): ${ticket.title}`,
           ticketId: ticket.id,
         });
       }
+    });
+
+    sock.on('ticket:assigned_to_you', (data: { ticketId: string; title: string; requesterName: string; department: string }) => {
+      addNotification({
+        type: 'ticket_assigned',
+        title: `📋 ได้รับ Ticket · ${data.ticketId}`,
+        message: `"${data.title}" จาก ${data.requesterName} (${data.department})`,
+        ticketId: data.ticketId,
+      });
     });
 
     sock.on('ticket:updated', (ticket: Ticket) => {

@@ -259,7 +259,7 @@ export interface ChatMessage {
 
 export interface AppNotification {
   id: string;
-  type: 'ticket_resolved' | 'ticket_comment' | 'ticket_status_changed' | 'ticket_assigned' | 'chat_message';
+  type: 'ticket_resolved' | 'ticket_comment' | 'ticket_status_changed' | 'ticket_assigned' | 'ticket_new' | 'chat_message';
   title: string;
   message: string;
   ticketId?: string;

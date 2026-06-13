@@ -186,6 +186,12 @@ router.patch('/:id/assign', requireAuth, requireIT, (req: AuthRequest, res) => {
   notifyUser(row.requester_id as string, 'ticket:assigned', {
     ticketId: req.params.id, title: row.title, assigneeName,
   });
+  if (assigneeId !== row.requester_id) {
+    notifyUser(assigneeId, 'ticket:assigned_to_you', {
+      ticketId: req.params.id, title: row.title,
+      requesterName: row.requester_name, department: row.department,
+    });
+  }
   res.json(updatedAssign);
 });
 
@@ -208,7 +214,13 @@ router.post('/:id/comments', requireAuth, (req: AuthRequest, res) => {
   const updatedComment = buildTicket(db.prepare('SELECT * FROM tickets WHERE id = ?').get(req.params.id) as Record<string, unknown>);
   broadcastAll('ticket:updated', updatedComment);
   if (req.userRole !== 'employee' && !isInternal) {
+    // IT commented → notify requester
     notifyUser(row.requester_id as string, 'ticket:comment', {
+      ticketId: req.params.id, title: row.title, commentBy: req.userName, message,
+    });
+  } else if (req.userRole === 'employee' && row.assignee_id) {
+    // Employee commented → notify assignee
+    notifyUser(row.assignee_id as string, 'ticket:comment', {
       ticketId: req.params.id, title: row.title, commentBy: req.userName, message,
     });
   }

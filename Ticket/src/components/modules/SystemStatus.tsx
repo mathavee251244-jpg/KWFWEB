@@ -1,11 +1,13 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, AlertTriangle, Clock, Wrench, ChevronDown, Activity, Plus, Trash2, X, HardDrive, RefreshCw, Layers, Server } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, Clock, Wrench, ChevronDown, Activity, Plus, Trash2, X, HardDrive, RefreshCw, Layers, Server, Cpu, MemoryStick, Monitor } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { ServiceStatus, Maintenance } from '../../types';
 import { SERVICE_STATUS_LABELS } from '../../types';
 import { getNASStorage } from '../../api/nas';
 import type { NASDevice } from '../../api/nas';
+import { getSystemResources } from '../../api/system';
+import type { SystemResources } from '../../api/system';
 
 const statusConfig: Record<ServiceStatus, { color: string; bg: string; border: string; dot: string; icon: React.ReactNode }> = {
   operational:   { color: 'text-green-300',  bg: 'bg-green-500/10',  border: 'border-green-500/25',  dot: 'bg-green-400',  icon: <CheckCircle2 size={14} className="text-green-400" /> },
@@ -128,6 +130,158 @@ function fmtBytes(bytes: number): string {
   let i = 0; let val = bytes;
   while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
   return `${val.toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
+}
+
+// ── Resource Monitor ───────────────────────────────────────────────────────────
+function fmtUptime(sec: number): string {
+  const d = Math.floor(sec / 86400);
+  const h = Math.floor((sec % 86400) / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const parts: string[] = [];
+  if (d > 0) parts.push(`${d} วัน`);
+  if (h > 0) parts.push(`${h} ชม.`);
+  if (m > 0 || parts.length === 0) parts.push(`${m} นาที`);
+  return parts.join(' ');
+}
+
+function GaugeBar({ pct, color }: { pct: number; color: string }) {
+  return (
+    <div className="h-2 bg-white/[0.07] rounded-full overflow-hidden">
+      <div className="h-full rounded-full transition-all duration-700"
+        style={{ width: `${Math.min(pct, 100)}%`, background: color, boxShadow: `0 0 8px ${color}55` }} />
+    </div>
+  );
+}
+
+function ResourceMonitor() {
+  const [data, setData]   = useState<SystemResources | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [lastFetched, setLastFetched] = useState<Date | null>(null);
+
+  const load = useCallback(async () => {
+    try { setData(await getSystemResources()); setLastFetched(new Date()); }
+    catch { /* keep prev */ }
+    finally { setLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    load();
+    const id = setInterval(load, 5_000);
+    return () => clearInterval(id);
+  }, [load]);
+
+  const cpuColor  = (u: number) => u >= 90 ? '#ef4444' : u >= 70 ? '#f59e0b' : '#22c55e';
+  const memColor  = (u: number) => u >= 90 ? '#ef4444' : u >= 75 ? '#f59e0b' : '#3b82f6';
+  const diskColor = (u: number) => u >= 90 ? '#ef4444' : u >= 75 ? '#f59e0b' : '#8b5cf6';
+
+  return (
+    <div className="mt-5">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Monitor size={14} className="text-violet-400" />
+          <span className="text-[13px] font-semibold text-white/70">Resource Monitor</span>
+          {data && (
+            <span className="text-[10px] text-white/25 font-mono">{data.hostname}</span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          {lastFetched && (
+            <span className="text-[10px] text-white/20 hidden sm:block">
+              อัปเดต {lastFetched.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="glass-card rounded-xl p-4">
+        {loading && !data ? (
+          <div className="flex items-center gap-2 text-[12px] text-white/30 py-2">
+            <RefreshCw size={12} className="animate-spin" /> กำลังโหลด...
+          </div>
+        ) : !data ? (
+          <div className="text-[12px] text-red-400/70">ไม่สามารถอ่านข้อมูล Resource ได้</div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {/* Row 1: CPU + Memory */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* CPU */}
+              <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3.5">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Cpu size={13} className="text-green-400" />
+                    <span className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">CPU</span>
+                  </div>
+                  <span className="text-[18px] font-light" style={{ color: cpuColor(data.cpu.usage) }}>
+                    {data.cpu.usage}%
+                  </span>
+                </div>
+                <GaugeBar pct={data.cpu.usage} color={cpuColor(data.cpu.usage)} />
+                <div className="mt-2 text-[10px] text-white/30 truncate">
+                  {data.cpu.model} · {data.cpu.cores} cores
+                </div>
+              </div>
+
+              {/* Memory */}
+              <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3.5">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <MemoryStick size={13} className="text-blue-400" />
+                    <span className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">RAM</span>
+                  </div>
+                  <span className="text-[18px] font-light" style={{ color: memColor(Math.round(data.memory.used / data.memory.total * 100)) }}>
+                    {Math.round(data.memory.used / data.memory.total * 100)}%
+                  </span>
+                </div>
+                <GaugeBar
+                  pct={Math.round(data.memory.used / data.memory.total * 100)}
+                  color={memColor(Math.round(data.memory.used / data.memory.total * 100))}
+                />
+                <div className="flex justify-between mt-2 text-[10px] text-white/30">
+                  <span>ใช้ {fmtBytes(data.memory.used)}</span>
+                  <span>ว่าง {fmtBytes(data.memory.free)}</span>
+                  <span>รวม {fmtBytes(data.memory.total)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Row 2: Disks */}
+            {data.disks.length > 0 && (
+              <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-3.5">
+                <div className="flex items-center gap-2 mb-3">
+                  <HardDrive size={13} className="text-violet-400" />
+                  <span className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">Storage (Server)</span>
+                </div>
+                <div className="flex flex-col gap-2.5">
+                  {data.disks.map(disk => {
+                    const pct = disk.total > 0 ? Math.round(disk.used / disk.total * 100) : 0;
+                    const c   = diskColor(pct);
+                    return (
+                      <div key={disk.path}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[11px] font-mono text-white/60">{disk.path}</span>
+                          <div className="flex items-center gap-3 text-[10px] text-white/35">
+                            <span>{fmtBytes(disk.used)} / {fmtBytes(disk.total)}</span>
+                            <span className="font-semibold" style={{ color: c }}>{pct}%</span>
+                          </div>
+                        </div>
+                        <GaugeBar pct={pct} color={c} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Row 3: Uptime */}
+            <div className="flex items-center justify-between text-[11px] text-white/30 px-1">
+              <span>Uptime: <span className="text-white/50">{fmtUptime(data.uptime)}</span></span>
+              <span className="font-mono">{data.platform}</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 // ── NAS Storage Manager (multi-device with tabs) ───────────────────────────────
@@ -521,7 +675,8 @@ export default function SystemStatus() {
         </div>
       </div>
 
-      {/* NAS Storage Manager — IT/Manager only */}
+      {/* Resource Monitor + NAS — IT/Manager only */}
+      {isIT && <ResourceMonitor />}
       {isIT && <NasSection />}
 
       {showAddModal && (

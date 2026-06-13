@@ -14,6 +14,7 @@ import servicesRouter from './routes/services.js';
 import chatRouter from './routes/chat.js';
 import docsRouter from './routes/docs.js';
 import nasRouter from './routes/nas.js';
+import systemRouter from './routes/system.js';
 import { setupSockets } from './sockets/index.js';
 import { setIO } from './lib/notify.js';
 
@@ -47,6 +48,7 @@ app.use('/api/services', servicesRouter);
 app.use('/api/chat',     chatRouter);
 app.use('/api/docs',     docsRouter);
 app.use('/api/nas',      nasRouter);
+app.use('/api/system',   systemRouter);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
 

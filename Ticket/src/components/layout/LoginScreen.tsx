@@ -122,7 +122,7 @@ function SplashView({ onEnter }: { onEnter: () => void }) {
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function LoginScreen() {
   const { login } = useApp();
-  const [phase, setPhase] = useState<'splash' | 'exiting' | 'login'>('splash');
+  const [phase, setPhase] = useState<'splash' | 'exiting' | 'login'>('login');
   const [userId, setUserId] = useState('');
   const [pwd, setPwd]       = useState('');
   const [showPwd, setShowPwd] = useState(false);

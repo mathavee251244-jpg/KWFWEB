@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import db from '../db/database.js';
-import { requireAuth, requireIT } from '../middleware/auth.js';
+import { requireAuth, requireIT, requireManager } from '../middleware/auth.js';
 import type { AuthRequest } from '../middleware/auth.js';
 import { notifyUser, broadcastAll } from '../lib/notify.js';
 
@@ -233,6 +233,16 @@ router.post('/:id/files', requireAuth, upload.array('files', 5), (req: AuthReque
   const updatedWithFiles = buildTicket(db.prepare('SELECT * FROM tickets WHERE id = ?').get(req.params.id) as Record<string, unknown>);
   broadcastAll('ticket:updated', updatedWithFiles);
   res.status(201).json(saved);
+});
+
+// DELETE all tickets — IT Manager only
+router.delete('/all', requireAuth, requireManager, (_req, res) => {
+  db.prepare('DELETE FROM ticket_attachments').run();
+  db.prepare('DELETE FROM ticket_timeline').run();
+  db.prepare('DELETE FROM comments').run();
+  db.prepare('DELETE FROM tickets').run();
+  broadcastAll('tickets:cleared', {});
+  res.json({ ok: true });
 });
 
 export default router;

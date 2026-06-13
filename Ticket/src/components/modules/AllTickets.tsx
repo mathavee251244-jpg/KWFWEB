@@ -1,10 +1,11 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Search, Filter, X, ChevronRight, AlertTriangle, Clock, Download, ChevronLeft } from 'lucide-react';
+import { Search, Filter, X, ChevronRight, AlertTriangle, Clock, Download, ChevronLeft, Trash2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import StatusBadge from '../shared/StatusBadge';
 import PriorityBadge from '../shared/PriorityBadge';
 import type { TicketStatus, TicketPriority, TicketCategory } from '../../types';
 import { CATEGORY_LABELS, STATUS_LABELS, PRIORITY_LABELS } from '../../types';
+import { clearAllTickets } from '../../api/tickets';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -15,7 +16,8 @@ function formatDate(iso: string) {
 const depts = ['บัญชี', 'ทรัพยากรบุคคล', 'ขาย', 'การเงิน', 'จัดซื้อ', 'ปฏิบัติการ', 'ไอที'];
 
 export default function AllTickets() {
-  const { currentUser, tickets, users, navigate } = useApp();
+  const { currentUser, tickets, users, navigate, refreshTickets } = useApp();
+  const [clearing, setClearing] = useState(false);
 
   if (currentUser.role === 'employee') {
     return (
@@ -122,6 +124,20 @@ export default function AllTickets() {
           <p className="text-sm text-white/40 mt-0.5">{tickets.length} รายการทั้งหมด · {filtered.length} รายการที่แสดง</p>
         </div>
         <div className="flex items-center gap-2">
+          {currentUser.role === 'it_manager' && tickets.length > 0 && (
+            <button
+              onClick={async () => {
+                if (!confirm(`ลบ Ticket ทั้งหมด ${tickets.length} รายการ? ไม่สามารถกู้คืนได้`)) return;
+                setClearing(true);
+                try { await clearAllTickets(); await refreshTickets(); } finally { setClearing(false); }
+              }}
+              disabled={clearing}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-[11px] hover:bg-red-500/18 transition-colors disabled:opacity-40"
+            >
+              <Trash2 size={12} />
+              {clearing ? 'กำลังลบ...' : 'ล้าง Ticket ทั้งหมด'}
+            </button>
+          )}
           {overdueCount > 0 && (
             <button
               onClick={() => { setOverdueOnly(true); setCriticalOnly(false); }}

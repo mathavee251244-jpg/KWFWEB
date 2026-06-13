@@ -57,3 +57,7 @@ export async function uploadFiles(id: string, files: File[]): Promise<{ id: stri
   if (!res.ok) throw new Error('File upload failed');
   return res.json();
 }
+
+export async function clearAllTickets(): Promise<void> {
+  await api.delete<{ ok: boolean }>('/tickets/all');
+}

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { AlertTriangle, TrendingUp, Clock, CheckCircle2, Users, Zap, Plus, Trash2, X, ChevronDown, HardDrive, RefreshCw, Thermometer } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Clock, CheckCircle2, Users, Zap, Plus, Trash2, X, ChevronDown, HardDrive, RefreshCw, Thermometer, Monitor } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
@@ -12,6 +12,8 @@ import type { TicketStatus, TicketPriority, Incident } from '../../types';
 import { STATUS_LABELS, PRIORITY_LABELS } from '../../types';
 import { getNASStorage } from '../../api/nas';
 import type { NASDevice } from '../../api/nas';
+import { getSystemResources } from '../../api/system';
+import type { SystemResources } from '../../api/system';
 
 const STATUS_COLORS: Record<TicketStatus, string> = {
   new: '#3b82f6',
@@ -277,6 +279,162 @@ function NasCard() {
   );
 }
 
+// ── Resource Monitor ───────────────────────────────────────────────────────────
+function usageColor(pct: number): string {
+  if (pct >= 85) return '#ef4444';
+  if (pct >= 70) return '#f59e0b';
+  return '#22c55e';
+}
+
+function CircleGauge({ pct, color, size = 96, stroke = 9 }: {
+  pct: number; color: string; size?: number; stroke?: number;
+}) {
+  const r    = (size - stroke) / 2;
+  const circ = 2 * Math.PI * r;
+  const dash = circ - (Math.min(Math.max(pct, 0), 100) / 100) * circ;
+  return (
+    <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+      <circle cx={size / 2} cy={size / 2} r={r}
+        fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} />
+      <circle cx={size / 2} cy={size / 2} r={r}
+        fill="none" stroke={color} strokeWidth={stroke}
+        strokeDasharray={circ} strokeDashoffset={dash}
+        strokeLinecap="round"
+        style={{
+          transition: 'stroke-dashoffset 0.85s cubic-bezier(.4,0,.2,1), stroke 0.5s ease',
+          filter: `drop-shadow(0 0 7px ${color}99)`,
+        }} />
+    </svg>
+  );
+}
+
+function ResourceCard() {
+  const [data, setData] = useState<SystemResources | null>(null);
+  const [err,  setErr]  = useState(false);
+
+  const load = useCallback(async () => {
+    try { setData(await getSystemResources()); setErr(false); }
+    catch { setErr(true); }
+  }, []);
+
+  useEffect(() => { load(); const id = setInterval(load, 5_000); return () => clearInterval(id); }, [load]);
+
+  if (err) return null;
+  if (!data) return (
+    <div className="glass-card rounded-xl p-4 mb-4">
+      <div className="flex items-center gap-2 mb-4 animate-pulse">
+        <div className="w-1.5 h-1.5 rounded-full bg-white/20" />
+        <div className="h-3 w-32 bg-white/10 rounded" />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[0, 1, 2, 3].map(i => (
+          <div key={i} className="h-32 bg-white/[0.04] rounded-2xl animate-pulse" />
+        ))}
+      </div>
+    </div>
+  );
+
+  const cpuPct = data.cpu.usage;
+  const memPct = data.memory.total > 0 ? Math.round((data.memory.used / data.memory.total) * 100) : 0;
+  const cpuColor = usageColor(cpuPct);
+  const memColor = usageColor(memPct);
+
+  const up = data.uptime;
+  const days = Math.floor(up / 86400);
+  const hrs  = Math.floor((up % 86400) / 3600);
+  const mins = Math.floor((up % 3600) / 60);
+  const uptimeStr = days > 0 ? `${days}d ${hrs}h ${mins}m` : hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+
+  return (
+    <div className="glass-card rounded-xl p-4 mb-4">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+          </span>
+          <Monitor size={13} className="text-violet-400" />
+          <span className="section-title mb-0">Resource Monitor</span>
+          <span className="text-[10px] text-white/25 font-mono ml-0.5">{data.hostname}</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-[10px] text-white/30">
+          <Clock size={10} />
+          <span>Uptime {uptimeStr}</span>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {/* CPU */}
+        <div className="flex flex-col items-center gap-2.5 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
+          <div className="relative">
+            <CircleGauge pct={cpuPct} color={cpuColor} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-[18px] font-bold tabular-nums leading-none" style={{ color: cpuColor }}>{cpuPct}%</span>
+              <span className="text-[9px] text-white/30 mt-0.5 font-medium tracking-widest">CPU</span>
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-[10px] text-white/50 font-medium">{data.cpu.cores} Cores</div>
+            <div className="text-[9px] text-white/25 mt-0.5 line-clamp-1 max-w-[100px]">{data.cpu.model.split('@')[0].trim()}</div>
+          </div>
+        </div>
+
+        {/* RAM */}
+        <div className="flex flex-col items-center gap-2.5 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
+          <div className="relative">
+            <CircleGauge pct={memPct} color={memColor} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-[18px] font-bold tabular-nums leading-none" style={{ color: memColor }}>{memPct}%</span>
+              <span className="text-[9px] text-white/30 mt-0.5 font-medium tracking-widest">RAM</span>
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-[10px] text-white/50 font-medium">{fmtBytes(data.memory.used)} / {fmtBytes(data.memory.total)}</div>
+            <div className="text-[9px] text-white/25 mt-0.5">{fmtBytes(data.memory.free)} ว่าง</div>
+          </div>
+        </div>
+
+        {/* Disk bars — spans 2 cols */}
+        <div className="col-span-2 bg-white/[0.03] rounded-2xl p-3.5 border border-white/[0.06]">
+          <div className="flex items-center gap-1.5 mb-3">
+            <HardDrive size={11} className="text-white/30" />
+            <span className="text-[10px] text-white/35 font-semibold uppercase tracking-widest">Storage</span>
+          </div>
+          <div className="flex flex-col gap-2.5">
+            {data.disks.slice(0, 4).map(disk => {
+              const pct = disk.total > 0 ? Math.round((disk.used / disk.total) * 100) : 0;
+              const col = usageColor(pct);
+              return (
+                <div key={disk.path}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[11px] text-white/60 font-semibold">{disk.path}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-white/30">{fmtBytes(disk.free)} ว่าง</span>
+                      <span className="text-[11px] font-bold tabular-nums" style={{ color: col }}>{pct}%</span>
+                    </div>
+                  </div>
+                  <div className="h-2 bg-white/[0.07] rounded-full overflow-hidden">
+                    <div className="h-full rounded-full transition-all duration-700"
+                      style={{
+                        width: `${pct}%`,
+                        background: `linear-gradient(90deg, ${col}70, ${col})`,
+                        boxShadow: `0 0 8px ${col}55`,
+                      }} />
+                  </div>
+                </div>
+              );
+            })}
+            {data.disks.length === 0 && (
+              <div className="text-[11px] text-white/25 text-center py-4">ไม่มีข้อมูล Disk</div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ITDashboard() {
   const { currentUser, tickets, users, incidents, navigate, addIncident, updateIncidentStatus, deleteIncident } = useApp();
   const [showAddIncident, setShowAddIncident] = useState(false);
@@ -431,6 +589,9 @@ export default function ITDashboard() {
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* Resource Monitor */}
+      <ResourceCard />
 
       {/* NAS Storage */}
       <NasCard />

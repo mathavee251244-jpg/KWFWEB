@@ -61,3 +61,8 @@ export async function uploadFiles(id: string, files: File[]): Promise<{ id: stri
 export async function clearAllTickets(): Promise<void> {
   await api.delete<{ ok: boolean }>('/tickets/all');
 }
+
+export async function clearOpenTickets(): Promise<number> {
+  const r = await api.delete<{ ok: boolean; deleted: number }>('/tickets/open');
+  return r.deleted;
+}

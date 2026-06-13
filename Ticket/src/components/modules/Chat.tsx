@@ -141,8 +141,7 @@ function NewDMModal({
           <button onClick={onClose} className="text-white/35 hover:text-white/70"><X size={14} /></button>
         </div>
         <div className="relative mb-3">
-          <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-white/30" />
-          <input className="win-input pl-8 text-[12px]" placeholder="ค้นหาผู้ใช้..." value={q} onChange={e => setQ(e.target.value)} autoFocus />
+          <input className="win-input text-[12px]" placeholder="ค้นหาผู้ใช้..." value={q} onChange={e => setQ(e.target.value)} autoFocus />
         </div>
         <div className="flex flex-col gap-1 max-h-64 overflow-y-auto">
           {filtered.length === 0 && (
@@ -192,8 +191,7 @@ function NewGroupModal({
         </div>
         <input className="win-input mb-3 text-[12px]" placeholder="ชื่อกลุ่ม *" value={name} onChange={e => setName(e.target.value)} />
         <div className="relative mb-2">
-          <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-white/30" />
-          <input className="win-input pl-8 text-[12px]" placeholder="ค้นหาสมาชิก..." value={q} onChange={e => setQ(e.target.value)} />
+          <input className="win-input text-[12px]" placeholder="ค้นหาสมาชิก..." value={q} onChange={e => setQ(e.target.value)} />
         </div>
         {selected.size > 0 && (
           <div className="text-[10px] text-white/40 mb-1.5">เลือกแล้ว {selected.size} คน</div>
@@ -247,6 +245,8 @@ export default function Chat() {
   const [avatarMap, setAvatarMap] = useState<Map<string, string | null>>(new Map());
   const [showMsgSearch, setShowMsgSearch] = useState(false);
   const [msgSearch, setMsgSearch] = useState('');
+  const [msgSearchDate, setMsgSearchDate] = useState('');
+  const [mentionQuery, setMentionQuery] = useState<string | null>(null);
   const msgSearchRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -418,6 +418,7 @@ export default function Chat() {
     setShowSidebar(false);
     setMessages([]);
     setTypingUsers(new Map());
+    setMentionQuery(null);
     setLoadingMsgs(true);
     try {
       const msgs = await ChatAPI.getMessages(room.id);
@@ -439,6 +440,7 @@ export default function Chat() {
     if (!input.trim() || !selectedRoom) return;
     const content = input.trim();
     setInput('');
+    setMentionQuery(null);
     const optimistic: ChatMessage = {
       id: `opt-${Date.now()}`,
       roomId: selectedRoom.id,
@@ -487,8 +489,32 @@ export default function Chat() {
     }
   };
 
+  const insertMention = useCallback((user: ChatUserItem) => {
+    const el = inputRef.current;
+    const cursor = el?.selectionStart ?? input.length;
+    const beforeCursor = input.slice(0, cursor);
+    const afterCursor = input.slice(cursor);
+    const mentionMatch = beforeCursor.match(/@([\w฀-๿]*)$/);
+    if (!mentionMatch) return;
+    const newBefore = beforeCursor.slice(0, mentionMatch.index) + `@${user.name} `;
+    setInput(newBefore + afterCursor);
+    setMentionQuery(null);
+    setTimeout(() => el?.focus(), 0);
+  }, [input]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(e.target.value);
+    const val = e.target.value;
+    setInput(val);
+    // detect @mention before cursor
+    const cursor = e.target.selectionStart ?? val.length;
+    const beforeCursor = val.slice(0, cursor);
+    const mentionMatch = beforeCursor.match(/@([\w฀-๿]*)$/);
+    if (mentionMatch) {
+      setMentionQuery(mentionMatch[1]);
+      ensureUsers();
+    } else {
+      setMentionQuery(null);
+    }
     const socket = getSocket();
     if (!socket || !selectedRoom) return;
     socket.emit('chat:typing', { roomId: selectedRoom.id, typing: true });
@@ -499,6 +525,11 @@ export default function Chat() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Escape' && mentionQuery !== null) {
+      e.preventDefault();
+      setMentionQuery(null);
+      return;
+    }
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -550,9 +581,16 @@ export default function Chat() {
   const totalUnread = rooms.reduce((s, r) => s + (r.unreadCount ?? 0), 0);
   const typingNames = Array.from(typingUsers.values());
 
-  // Build grouped + separated messages (apply search filter)
-  const displayedMessages = msgSearch.trim()
-    ? messages.filter(m => m.content.toLowerCase().includes(msgSearch.toLowerCase()))
+  // Build grouped + separated messages (apply search filter + date filter)
+  const displayedMessages = (msgSearch.trim() || msgSearchDate)
+    ? messages.filter(m => {
+        if (msgSearch.trim() && !m.content.toLowerCase().includes(msgSearch.toLowerCase())) return false;
+        if (msgSearchDate) {
+          const d = new Date(m.createdAt).toISOString().slice(0, 10);
+          if (d !== msgSearchDate) return false;
+        }
+        return true;
+      })
     : messages;
   const groups = groupMessages(displayedMessages);
   const renderMessages = () => {
@@ -821,17 +859,23 @@ export default function Chat() {
                 <Search size={12} className="text-sky-400 shrink-0" />
                 <input
                   ref={msgSearchRef}
-                  className="flex-1 bg-transparent text-[12px] text-white/85 outline-none placeholder-white/25"
-                  placeholder="ค้นหาข้อความในการสนทนานี้..."
+                  className="flex-1 bg-transparent text-[12px] text-white/85 outline-none placeholder-white/25 min-w-0"
+                  placeholder="ค้นหาข้อความ..."
                   value={msgSearch}
                   onChange={e => setMsgSearch(e.target.value)}
                 />
-                {msgSearch && (
-                  <span className="text-[10px] text-white/35">
-                    {displayedMessages.length} ผลลัพธ์
+                <input
+                  type="date"
+                  className="bg-transparent text-[11px] text-white/60 outline-none border border-white/10 rounded-lg px-2 py-0.5 [color-scheme:dark] shrink-0"
+                  value={msgSearchDate}
+                  onChange={e => setMsgSearchDate(e.target.value)}
+                />
+                {(msgSearch || msgSearchDate) && (
+                  <span className="text-[10px] text-white/35 shrink-0">
+                    {displayedMessages.length} รายการ
                   </span>
                 )}
-                <button onClick={() => { setMsgSearch(''); setShowMsgSearch(false); }} className="text-white/30 hover:text-white/70">
+                <button onClick={() => { setMsgSearch(''); setMsgSearchDate(''); setShowMsgSearch(false); }} className="text-white/30 hover:text-white/70 shrink-0">
                   <X size={12} />
                 </button>
               </div>
@@ -871,7 +915,29 @@ export default function Chat() {
             </div>
 
             {/* Input */}
-            <div className="shrink-0 px-4 pb-3 pt-2 border-t" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+            <div className="shrink-0 px-4 pb-3 pt-2 border-t relative" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+              {/* @mention dropdown */}
+              {mentionQuery !== null && chatUsers.length > 0 && (() => {
+                const mentionFiltered = chatUsers
+                  .filter(u => u.id !== currentUser.id && (
+                    mentionQuery === '' || u.name.toLowerCase().includes(mentionQuery.toLowerCase())
+                  ))
+                  .slice(0, 6);
+                if (mentionFiltered.length === 0) return null;
+                return (
+                  <div className="absolute left-4 right-4 bottom-full mb-1 glass-panel rounded-xl overflow-hidden z-50 shadow-2xl"
+                    style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+                    {mentionFiltered.map(u => (
+                      <button key={u.id} onMouseDown={e => { e.preventDefault(); insertMention(u); }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-white/[0.07] text-left transition-colors">
+                        <Avatar name={u.name} size={24} online={onlineUsers.has(u.id)} avatarUrl={avatarMap.get(u.id)} />
+                        <span className="text-[12px] font-medium text-white/80">{u.name}</span>
+                        <span className="text-[10px] text-white/35 truncate">{u.department}</span>
+                      </button>
+                    ))}
+                  </div>
+                );
+              })()}
               {!socketConnected && (
                 <div className="flex items-center gap-1.5 mb-1.5 px-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shrink-0" />

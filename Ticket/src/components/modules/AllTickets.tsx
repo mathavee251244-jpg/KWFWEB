@@ -5,7 +5,7 @@ import StatusBadge from '../shared/StatusBadge';
 import PriorityBadge from '../shared/PriorityBadge';
 import type { TicketStatus, TicketPriority, TicketCategory } from '../../types';
 import { CATEGORY_LABELS, STATUS_LABELS, PRIORITY_LABELS } from '../../types';
-import { clearAllTickets } from '../../api/tickets';
+import { clearAllTickets, clearOpenTickets } from '../../api/tickets';
 
 const ITEMS_PER_PAGE = 20;
 
@@ -18,6 +18,7 @@ const depts = ['บัญชี', 'ทรัพยากรบุคคล', '�
 export default function AllTickets() {
   const { currentUser, tickets, users, navigate, refreshTickets } = useApp();
   const [clearing, setClearing] = useState(false);
+  const [clearingOpen, setClearingOpen] = useState(false);
 
   if (currentUser.role === 'employee') {
     return (
@@ -124,6 +125,20 @@ export default function AllTickets() {
           <p className="text-sm text-white/40 mt-0.5">{tickets.length} รายการทั้งหมด · {filtered.length} รายการที่แสดง</p>
         </div>
         <div className="flex items-center gap-2">
+          {currentUser.role === 'it_manager' && openCount > 0 && (
+            <button
+              onClick={async () => {
+                if (!confirm(`ลบ Ticket ที่เปิดอยู่ ${openCount} รายการ? (Resolved/Closed จะยังคงอยู่)`)) return;
+                setClearingOpen(true);
+                try { await clearOpenTickets(); await refreshTickets(); } finally { setClearingOpen(false); }
+              }}
+              disabled={clearingOpen}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[11px] hover:bg-amber-500/18 transition-colors disabled:opacity-40"
+            >
+              <Trash2 size={12} />
+              {clearingOpen ? 'กำลังลบ...' : `ลบ Ticket ที่เปิดอยู่ (${openCount})`}
+            </button>
+          )}
           {currentUser.role === 'it_manager' && tickets.length > 0 && (
             <button
               onClick={async () => {

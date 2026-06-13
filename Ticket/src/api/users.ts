@@ -23,6 +23,10 @@ export async function createUser(data: {
   return api.post<User>('/users', data);
 }
 
+export async function changeMyPassword(currentPassword: string, newPassword: string): Promise<void> {
+  await api.patch('/users/me/password', { currentPassword, newPassword });
+}
+
 export async function uploadAvatar(userId: string, file: File): Promise<string> {
   const form = new FormData();
   form.append('avatar', file);

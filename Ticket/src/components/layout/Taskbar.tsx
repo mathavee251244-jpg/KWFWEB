@@ -1,12 +1,14 @@
 import React, { useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Home, Ticket, List, LayoutDashboard,
   BookOpen, Monitor, Users, LogOut, Timer, Sun, Moon,
   Bell, MessageCircle, CheckCircle2, X, Camera, User,
-  Volume2, VolumeX,
+  Volume2, VolumeX, KeyRound, Eye, EyeOff,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useTheme } from '../../context/ThemeContext';
+import { changeMyPassword } from '../../api/users';
 import type { PageId, Role } from '../../types';
 
 type ModuleEntry = { title: string; icon: React.ReactNode; component: React.ComponentType };
@@ -36,6 +38,11 @@ export default function Taskbar({ }: Props) {
   const [showNotif, setShowNotif] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
   const [avatarUploading, setAvatarUploading] = React.useState(false);
+  const [showChangePwd, setShowChangePwd] = React.useState(false);
+  const [pwdForm, setPwdForm] = React.useState({ current: '', next: '', confirm: '' });
+  const [pwdShow, setPwdShow] = React.useState({ current: false, next: false });
+  const [pwdMsg, setPwdMsg] = React.useState<{ text: string; ok: boolean } | null>(null);
+  const [pwdLoading, setPwdLoading] = React.useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
@@ -78,6 +85,23 @@ export default function Taskbar({ }: Props) {
     } finally {
       setAvatarUploading(false);
       if (avatarInputRef.current) avatarInputRef.current.value = '';
+    }
+  };
+
+  const handleChangePwd = async () => {
+    if (!pwdForm.current || !pwdForm.next || !pwdForm.confirm) { setPwdMsg({ text: 'กรุณากรอกข้อมูลให้ครบ', ok: false }); return; }
+    if (pwdForm.next.length < 6) { setPwdMsg({ text: 'รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร', ok: false }); return; }
+    if (pwdForm.next !== pwdForm.confirm) { setPwdMsg({ text: 'รหัสผ่านใหม่ไม่ตรงกัน', ok: false }); return; }
+    setPwdLoading(true);
+    try {
+      await changeMyPassword(pwdForm.current, pwdForm.next);
+      setPwdMsg({ text: 'เปลี่ยนรหัสผ่านสำเร็จ', ok: true });
+      setPwdForm({ current: '', next: '', confirm: '' });
+      setTimeout(() => setShowChangePwd(false), 1500);
+    } catch (e: unknown) {
+      setPwdMsg({ text: e instanceof Error ? e.message : 'เกิดข้อผิดพลาด', ok: false });
+    } finally {
+      setPwdLoading(false);
     }
   };
 
@@ -356,6 +380,13 @@ export default function Taskbar({ }: Props) {
                   <p className="text-[10px] text-white/25 text-center">
                     คลิก <Camera size={9} className="inline" /> เพื่อเปลี่ยนรูปโปรไฟล์
                   </p>
+                  {/* Change password button */}
+                  <button
+                    onClick={() => { setShowProfile(false); setShowChangePwd(true); setPwdMsg(null); setPwdForm({ current: '', next: '', confirm: '' }); }}
+                    className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-[11px] text-white/55 hover:text-white/80 hover:bg-white/[0.09] transition-colors"
+                  >
+                    <KeyRound size={11} /> เปลี่ยนรหัสผ่าน
+                  </button>
                 </div>
               </div>
             )}
@@ -373,6 +404,86 @@ export default function Taskbar({ }: Props) {
           </button>
         </div>
       </div>
+
+      {/* Change Password Modal */}
+      {showChangePwd && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowChangePwd(false)} />
+          <div className="relative glass rounded-2xl p-6 w-full max-w-sm shadow-window fade-in" style={{ zIndex: 10000 }}>
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2">
+                <KeyRound size={17} className="text-sky-400" />
+                <h3 className="text-[15px] font-semibold text-white/90">เปลี่ยนรหัสผ่าน</h3>
+              </div>
+              <button onClick={() => setShowChangePwd(false)} className="text-white/30 hover:text-white/70 transition-colors"><X size={15} /></button>
+            </div>
+            <div className="flex flex-col gap-3">
+              {/* Current password */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] text-white/40 uppercase tracking-wider">รหัสผ่านปัจจุบัน</label>
+                <div className="relative">
+                  <input
+                    type={pwdShow.current ? 'text' : 'password'}
+                    className="win-input pr-9"
+                    placeholder="รหัสผ่านปัจจุบัน"
+                    value={pwdForm.current}
+                    onChange={e => { setPwdForm(p => ({ ...p, current: e.target.value })); setPwdMsg(null); }}
+                  />
+                  <button tabIndex={-1} onClick={() => setPwdShow(p => ({ ...p, current: !p.current }))}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60">
+                    {pwdShow.current ? <EyeOff size={13} /> : <Eye size={13} />}
+                  </button>
+                </div>
+              </div>
+              {/* New password */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] text-white/40 uppercase tracking-wider">รหัสผ่านใหม่</label>
+                <div className="relative">
+                  <input
+                    type={pwdShow.next ? 'text' : 'password'}
+                    className="win-input pr-9"
+                    placeholder="อย่างน้อย 6 ตัวอักษร"
+                    value={pwdForm.next}
+                    onChange={e => { setPwdForm(p => ({ ...p, next: e.target.value })); setPwdMsg(null); }}
+                  />
+                  <button tabIndex={-1} onClick={() => setPwdShow(p => ({ ...p, next: !p.next }))}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60">
+                    {pwdShow.next ? <EyeOff size={13} /> : <Eye size={13} />}
+                  </button>
+                </div>
+              </div>
+              {/* Confirm new password */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[10px] text-white/40 uppercase tracking-wider">ยืนยันรหัสผ่านใหม่</label>
+                <input
+                  type="password"
+                  className="win-input"
+                  placeholder="ยืนยันรหัสผ่านใหม่"
+                  value={pwdForm.confirm}
+                  onChange={e => { setPwdForm(p => ({ ...p, confirm: e.target.value })); setPwdMsg(null); }}
+                  onKeyDown={async e => { if (e.key === 'Enter') await handleChangePwd(); }}
+                />
+              </div>
+              {pwdMsg && (
+                <div className={`text-[12px] rounded-lg px-3 py-2 ${pwdMsg.ok ? 'text-green-400 bg-green-500/10 border border-green-500/20' : 'text-red-400 bg-red-500/10 border border-red-500/20'}`}>
+                  {pwdMsg.text}
+                </div>
+              )}
+              <div className="flex gap-2 mt-1">
+                <button
+                  onClick={handleChangePwd}
+                  disabled={pwdLoading || !pwdForm.current || !pwdForm.next || !pwdForm.confirm}
+                  className="win-btn flex-1 flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {pwdLoading ? <span className="animate-pulse">กำลังบันทึก...</span> : <><KeyRound size={13} /> บันทึก</>}
+                </button>
+                <button onClick={() => setShowChangePwd(false)} className="win-btn-ghost px-4">ยกเลิก</button>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </>
   );
 }

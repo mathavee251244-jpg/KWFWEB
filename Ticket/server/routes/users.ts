@@ -81,6 +81,23 @@ router.patch('/:id/status', requireAuth, requireManager, (req, res) => {
   res.json({ ok: true });
 });
 
+// User changes their own password (requires current password verification)
+router.patch('/me/password', requireAuth, (req: AuthRequest, res) => {
+  const { currentPassword, newPassword } = req.body as { currentPassword: string; newPassword: string };
+  if (!currentPassword || !newPassword) {
+    res.status(400).json({ error: 'กรุณากรอกรหัสผ่านปัจจุบันและรหัสผ่านใหม่' }); return;
+  }
+  if (newPassword.length < 6) {
+    res.status(400).json({ error: 'รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร' }); return;
+  }
+  const user = db.prepare('SELECT password FROM users WHERE id = ?').get(req.userId) as { password: string } | undefined;
+  if (!user || user.password !== currentPassword) {
+    res.status(401).json({ error: 'รหัสผ่านปัจจุบันไม่ถูกต้อง' }); return;
+  }
+  db.prepare('UPDATE users SET password = ? WHERE id = ?').run(newPassword, req.userId);
+  res.json({ ok: true });
+});
+
 // IT manager sets a user's password directly
 router.patch('/:id/password', requireAuth, requireManager, (req, res) => {
   const { password } = req.body as { password: string };

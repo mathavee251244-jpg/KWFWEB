@@ -247,6 +247,22 @@ router.post('/:id/files', requireAuth, upload.array('files', 5), (req: AuthReque
   res.status(201).json(saved);
 });
 
+// DELETE only open tickets (new/assigned/in_progress/waiting_user/reopened) — IT Manager only
+router.delete('/open', requireAuth, requireManager, (_req, res) => {
+  const openStatuses = ['new', 'assigned', 'in_progress', 'waiting_user', 'reopened'];
+  const ph = openStatuses.map(() => '?').join(',');
+  const openTickets = db.prepare(`SELECT id FROM tickets WHERE status IN (${ph})`).all(...openStatuses) as { id: string }[];
+  if (openTickets.length === 0) { res.json({ ok: true, deleted: 0 }); return; }
+  const ids = openTickets.map(t => t.id);
+  const idPh = ids.map(() => '?').join(',');
+  db.prepare(`DELETE FROM ticket_attachments WHERE ticket_id IN (${idPh})`).run(...ids);
+  db.prepare(`DELETE FROM ticket_timeline WHERE ticket_id IN (${idPh})`).run(...ids);
+  db.prepare(`DELETE FROM comments WHERE ticket_id IN (${idPh})`).run(...ids);
+  db.prepare(`DELETE FROM tickets WHERE id IN (${idPh})`).run(...ids);
+  broadcastAll('tickets:cleared', {});
+  res.json({ ok: true, deleted: ids.length });
+});
+
 // DELETE all tickets — IT Manager only
 router.delete('/all', requireAuth, requireManager, (_req, res) => {
   db.prepare('DELETE FROM ticket_attachments').run();

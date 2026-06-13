@@ -34,3 +34,10 @@ export function playChatSound(): void {
   tone(1100, 0.1, 0.18);
   setTimeout(() => tone(880, 0.15, 0.14), 90);
 }
+
+// Stronger alert for @mention (overrides mute)
+export function playMentionSound(): void {
+  tone(1320, 0.1, 0.30);
+  setTimeout(() => tone(1100, 0.1, 0.25), 100);
+  setTimeout(() => tone(880, 0.18, 0.22), 200);
+}

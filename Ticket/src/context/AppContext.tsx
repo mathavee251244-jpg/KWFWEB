@@ -150,25 +150,33 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       // ticket:updated also fires for resolved — no setTickets here to avoid double update
     });
 
-    // Global chat notification — fires when not on chat page
+    // Global chat notification + sound — fires when not on chat page
     sock.on('chat:message', (msg: { roomId: string; senderId: string; senderName: string; content: string; type: string; roomType?: string }) => {
-      if (currentPageRef.current !== 'chat' && msg.senderId !== currentUserRef.current.id) {
-        const isDirect = !msg.roomType || msg.roomType === 'direct';
-        const uid = currentUserRef.current.id;
-        const uname = currentUserRef.current.name;
-        const isMentioned = msg.content.includes(`@${uid}`) ||
-          msg.content.toLowerCase().includes(`@${uname.toLowerCase()}`);
-        if (!isDirect && !isMentioned) return;
+      if (msg.senderId === currentUserRef.current.id) return;
+      if (currentPageRef.current === 'chat') return;
 
+      const uid = currentUserRef.current.id;
+      const uname = currentUserRef.current.name;
+      const isMentioned = msg.content.includes(`@${uid}`) ||
+        msg.content.toLowerCase().includes(`@${uname.toLowerCase()}`);
+      const isDirect = !msg.roomType || msg.roomType === 'direct';
+      const muted = localStorage.getItem('chat_muted') === 'true';
+
+      // Notification popup: only for DM or @mention (avoid flooding)
+      if (isDirect || isMentioned) {
         addNotification({
           type: 'chat_message',
-          title: msg.senderName,
+          title: isMentioned ? `📣 ${msg.senderName} แท็กคุณ` : msg.senderName,
           message: msg.type === 'text' ? msg.content.slice(0, 80) : '📎 ส่งไฟล์มาให้คุณ',
           chatRoomId: msg.roomId,
         });
-        if (localStorage.getItem('chat_muted') !== 'true') {
-          import('../lib/sound').then(({ playChatSound }) => playChatSound());
-        }
+      }
+
+      // Sound: play for ALL messages; @mention overrides mute
+      if (isMentioned) {
+        import('../lib/sound').then(({ playMentionSound }) => playMentionSound());
+      } else if (!muted) {
+        import('../lib/sound').then(({ playChatSound }) => playChatSound());
       }
     });
 

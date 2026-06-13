@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { MessageCircle, Plus, Users, X, Send, Search, ArrowLeft, Check, UserPlus, Paperclip } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { getSocket } from '../../lib/socket';
-import { playChatSound } from '../../lib/sound';
+import { playChatSound, playMentionSound } from '../../lib/sound';
 import * as ChatAPI from '../../api/chat';
 import type { ChatRoom, ChatMessage } from '../../types';
 import type { ChatUserItem } from '../../api/chat';
@@ -308,6 +308,17 @@ export default function Chat() {
     const onMessage = (msg: ChatMessage) => {
       const curRoom = selectedRoomRef.current;
 
+      // Sound for messages from OTHER rooms while on chat page
+      if ((!curRoom || msg.roomId !== curRoom.id) && msg.senderId !== currentUser.id) {
+        const isMentioned = msg.content.includes(`@${currentUser.id}`) ||
+          msg.content.toLowerCase().includes(`@${currentUser.name.toLowerCase()}`);
+        if (isMentioned) {
+          playMentionSound();
+        } else if (!chatMuted) {
+          playChatSound();
+        }
+      }
+
       // Update room list preview for all messages
       setRooms(prev => prev.map(r => r.id === msg.roomId ? {
         ...r,
@@ -329,7 +340,13 @@ export default function Chat() {
       if (curRoom && msg.roomId === curRoom.id && msg.senderId !== currentUser.id) {
         setMessages(prev => [...prev, msg]);
         ChatAPI.markRoomRead(msg.roomId).catch(() => {});
-        if (!chatMuted) playChatSound();
+        const isMentioned = msg.content.includes(`@${currentUser.id}`) ||
+          msg.content.toLowerCase().includes(`@${currentUser.name.toLowerCase()}`);
+        if (isMentioned) {
+          playMentionSound();
+        } else if (!chatMuted) {
+          playChatSound();
+        }
       }
     };
 

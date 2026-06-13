@@ -137,16 +137,22 @@ function NasSection() {
   const [lastFetched, setLastFetched] = useState<Date | null>(null);
   const [activeTab, setActiveTab] = useState(0);
 
+  const [notConfigured, setNotConfigured] = useState(false);
+
   const load = useCallback(async () => {
     setLoading(true);
-    try { const d = await getNASStorage(); setDevices(d); setLastFetched(new Date()); }
-    catch { /* server error — keep previous data */ }
+    try {
+      const d = await getNASStorage();
+      setDevices(d);
+      setNotConfigured(d.length === 0);
+      if (d.length > 0) setLastFetched(new Date());
+    } catch {
+      setNotConfigured(true);
+    }
     finally { setLoading(false); }
   }, []);
 
   useEffect(() => { load(); const id = setInterval(load, 60_000); return () => clearInterval(id); }, [load]);
-
-  if (!loading && devices.length === 0) return null;
 
   const device = devices[activeTab] ?? devices[0];
 
@@ -199,9 +205,24 @@ function NasSection() {
 
       {/* ── Device content ── */}
       {loading && devices.length === 0 ? (
-        <div className="glass-card rounded-xl p-8 flex items-center justify-center">
-          <RefreshCw size={16} className="animate-spin text-white/30 mr-2" />
+        <div className="glass-card rounded-xl p-6 flex items-center justify-center gap-2">
+          <RefreshCw size={14} className="animate-spin text-white/30" />
           <span className="text-[12px] text-white/30">กำลังเชื่อมต่อ NAS...</span>
+        </div>
+      ) : notConfigured ? (
+        <div className="glass-card rounded-xl p-6 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <HardDrive size={15} className="text-white/25" />
+          </div>
+          <div>
+            <div className="text-[12px] text-white/40 font-medium">ยังไม่ได้ตั้งค่า NAS</div>
+            <div className="text-[11px] text-white/25 mt-0.5">
+              ตั้งค่า <span className="font-mono text-white/35">NAS1_URL</span>,{' '}
+              <span className="font-mono text-white/35">NAS1_USER</span>,{' '}
+              <span className="font-mono text-white/35">NAS1_PASS</span> ใน environment variables เพื่อเชื่อมต่อ Synology NAS
+            </div>
+          </div>
         </div>
       ) : device ? (
         <div className="glass-card rounded-xl p-4">

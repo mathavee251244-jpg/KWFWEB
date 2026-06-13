@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import { AlertTriangle, TrendingUp, Clock, CheckCircle2, Users, Zap, Plus, Trash2, X, ChevronDown } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+import { AlertTriangle, TrendingUp, Clock, CheckCircle2, Users, Zap, Plus, Trash2, X, ChevronDown, HardDrive, RefreshCw, Thermometer } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
@@ -10,6 +10,8 @@ import StatusBadge from '../shared/StatusBadge';
 import PriorityBadge from '../shared/PriorityBadge';
 import type { TicketStatus, TicketPriority, Incident } from '../../types';
 import { STATUS_LABELS, PRIORITY_LABELS } from '../../types';
+import { getNASStorage } from '../../api/nas';
+import type { NASStorageResult } from '../../api/nas';
 
 const STATUS_COLORS: Record<TicketStatus, string> = {
   new: '#3b82f6',
@@ -182,6 +184,121 @@ function IncidentStatusDrop({ current, onChange }: { current: Incident['status']
   );
 }
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function fmtBytes(bytes: number): string {
+  if (!bytes || bytes <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+  let i = 0; let val = bytes;
+  while (val >= 1024 && i < units.length - 1) { val /= 1024; i++; }
+  return `${val.toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
+}
+
+// ── NAS Storage Card ───────────────────────────────────────────────────────────
+function NasCard() {
+  const [data, setData]     = useState<NASStorageResult | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try { setData(await getNASStorage()); }
+    catch { setData({ configured: true, ok: false, error: 'เชื่อมต่อไม่ได้' }); }
+    finally { setLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    load();
+    const id = setInterval(load, 60_000);
+    return () => clearInterval(id);
+  }, [load]);
+
+  if (!data || !data.configured) return null;
+
+  const volumes  = data.volumes ?? [];
+  const totalAll = volumes.reduce((s, v) => s + v.total, 0);
+  const usedAll  = volumes.reduce((s, v) => s + v.used, 0);
+  const freeAll  = totalAll - usedAll;
+  const pctAll   = totalAll > 0 ? Math.round((usedAll / totalAll) * 100) : 0;
+  const barColor = pctAll >= 90 ? '#ef4444' : pctAll >= 75 ? '#f59e0b' : '#22c55e';
+
+  return (
+    <div className="glass-card rounded-xl p-4 mb-4">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <HardDrive size={14} className="text-sky-400" />
+          <span className="section-title mb-0">Synology NAS</span>
+        </div>
+        <button onClick={load} disabled={loading}
+          className="flex items-center gap-1 text-[11px] text-white/40 hover:text-white/70 transition-colors disabled:opacity-40">
+          <RefreshCw size={11} className={loading ? 'animate-spin' : ''} />
+          {loading ? 'กำลังโหลด...' : 'รีเฟรช'}
+        </button>
+      </div>
+
+      {!data.ok ? (
+        <div className="flex items-center gap-2 text-[12px] text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+          <AlertTriangle size={13} /> เชื่อมต่อ NAS ไม่ได้: {data.error}
+        </div>
+      ) : volumes.length === 0 ? (
+        <div className="text-white/30 text-[12px] py-2">ไม่พบข้อมูล Volume</div>
+      ) : (
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+          {/* Aggregate progress */}
+          <div className="flex-1 min-w-0">
+            <div className="flex justify-between text-[11px] text-white/50 mb-1.5">
+              <span>ใช้ไป <span className="text-white/70 font-medium">{fmtBytes(usedAll)}</span> จาก {fmtBytes(totalAll)}</span>
+              <span style={{ color: barColor }} className="font-semibold">{pctAll}%</span>
+            </div>
+            <div className="h-2.5 bg-white/[0.08] rounded-full overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-700"
+                style={{ width: `${pctAll}%`, background: barColor, boxShadow: `0 0 10px ${barColor}55` }} />
+            </div>
+            <div className="flex justify-between text-[10px] text-white/30 mt-1.5">
+              <span>ว่าง: <span className="text-green-400 font-medium">{fmtBytes(freeAll)}</span></span>
+              <span>{volumes.length} Volume{volumes.length > 1 ? 's' : ''}</span>
+            </div>
+          </div>
+
+          {/* Per-volume pills */}
+          <div className="flex flex-wrap gap-2 shrink-0">
+            {volumes.map(vol => {
+              const pct = vol.total > 0 ? Math.round((vol.used / vol.total) * 100) : 0;
+              const c   = pct >= 90 ? '#ef4444' : pct >= 75 ? '#f59e0b' : '#22c55e';
+              return (
+                <div key={vol.path}
+                  className="flex items-center gap-2.5 bg-white/[0.05] border border-white/[0.09] rounded-xl px-3 py-2">
+                  <HardDrive size={11} className="text-white/40" />
+                  <div>
+                    <div className="text-[11px] text-white/75 font-medium leading-tight">{vol.name || vol.path}</div>
+                    <div className="text-[10px] text-white/40 leading-tight">{fmtBytes(vol.free)} ว่าง</div>
+                  </div>
+                  <span className="text-[12px] font-bold ml-1" style={{ color: c }}>{pct}%</span>
+                </div>
+              );
+            })}
+
+            {/* Disk temps */}
+            {(data.disks ?? []).length > 0 && (
+              <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.07] rounded-xl px-3 py-2">
+                <Thermometer size={11} className="text-white/35" />
+                <div className="flex flex-wrap gap-2">
+                  {(data.disks ?? []).map(d => {
+                    const tc = d.temp >= 55 ? 'text-red-400' : d.temp >= 45 ? 'text-amber-400' : 'text-green-400';
+                    return (
+                      <span key={d.id} className="text-[10px] text-white/50">
+                        {d.name} <span className={`font-semibold ${tc}`}>{d.temp}°C</span>
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ITDashboard() {
   const { currentUser, tickets, users, incidents, navigate, addIncident, updateIncidentStatus, deleteIncident } = useApp();
   const [showAddIncident, setShowAddIncident] = useState(false);
@@ -336,6 +453,9 @@ export default function ITDashboard() {
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* NAS Storage */}
+      <NasCard />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Staff Workload */}

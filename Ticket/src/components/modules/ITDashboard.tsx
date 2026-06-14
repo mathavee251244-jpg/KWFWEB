@@ -308,14 +308,72 @@ function CircleGauge({ pct, color, size = 96, stroke = 9 }: {
   );
 }
 
+function Sparkline({ data, color, width = 80, height = 22 }: {
+  data: number[]; color: string; width?: number; height?: number;
+}) {
+  if (data.length < 2) return <div style={{ width, height }} />;
+  const pts = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * width;
+    const y = height - Math.min(v, 100) / 100 * (height - 2) - 1;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const fill = `0,${height} ${pts} ${width},${height}`;
+  const uid = color.replace(/[^a-z0-9]/gi, '');
+  return (
+    <svg width={width} height={height} style={{ overflow: 'visible' }}>
+      <defs>
+        <linearGradient id={`sp-${uid}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.25" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <polygon points={fill} fill={`url(#sp-${uid})`} />
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5"
+        strokeLinecap="round" strokeLinejoin="round"
+        style={{ filter: `drop-shadow(0 0 3px ${color}99)` }} />
+    </svg>
+  );
+}
+
+function AnimatedNumber({ value, className, style }: {
+  value: number; className?: string; style?: React.CSSProperties;
+}) {
+  const [display, setDisplay] = useState(value);
+  const prevRef  = useRef(value);
+  const frameRef = useRef<number | undefined>(undefined);
+  useEffect(() => {
+    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    const from = prevRef.current;
+    const to   = value;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t    = Math.min((now - start) / 550, 1);
+      const ease = 1 - (1 - t) ** 3;
+      setDisplay(Math.round(from + (to - from) * ease));
+      if (t < 1) frameRef.current = requestAnimationFrame(tick);
+      else prevRef.current = to;
+    };
+    frameRef.current = requestAnimationFrame(tick);
+    return () => { if (frameRef.current) cancelAnimationFrame(frameRef.current); };
+  }, [value]);
+  return <span className={className} style={style}>{display}</span>;
+}
+
 function ResourceCard() {
   const [data,   setData]   = useState<SystemResources | null>(null);
   const [nasRes, setNasRes] = useState<NASResource[]>([]);
   const [err,    setErr]    = useState(false);
+  const cpuHistRef = useRef<number[]>([]);
+  const [cpuHist, setCpuHist] = useState<number[]>([]);
 
   const load = useCallback(async () => {
     const [sys, nas] = await Promise.allSettled([getSystemResources(), getNASResources()]);
-    if (sys.status === 'fulfilled') { setData(sys.value); setErr(false); } else setErr(true);
+    if (sys.status === 'fulfilled') {
+      setData(sys.value);
+      setErr(false);
+      cpuHistRef.current = [...cpuHistRef.current.slice(-19), sys.value.cpu.usage];
+      setCpuHist([...cpuHistRef.current]);
+    } else setErr(true);
     if (nas.status === 'fulfilled') setNasRes(nas.value.filter(n => n.ok));
   }, []);
 
@@ -336,10 +394,11 @@ function ResourceCard() {
     </div>
   );
 
-  const cpuPct = data.cpu.usage;
-  const memPct = data.memory.total > 0 ? Math.round((data.memory.used / data.memory.total) * 100) : 0;
+  const cpuPct   = data.cpu.usage;
+  const memPct   = data.memory.total > 0 ? Math.round((data.memory.used / data.memory.total) * 100) : 0;
   const cpuColor = usageColor(cpuPct);
   const memColor = usageColor(memPct);
+  const isHighLoad = cpuPct >= 85 || memPct >= 85;
 
   const up = data.uptime;
   const days = Math.floor(up / 86400);
@@ -348,9 +407,10 @@ function ResourceCard() {
   const uptimeStr = days > 0 ? `${days}d ${hrs}h ${mins}m` : hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
 
   return (
-    <div className="glass-card rounded-xl p-4 mb-4">
+    <div className="glass-card rounded-xl p-4 mb-4 transition-all duration-500"
+      style={isHighLoad ? { boxShadow: '0 0 0 1px rgba(239,68,68,0.25), 0 0 24px rgba(239,68,68,0.08)' } : {}}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50" />
@@ -358,7 +418,6 @@ function ResourceCard() {
           </span>
           <Monitor size={13} className="text-violet-400" />
           <span className="section-title mb-0">Resource Monitor</span>
-          <span className="text-[10px] text-white/25 font-mono ml-0.5">{data.hostname}</span>
         </div>
         <div className="flex items-center gap-1.5 text-[10px] text-white/30">
           <Clock size={10} />
@@ -366,33 +425,43 @@ function ResourceCard() {
         </div>
       </div>
 
+      {/* เครื่อง Local label */}
+      <div className="flex items-center gap-2 mb-2.5">
+        <div className="w-px h-3 bg-violet-400/50" />
+        <span className="text-[10px] text-violet-300/60 font-semibold uppercase tracking-wider">เครื่อง Local</span>
+        <span className="text-[9px] text-white/20 font-mono">{data.hostname}</span>
+      </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {/* CPU */}
-        <div className="flex flex-col items-center gap-2.5 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
+        <div className="flex flex-col items-center gap-2 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
           <div className="relative">
             <CircleGauge pct={cpuPct} color={cpuColor} />
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-[18px] font-bold tabular-nums leading-none" style={{ color: cpuColor }}>{cpuPct}%</span>
-              <span className="text-[9px] text-white/30 mt-0.5 font-medium tracking-widest">CPU</span>
+              <AnimatedNumber value={cpuPct} className="text-[18px] font-bold tabular-nums leading-none" style={{ color: cpuColor }} />
+              <span className="text-[8px] text-white/20">%</span>
+              <span className="text-[9px] text-white/30 font-medium tracking-widest">CPU</span>
             </div>
           </div>
-          <div className="text-center">
-            <div className="text-[10px] text-white/50 font-medium">{data.cpu.cores} Cores</div>
-            <div className="text-[9px] text-white/25 mt-0.5 line-clamp-1 max-w-[100px]">{data.cpu.model.split('@')[0].trim()}</div>
+          <Sparkline data={cpuHist} color={cpuColor} width={72} height={20} />
+          <div className="text-center -mt-1">
+            <div className="text-[10px] text-white/45 font-medium">{data.cpu.cores} Cores</div>
+            <div className="text-[9px] text-white/20 mt-0.5 line-clamp-1 max-w-[100px]">{data.cpu.model.split('@')[0].trim()}</div>
           </div>
         </div>
 
         {/* RAM */}
-        <div className="flex flex-col items-center gap-2.5 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
+        <div className="flex flex-col items-center gap-2 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
           <div className="relative">
             <CircleGauge pct={memPct} color={memColor} />
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-[18px] font-bold tabular-nums leading-none" style={{ color: memColor }}>{memPct}%</span>
-              <span className="text-[9px] text-white/30 mt-0.5 font-medium tracking-widest">RAM</span>
+              <AnimatedNumber value={memPct} className="text-[18px] font-bold tabular-nums leading-none" style={{ color: memColor }} />
+              <span className="text-[8px] text-white/20">%</span>
+              <span className="text-[9px] text-white/30 font-medium tracking-widest">RAM</span>
             </div>
           </div>
           <div className="text-center">
-            <div className="text-[10px] text-white/50 font-medium">{fmtBytes(data.memory.used)} / {fmtBytes(data.memory.total)}</div>
+            <div className="text-[10px] text-white/50 font-semibold">{fmtBytes(data.memory.used)} / {fmtBytes(data.memory.total)}</div>
             <div className="text-[9px] text-white/25 mt-0.5">{fmtBytes(data.memory.free)} ว่าง</div>
           </div>
         </div>
@@ -563,19 +632,20 @@ export default function ITDashboard() {
         ].map(s => (
           <div
             key={s.label}
-            className="stat-card rounded-xl"
+            className="stat-card rounded-xl group cursor-default hover:scale-[1.02] transition-transform relative overflow-hidden"
             style={s.urgent && (s.value as number) > 0 ? { borderColor: `${s.color}40` } : {}}
           >
+            {/* gradient accent top bar */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] rounded-t-xl opacity-60 transition-opacity group-hover:opacity-100"
+              style={{ background: `linear-gradient(90deg, ${s.color}00, ${s.color}, ${s.color}00)` }} />
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] text-white/40 uppercase tracking-wider leading-tight">{s.label}</span>
-              <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center"
-                style={{ background: s.bg, color: s.color }}
-              >
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110"
+                style={{ background: s.bg, color: s.color }}>
                 {s.icon}
               </div>
             </div>
-            <div className="text-3xl font-light" style={{ color: s.color }}>{s.value}</div>
+            <AnimatedNumber value={s.value as number} className="text-3xl font-light" style={{ color: s.color }} />
           </div>
         ))}
       </div>

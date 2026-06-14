@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import os from 'os';
-import { execSync } from 'child_process';
+import { execSync, execFileSync } from 'child_process';
 import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
@@ -36,10 +36,12 @@ function getDisks(): DiskInfo[] {
   try {
     if (process.platform === 'win32') {
       // PowerShell Get-Volume — works on Windows 10/11 (wmic is deprecated)
+      // Use execFileSync with args array to bypass cmd.exe shell escaping entirely
       try {
-        // Use single-quoted string to avoid JS template interpolation of $_ variables
-        const ps = 'Get-Volume | Where-Object {$_.DriveLetter -ne $null -and $_.Size -gt 0} | ForEach-Object { $_.DriveLetter + \':\' + \'|\' + $_.SizeRemaining + \'|\' + $_.Size }';
-        const out = execSync(`powershell -NoProfile -NonInteractive -Command "${ps}"`, { timeout: 8_000, encoding: 'utf8' });
+        const out = execFileSync('powershell', [
+          '-NoProfile', '-NonInteractive', '-Command',
+          'Get-Volume | Where-Object {$_.DriveLetter -ne $null -and $_.Size -gt 0} | ForEach-Object { $_.DriveLetter + \':\' + \'|\' + $_.SizeRemaining + \'|\' + $_.Size }',
+        ], { timeout: 8_000, encoding: 'utf8' });
         const disks = out.trim().split(/\r?\n/)
           .filter(l => l.trim() && l.includes('|'))
           .map(l => {

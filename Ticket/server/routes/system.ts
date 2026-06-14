@@ -35,16 +35,37 @@ interface DiskInfo { path: string; total: number; used: number; free: number; }
 function getDisks(): DiskInfo[] {
   try {
     if (process.platform === 'win32') {
-      const out = execSync('wmic logicaldisk get caption,freespace,size /format:csv', { timeout: 4_000 }).toString();
-      return out.split('\n')
+      // PowerShell Get-Volume — works on Windows 10/11 (wmic is deprecated)
+      try {
+        const ps = `Get-Volume | Where-Object {$_.DriveLetter -ne $null -and $_.Size -gt 0} | ForEach-Object { $_.DriveLetter + ':' + '|' + $_.SizeRemaining + '|' + $_.Size }`;
+        const out = execSync(`powershell -NoProfile -NonInteractive -Command "${ps}"`, { timeout: 8_000 }).toString('utf8');
+        const disks = out.trim().split(/\r?\n/)
+          .filter(l => l.trim() && l.includes('|'))
+          .map(l => {
+            const parts = l.trim().split('|');
+            const path  = (parts[0] ?? '').trim();
+            const free  = parseInt(parts[1] ?? '', 10) || 0;
+            const total = parseInt(parts[2] ?? '', 10) || 0;
+            if (!path || !total) return null;
+            return { path: path + '\\', total, free, used: total - free };
+          })
+          .filter(Boolean) as DiskInfo[];
+        if (disks.length > 0) return disks;
+      } catch { /* fall through to wmic */ }
+
+      // Fallback: wmic (Windows 8/10 older builds)
+      const out = execSync('wmic logicaldisk get caption,freespace,size /format:csv', { timeout: 4_000 }).toString('utf8');
+      return out.split(/\r?\n/)
         .map(l => l.trim())
-        .filter(l => /^[A-Z]/.test(l)) // lines starting with hostname
+        .filter(l => /^[A-Za-z]/.test(l) && l.includes(','))
         .map(l => {
-          const [, caption, freeStr, sizeStr] = l.split(',');
-          const total = parseInt(sizeStr, 10) || 0;
-          const free  = parseInt(freeStr, 10) || 0;
+          const cols = l.split(',');
+          // csv columns: Node, Caption, FreeSpace, Size
+          const caption = (cols[1] ?? '').trim();
+          const free    = parseInt(cols[2] ?? '', 10) || 0;
+          const total   = parseInt(cols[3] ?? '', 10) || 0;
           if (!caption || !total) return null;
-          return { path: caption.trim(), total, free, used: total - free };
+          return { path: caption, total, free, used: total - free };
         })
         .filter(Boolean) as DiskInfo[];
     } else {

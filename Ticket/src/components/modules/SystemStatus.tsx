@@ -515,6 +515,7 @@ export default function SystemStatus() {
           addMaintenance, deleteMaintenance, updateMaintenanceStatus } = useApp();
   const isIT = currentUser.role !== 'employee' && currentUser.role !== undefined;
   const [showAddModal, setShowAddModal] = useState(false);
+  const [sysCollapsed, setSysCollapsed] = useState(false);
 
   const overallStatus: ServiceStatus = (() => {
     if (services.some(s => s.status === 'major_outage'))   return 'major_outage';
@@ -672,12 +673,32 @@ export default function SystemStatus() {
       {/* Resource Monitor + NAS — IT/Manager only */}
       {isIT && (
         <div className="mt-5">
-          <div className="flex items-center gap-2 mb-4">
-            <Server size={14} className="text-violet-400" />
-            <span className="text-[13px] font-semibold text-white/70">เครื่องแม่ข่าย & NAS</span>
+          <button
+            onClick={() => setSysCollapsed(v => !v)}
+            className="w-full flex items-center justify-between gap-2 mb-4 group"
+          >
+            <div className="flex items-center gap-2">
+              <Server size={14} className="text-violet-400" />
+              <span className="text-[13px] font-semibold text-white/70">เครื่องแม่ข่าย & NAS</span>
+            </div>
+            <ChevronDown
+              size={14}
+              className="text-white/30 group-hover:text-white/60 transition-all duration-300"
+              style={{ transform: sysCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }}
+            />
+          </button>
+
+          {/* CSS Grid row animation for smooth collapse */}
+          <div style={{
+            display: 'grid',
+            gridTemplateRows: sysCollapsed ? '0fr' : '1fr',
+            transition: 'grid-template-rows 0.35s cubic-bezier(.4,0,.2,1)',
+          }}>
+            <div style={{ overflow: 'hidden' }}>
+              <ResourceMonitor />
+              <NasSection />
+            </div>
           </div>
-          <ResourceMonitor />
-          <NasSection />
         </div>
       )}
 

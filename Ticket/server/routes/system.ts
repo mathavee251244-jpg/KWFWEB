@@ -37,8 +37,9 @@ function getDisks(): DiskInfo[] {
     if (process.platform === 'win32') {
       // PowerShell Get-Volume — works on Windows 10/11 (wmic is deprecated)
       try {
-        const ps = `Get-Volume | Where-Object {$_.DriveLetter -ne $null -and $_.Size -gt 0} | ForEach-Object { $_.DriveLetter + ':' + '|' + $_.SizeRemaining + '|' + $_.Size }`;
-        const out = execSync(`powershell -NoProfile -NonInteractive -Command "${ps}"`, { timeout: 8_000 }).toString('utf8');
+        // Use single-quoted string to avoid JS template interpolation of $_ variables
+        const ps = 'Get-Volume | Where-Object {$_.DriveLetter -ne $null -and $_.Size -gt 0} | ForEach-Object { $_.DriveLetter + \':\' + \'|\' + $_.SizeRemaining + \'|\' + $_.Size }';
+        const out = execSync(`powershell -NoProfile -NonInteractive -Command "${ps}"`, { timeout: 8_000, encoding: 'utf8' });
         const disks = out.trim().split(/\r?\n/)
           .filter(l => l.trim() && l.includes('|'))
           .map(l => {

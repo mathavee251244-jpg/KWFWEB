@@ -175,22 +175,18 @@ function ResourceMonitor() {
   const diskColor = (u: number) => u >= 90 ? '#ef4444' : u >= 75 ? '#f59e0b' : '#8b5cf6';
 
   return (
-    <div className="mt-5">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Monitor size={14} className="text-violet-400" />
-          <span className="text-[13px] font-semibold text-white/70">Resource Monitor</span>
-          {data && (
-            <span className="text-[10px] text-white/25 font-mono">{data.hostname}</span>
-          )}
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-1.5">
+          <Monitor size={12} className="text-violet-400/70" />
+          <span className="text-[11px] text-white/40 font-semibold uppercase tracking-wider">Resource Monitor</span>
+          {data && <span className="text-[10px] text-white/20 font-mono">{data.hostname}</span>}
         </div>
-        <div className="flex items-center gap-2">
-          {lastFetched && (
-            <span className="text-[10px] text-white/20 hidden sm:block">
-              อัปเดต {lastFetched.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-            </span>
-          )}
-        </div>
+        {lastFetched && (
+          <span className="text-[10px] text-white/20 hidden sm:block">
+            อัปเดต {lastFetched.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+          </span>
+        )}
       </div>
 
       <div className="glass-card rounded-xl p-4">
@@ -318,13 +314,11 @@ function NasSection() {
   };
 
   return (
-    <div className="mt-5">
-      {/* ── Section heading ── */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <HardDrive size={14} className="text-sky-400" />
-          <span className="text-[13px] font-semibold text-white/70">NAS</span>
-          <span className="text-[10px] text-white/25 uppercase tracking-widest">Storage Manager</span>
+    <div className="mt-4">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-1.5">
+          <HardDrive size={12} className="text-sky-400/70" />
+          <span className="text-[11px] text-white/40 font-semibold uppercase tracking-wider">NAS Storage Manager</span>
         </div>
         <div className="flex items-center gap-2">
           {lastFetched && (
@@ -676,8 +670,16 @@ export default function SystemStatus() {
       </div>
 
       {/* Resource Monitor + NAS — IT/Manager only */}
-      {isIT && <ResourceMonitor />}
-      {isIT && <NasSection />}
+      {isIT && (
+        <div className="mt-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Server size={14} className="text-violet-400" />
+            <span className="text-[13px] font-semibold text-white/70">เครื่องแม่ข่าย & NAS</span>
+          </div>
+          <ResourceMonitor />
+          <NasSection />
+        </div>
+      )}
 
       {showAddModal && (
         <AddMaintenanceModal

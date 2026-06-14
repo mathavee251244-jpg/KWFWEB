@@ -23,3 +23,15 @@ export async function getNASStorage(): Promise<NASDevice[]> {
   const result = await api.get<{ devices: NASDevice[] }>('/nas/storage');
   return result.devices ?? [];
 }
+
+export interface NASResource {
+  index: number; name: string; ok: boolean;
+  cpu?: number;
+  memory?: { total: number; used: number; free: number };
+  error?: string;
+}
+
+export async function getNASResources(): Promise<NASResource[]> {
+  const result = await api.get<{ devices: NASResource[] }>('/nas/resources');
+  return result.devices ?? [];
+}

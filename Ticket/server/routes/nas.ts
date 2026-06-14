@@ -133,6 +133,73 @@ async function queryStorage(cfg: NASConfig): Promise<{ volumes: NASVolume[]; dis
   };
 }
 
+// ── NAS Resource (CPU/RAM) ────────────────────────────────────────────────────
+interface SynoUtilization {
+  success: boolean;
+  data?: {
+    cpu?: { user_load?: number; system_load?: number; other_load?: number; total_load?: number };
+    memory?: { memory_size?: number; real_usage?: number; avail_real?: number };
+  };
+  error?: { code: number };
+}
+export interface NASResource {
+  index: number; name: string; ok: boolean;
+  cpu?: number;
+  memory?: { total: number; used: number; free: number };
+  error?: string;
+}
+
+const resourceCaches = new Map<number, { data: NASResource; expires: number }>();
+
+router.get('/resources', requireAuth, async (_req, res) => {
+  if (NAS_CONFIGS.length === 0) { res.json({ devices: [] }); return; }
+
+  const results = await Promise.allSettled(
+    NAS_CONFIGS.map(async cfg => {
+      const cached = resourceCaches.get(cfg.index);
+      if (cached && cached.expires > Date.now()) return cached.data;
+
+      const sid = await getSession(cfg);
+      const url = `${cfg.url}/webapi/entry.cgi?api=SYNO.Core.System.Utilization&version=1&method=get&_sid=${sid}`;
+      let d = await fetchNAS(url) as SynoUtilization;
+
+      if (!d.success) {
+        sessionCaches.delete(cfg.index);
+        const sid2 = await getSession(cfg);
+        const url2 = `${cfg.url}/webapi/entry.cgi?api=SYNO.Core.System.Utilization&version=1&method=get&_sid=${sid2}`;
+        d = await fetchNAS(url2) as SynoUtilization;
+        if (!d.success) throw new Error(`NAS ${cfg.index} utilization failed (code: ${d.error?.code ?? 'unknown'})`);
+      }
+
+      const c = d.data?.cpu;
+      const m = d.data?.memory;
+      const cpu = c?.total_load ?? ((c?.user_load ?? 0) + (c?.system_load ?? 0) + (c?.other_load ?? 0));
+
+      const resource: NASResource = {
+        index: cfg.index, name: `NAS ${cfg.index}`, ok: true,
+        cpu,
+        memory: m ? {
+          total: (m.memory_size ?? 0) * 1024,
+          used:  (m.real_usage  ?? 0) * 1024,
+          free:  (m.avail_real  ?? 0) * 1024,
+        } : undefined,
+      };
+
+      resourceCaches.set(cfg.index, { data: resource, expires: Date.now() + 5_000 });
+      return resource;
+    })
+  );
+
+  const devices: NASResource[] = results.map((r, i) => {
+    if (r.status === 'fulfilled') return r.value;
+    const cfg = NAS_CONFIGS[i];
+    return { index: cfg.index, name: `NAS ${cfg.index}`, ok: false,
+      error: r.reason instanceof Error ? r.reason.message : 'Failed' };
+  });
+
+  res.json({ devices });
+});
+
 // GET /api/nas/storage  — returns { devices: NASDevice[] }
 router.get('/storage', requireAuth, async (_req, res) => {
   if (NAS_CONFIGS.length === 0) { res.json({ devices: [] }); return; }

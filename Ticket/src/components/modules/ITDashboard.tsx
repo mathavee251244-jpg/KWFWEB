@@ -10,8 +10,8 @@ import StatusBadge from '../shared/StatusBadge';
 import PriorityBadge from '../shared/PriorityBadge';
 import type { TicketStatus, TicketPriority, Incident } from '../../types';
 import { STATUS_LABELS, PRIORITY_LABELS } from '../../types';
-import { getNASStorage } from '../../api/nas';
-import type { NASDevice } from '../../api/nas';
+import { getNASStorage, getNASResources } from '../../api/nas';
+import type { NASDevice, NASResource } from '../../api/nas';
 import { getSystemResources } from '../../api/system';
 import type { SystemResources } from '../../api/system';
 
@@ -309,12 +309,14 @@ function CircleGauge({ pct, color, size = 96, stroke = 9 }: {
 }
 
 function ResourceCard() {
-  const [data, setData] = useState<SystemResources | null>(null);
-  const [err,  setErr]  = useState(false);
+  const [data,   setData]   = useState<SystemResources | null>(null);
+  const [nasRes, setNasRes] = useState<NASResource[]>([]);
+  const [err,    setErr]    = useState(false);
 
   const load = useCallback(async () => {
-    try { setData(await getSystemResources()); setErr(false); }
-    catch { setErr(true); }
+    const [sys, nas] = await Promise.allSettled([getSystemResources(), getNASResources()]);
+    if (sys.status === 'fulfilled') { setData(sys.value); setErr(false); } else setErr(true);
+    if (nas.status === 'fulfilled') setNasRes(nas.value.filter(n => n.ok));
   }, []);
 
   useEffect(() => { load(); const id = setInterval(load, 5_000); return () => clearInterval(id); }, [load]);
@@ -431,6 +433,53 @@ function ResourceCard() {
           </div>
         </div>
       </div>
+
+      {/* NAS Resources */}
+      {nasRes.length > 0 && (
+        <div className="mt-3 pt-3 border-t border-white/[0.06]">
+          <div className="flex items-center gap-1.5 mb-3">
+            <HardDrive size={11} className="text-sky-400/70" />
+            <span className="text-[10px] text-white/35 font-semibold uppercase tracking-wider">NAS Resources</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {nasRes.flatMap(nas => {
+              const nasMemPct = nas.memory && nas.memory.total > 0
+                ? Math.round((nas.memory.used / nas.memory.total) * 100) : 0;
+              const nasCpuCol = usageColor(nas.cpu ?? 0);
+              const nasMemCol = usageColor(nasMemPct);
+              return [
+                <div key={`${nas.index}-cpu`}
+                  className="flex flex-col items-center gap-2 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
+                  <div className="text-[9px] text-white/25 font-semibold uppercase tracking-wider">{nas.name}</div>
+                  <div className="relative">
+                    <CircleGauge pct={nas.cpu ?? 0} color={nasCpuCol} size={72} stroke={7} />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-[14px] font-bold tabular-nums" style={{ color: nasCpuCol }}>{nas.cpu ?? 0}%</span>
+                      <span className="text-[8px] text-white/25 mt-0.5">CPU</span>
+                    </div>
+                  </div>
+                </div>,
+                <div key={`${nas.index}-ram`}
+                  className="flex flex-col items-center gap-2 bg-white/[0.03] rounded-2xl p-3 border border-white/[0.06] hover:border-white/[0.10] transition-colors">
+                  <div className="text-[9px] text-white/25 font-semibold uppercase tracking-wider">{nas.name}</div>
+                  <div className="relative">
+                    <CircleGauge pct={nasMemPct} color={nasMemCol} size={72} stroke={7} />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className="text-[14px] font-bold tabular-nums" style={{ color: nasMemCol }}>{nasMemPct}%</span>
+                      <span className="text-[8px] text-white/25 mt-0.5">RAM</span>
+                    </div>
+                  </div>
+                  {nas.memory && (
+                    <div className="text-[9px] text-white/30 text-center leading-tight">
+                      {fmtBytes(nas.memory.used)} / {fmtBytes(nas.memory.total)}
+                    </div>
+                  )}
+                </div>,
+              ];
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

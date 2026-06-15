@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { ArrowLeft, Shield, ExternalLink, RefreshCw, Mail } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
+import { ArrowLeft, Shield, ExternalLink, RefreshCw, Mail, TrendingDown, TrendingUp, AlertTriangle, Bug } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { getSMConnections, getSMSummary } from '../../api/smartermail';
 import type { SMConnections, SMSummaryResponse } from '../../api/smartermail';
@@ -12,272 +12,165 @@ const fmt   = (n: number) => n.toLocaleString();
 const fmtGB = (b: number) => (b / 1e9).toFixed(2);
 const fmtMB = (b: number) => (b / 1e6).toFixed(1);
 
-// ── Color palette (softer neon) ───────────────────────────────────────────────
-const C = {
-  cyan:   '#22d3ee',   // softer cyan
-  green:  '#34d399',   // emerald green
-  blue:   '#60a5fa',   // soft blue
-  purple: '#a78bfa',   // soft purple
-  amber:  '#fbbf24',   // warm amber
-  red:    '#f87171',   // soft red
-};
-
-// ── Count-up hook ─────────────────────────────────────────────────────────────
-function useCountUp(target: number, dur = 900) {
+// ─── Count-up animation hook ──────────────────────────────────────────────────
+function useCountUp(target: number, dur = 1100, enabled = true) {
   const [val, setVal] = useState(0);
   const raf  = useRef(0);
-  const from = useRef(0);
+  const prev = useRef(0);
   useEffect(() => {
+    if (!enabled) return;
     cancelAnimationFrame(raf.current);
-    const f = from.current, t0 = performance.now();
+    const from = prev.current;
+    const t0 = performance.now();
     const tick = (now: number) => {
       const p = Math.min((now - t0) / dur, 1);
-      const e = 1 - Math.pow(1 - p, 3);
-      setVal(Math.round(f + (target - f) * e));
+      const ease = 1 - Math.pow(1 - p, 3);
+      const v = Math.round(from + (target - from) * ease);
+      setVal(v);
       if (p < 1) raf.current = requestAnimationFrame(tick);
-      else from.current = target;
+      else prev.current = target;
     };
     raf.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf.current);
-  }, [target, dur]);
+  }, [target, dur, enabled]);
   return val;
 }
 
-// ── Glowing number ────────────────────────────────────────────────────────────
-function GN({ n, color = C.cyan, size = 'text-2xl' }: { n: number; color?: string; size?: string }) {
-  const v = useCountUp(n);
+// ─── Animated metric number ───────────────────────────────────────────────────
+function Metric({ value, color, size = 'text-3xl', ready }: {
+  value: number; color?: string; size?: string; ready: boolean;
+}) {
+  const v = useCountUp(value, 1100, ready);
+  if (!ready) {
+    return <div className="h-9 w-24 rounded-lg animate-pulse" style={{ background: 'rgba(255,255,255,.06)' }} />;
+  }
   return (
     <span className={`${size} font-bold font-mono tabular-nums leading-none`}
-      style={{ color, textShadow: `0 0 14px ${color}55` }}>
+      style={{ color: color ?? 'rgba(255,255,255,.92)' }}>
       {fmt(v)}
     </span>
   );
 }
 
-// ── Dashboard Card ────────────────────────────────────────────────────────────
-function DashCard({ children, accent = C.cyan, scan = false, delay = 0, className = '', extraStyle }: {
-  children: React.ReactNode;
-  accent?: string;
-  scan?: boolean;
-  delay?: number;
-  className?: string;
-  extraStyle?: React.CSSProperties;
+// ─── Status badge ─────────────────────────────────────────────────────────────
+function Badge({ children, color }: { children: React.ReactNode; color: string }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+      style={{ background: `${color}18`, color, border: `1px solid ${color}30` }}>
+      {children}
+    </span>
+  );
+}
+
+// ─── Live pulse dot ───────────────────────────────────────────────────────────
+function PulseDot({ color = '#22c55e' }: { color?: string }) {
+  return (
+    <span className="relative flex h-2.5 w-2.5">
+      <span className="absolute inline-flex h-full w-full rounded-full opacity-75"
+        style={{ background: color, animation: 'hud-pulse-ring 2s ease-in-out infinite' }} />
+      <span className="relative inline-flex h-2.5 w-2.5 rounded-full"
+        style={{ background: color }} />
+    </span>
+  );
+}
+
+// ─── Progress bar ─────────────────────────────────────────────────────────────
+function ProgressBar({ label, value, max, color, icon, ready }: {
+  label: string; value: number; max: number; color: string; icon?: React.ReactNode; ready: boolean;
 }) {
-  const br = `2px solid ${accent}`;
-  return (
-    <div className={`relative overflow-hidden rounded-xl p-5 ${className}`}
-      style={{
-        background: 'linear-gradient(145deg, rgba(8,15,28,.98) 0%, rgba(5,10,20,.99) 100%)',
-        border: `1px solid ${accent}22`,
-        boxShadow: `0 4px 24px rgba(0,0,0,.4), 0 0 0 0.5px ${accent}18, inset 0 1px 0 ${accent}10`,
-        animation: `section-enter .45s ease-out ${delay}s both`,
-        ...extraStyle,
-      }}>
-      {/* corner brackets */}
-      <div className="absolute top-0 left-0  w-4 h-4" style={{ borderTop: br, borderLeft: br, borderRadius: '4px 0 0 0' }} />
-      <div className="absolute top-0 right-0 w-4 h-4" style={{ borderTop: br, borderRight: br, borderRadius: '0 4px 0 0' }} />
-      <div className="absolute bottom-0 left-0  w-4 h-4" style={{ borderBottom: br, borderLeft: br, borderRadius: '0 0 0 4px' }} />
-      <div className="absolute bottom-0 right-0 w-4 h-4" style={{ borderBottom: br, borderRight: br, borderRadius: '0 0 4px 0' }} />
-      {/* scan shimmer */}
-      {scan && (
-        <div className="absolute inset-x-0 h-0.5 pointer-events-none" style={{
-          background: `linear-gradient(90deg, transparent 0%, ${accent}50 40%, ${accent}80 50%, ${accent}50 60%, transparent 100%)`,
-          animation: 'card-scan 7s ease-in-out infinite',
-        }} />
-      )}
-      {children}
-    </div>
-  );
-}
-
-// ── Section label ─────────────────────────────────────────────────────────────
-function SLabel({ children, color }: { children: React.ReactNode; color: string }) {
-  return (
-    <div className="text-xs font-semibold tracking-wider uppercase mb-3 flex items-center gap-1.5"
-      style={{ color: `${color}cc` }}>
-      {children}
-    </div>
-  );
-}
-
-// ── SVG arc gauge ─────────────────────────────────────────────────────────────
-function ArcGauge({ pct, color, size = 130 }: { pct: number; color: string; size?: number }) {
-  const r    = size * 0.36;
-  const cx   = size / 2, cy = size / 2;
-  const circ = 2 * Math.PI * r;
-  const arc  = circ * 0.75;
-  const fill = (Math.max(0, Math.min(pct, 100)) / 100) * arc;
-  const rot  = -225;
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
-      {/* slow-spinning dashed ring */}
-      <circle cx={cx} cy={cy} r={r + 10} fill="none"
-        stroke={`${color}18`} strokeWidth={1} strokeDasharray="2 6"
-        style={{ animation: 'hud-spin 25s linear infinite', transformOrigin: `${cx}px ${cy}px` }} />
-      {/* track */}
-      <circle cx={cx} cy={cy} r={r} fill="none"
-        stroke="rgba(255,255,255,.06)" strokeWidth={8} strokeLinecap="round"
-        strokeDasharray={`${arc} ${circ}`}
-        style={{ transform: `rotate(${rot}deg)`, transformOrigin: `${cx}px ${cy}px` }} />
-      {/* filled arc */}
-      <circle cx={cx} cy={cy} r={r} fill="none"
-        stroke={color} strokeWidth={8} strokeLinecap="round"
-        strokeDasharray={`${fill} ${circ}`}
-        style={{
-          transform: `rotate(${rot}deg)`, transformOrigin: `${cx}px ${cy}px`,
-          filter: `drop-shadow(0 0 6px ${color}88)`,
-          transition: 'stroke-dasharray 1.4s cubic-bezier(.4,0,.2,1)',
-        }} />
-      {/* tick marks at 0/25/50/75/100 */}
-      {[0, 25, 50, 75, 100].map(t => {
-        const ang = (rot + (t / 100) * 270) * (Math.PI / 180);
-        return (
-          <line key={t}
-            x1={cx + (r + 12) * Math.cos(ang)} y1={cy + (r + 12) * Math.sin(ang)}
-            x2={cx + (r + 16) * Math.cos(ang)} y2={cy + (r + 16) * Math.sin(ang)}
-            stroke={`${color}45`} strokeWidth={1.5} strokeLinecap="round" />
-        );
-      })}
-      {/* center text */}
-      <text x={cx} y={cy + 5} textAnchor="middle"
-        fontSize={size * 0.19} fontFamily="monospace" fontWeight="700" fill="white"
-        style={{ filter: `drop-shadow(0 0 8px ${color}77)` }}>
-        {pct}%
-      </text>
-      <text x={cx} y={cy + size * 0.17} textAnchor="middle"
-        fontSize={size * 0.085} fontFamily="monospace" fill="rgba(255,255,255,.35)" letterSpacing="3">
-        DISK
-      </text>
-    </svg>
-  );
-}
-
-// ── Floating mail particles ───────────────────────────────────────────────────
-const MAIL_CHARS = ['✉', '✦', '★', '·', '✧', '◉'];
-type Particle = { id: number; x: number; delay: number; ch: string };
-
-function Particles({ items }: { items: Particle[] }) {
-  if (!items.length) return null;
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {items.map(p => (
-        <span key={p.id} className="absolute text-sm"
-          style={{
-            left: `${p.x}%`, bottom: 8,
-            color: C.cyan,
-            textShadow: `0 0 8px ${C.cyan}`,
-            opacity: 0,
-            animation: `particle-rise 2.2s ease-out ${p.delay}s forwards`,
-          }}>
-          {p.ch}
-        </span>
-      ))}
-    </div>
-  );
-}
-
-// ── Progress bar ──────────────────────────────────────────────────────────────
-function ProgBar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
   const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
-  const v   = useCountUp(value);
+  const v   = useCountUp(value, 1100, ready);
   return (
-    <div className="flex items-center gap-3">
-      <div className="w-20 shrink-0 text-xs font-mono text-right" style={{ color: 'rgba(255,255,255,.45)' }}>
-        {label}
+    <div>
+      <div className="flex items-center justify-between mb-1.5">
+        <div className="flex items-center gap-1.5 text-sm" style={{ color: 'rgba(255,255,255,.6)' }}>
+          {icon && <span className="opacity-60">{icon}</span>}
+          {label}
+        </div>
+        <span className="text-sm font-mono font-semibold tabular-nums" style={{ color }}>
+          {ready ? fmt(v) : '—'}
+        </span>
       </div>
-      <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,.06)' }}>
-        <div className="h-full rounded-full transition-all duration-700"
-          style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${color}cc, ${color})`, boxShadow: `0 0 8px ${color}55` }} />
-      </div>
-      <div className="w-16 text-right text-xs font-mono tabular-nums font-semibold" style={{ color }}>
-        {fmt(v)}
+      <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,.07)' }}>
+        <div className="h-full rounded-full transition-all duration-1000 ease-out"
+          style={{ width: ready ? `${pct}%` : '0%', background: color, opacity: 0.8 }} />
       </div>
     </div>
   );
 }
 
-// ── Skeleton loader ───────────────────────────────────────────────────────────
-function Skel({ h = 36 }: { h?: number }) {
+// ─── Section card ─────────────────────────────────────────────────────────────
+function Card({ children, className = '', delay = 0 }: {
+  children: React.ReactNode; className?: string; delay?: number;
+}) {
   return (
-    <div className="rounded-lg overflow-hidden" style={{ height: h, background: 'rgba(255,255,255,.03)' }}>
-      <div className="h-full" style={{
-        background: 'linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent)',
-        animation: 'card-scan 2s ease-in-out infinite',
-      }} />
+    <div className={`glass-card rounded-2xl p-5 ${className}`}
+      style={{ animation: `section-enter .4s ease-out ${delay}s both` }}>
+      {children}
     </div>
   );
 }
 
-// ── Chart tooltip ─────────────────────────────────────────────────────────────
-function ChartTip({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number }> }) {
+// ─── Card header ──────────────────────────────────────────────────────────────
+function CardHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+  return (
+    <div className="mb-4">
+      <p className="text-sm font-semibold" style={{ color: 'rgba(255,255,255,.85)' }}>{title}</p>
+      {subtitle && <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,.35)' }}>{subtitle}</p>}
+    </div>
+  );
+}
+
+// ─── Stat card (big number) ───────────────────────────────────────────────────
+function StatCard({ label, value, color, icon, sub, delay, ready }: {
+  label: string; value: number; color: string; icon: React.ReactNode;
+  sub?: string; delay: number; ready: boolean;
+}) {
+  return (
+    <Card delay={delay}>
+      <div className="flex items-start justify-between mb-3">
+        <span className="text-sm" style={{ color: 'rgba(255,255,255,.5)' }}>{label}</span>
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+          style={{ background: `${color}18`, color }}>
+          {icon}
+        </div>
+      </div>
+      <Metric value={value} color={color} size="text-[2rem]" ready={ready} />
+      {sub && <p className="text-xs mt-2" style={{ color: 'rgba(255,255,255,.3)' }}>{sub}</p>}
+    </Card>
+  );
+}
+
+// ─── Chart tooltip ────────────────────────────────────────────────────────────
+function ChartTooltip({ active, payload }: { active?: boolean; payload?: Array<{ name: string; value: number; payload?: { unit?: string } }> }) {
   if (!active || !payload?.length) return null;
+  const unit = payload[0].payload?.unit ?? '';
   return (
-    <div className="px-3 py-2 rounded-lg text-sm font-mono" style={{
-      background: 'rgba(8,14,28,.96)',
-      border: `1px solid rgba(255,255,255,.12)`,
-      color: 'rgba(255,255,255,.85)',
-      boxShadow: '0 8px 24px rgba(0,0,0,.4)',
-    }}>
-      {payload[0].name}: <strong style={{ color: C.cyan }}>{payload[0].value} GB</strong>
+    <div className="glass px-3 py-2 rounded-xl text-sm shadow-xl">
+      <span style={{ color: 'rgba(255,255,255,.5)' }}>{payload[0].name}: </span>
+      <strong style={{ color: 'rgba(255,255,255,.9)' }}>{payload[0].value} {unit}</strong>
     </div>
   );
 }
 
-// ── Sonar live indicator ──────────────────────────────────────────────────────
-function LiveDot({ color, active }: { color: string; active: boolean }) {
-  return (
-    <div className="relative w-3 h-3 flex items-center justify-center shrink-0">
-      {active && <>
-        <div className="absolute w-3 h-3 rounded-full" style={{
-          border: `1px solid ${color}`,
-          animation: 'sonar-ring 2s ease-out infinite',
-        }} />
-        <div className="absolute w-3 h-3 rounded-full" style={{
-          border: `1px solid ${color}`,
-          animation: 'sonar-ring 2s ease-out 0.75s infinite',
-        }} />
-      </>}
-      <div className="w-2 h-2 rounded-full"
-        style={{ background: color, boxShadow: `0 0 6px ${color}` }} />
-    </div>
-  );
-}
-
-// ── Main component ────────────────────────────────────────────────────────────
+// ─── Main Dashboard ───────────────────────────────────────────────────────────
 export default function EmailDashboard() {
   const { currentUser, navigate } = useApp();
+
   const [conn,    setConn]    = useState<SMConnections | null>(null);
   const [sumData, setSumData] = useState<SMSummaryResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [ready,   setReady]   = useState(false);
   const [busy,    setBusy]    = useState(false);
   const [lastAt,  setLastAt]  = useState<Date | null>(null);
   const [errMsg,  setErrMsg]  = useState<string | null>(null);
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [flash,   setFlash]   = useState(false);
 
-  const pid    = useRef(0);
-  const first  = useRef(true);
   const timerC = useRef<ReturnType<typeof setInterval>>();
   const timerS = useRef<ReturnType<typeof setInterval>>();
 
-  const spawn = useCallback(() => {
-    const items: Particle[] = Array.from({ length: 5 }, () => ({
-      id: ++pid.current,
-      x: 3 + Math.random() * 94,
-      delay: Math.random() * 0.6,
-      ch: MAIL_CHARS[Math.floor(Math.random() * MAIL_CHARS.length)],
-    }));
-    setParticles(p => [...p, ...items]);
-    setTimeout(() => setParticles(p => p.filter(x => !items.find(i => i.id === x.id))), 3000);
-  }, []);
-
   const fetchConn = useCallback(async () => {
-    try {
-      setConn(await getSMConnections());
-      setLastAt(new Date());
-      if (!first.current) { spawn(); setFlash(true); setTimeout(() => setFlash(false), 700); }
-    } catch { /* silent */ }
-  }, [spawn]);
+    try { setConn(await getSMConnections()); setLastAt(new Date()); }
+    catch { /* silent */ }
+  }, []);
 
   const fetchSum = useCallback(async () => {
     try { setSumData(await getSMSummary()); setLastAt(new Date()); setErrMsg(null); }
@@ -292,32 +185,30 @@ export default function EmailDashboard() {
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       await Promise.all([fetchConn(), fetchSum()]);
-      first.current = false;
-      setLoading(false);
-      spawn();
+      setReady(true);
     })();
     timerC.current = setInterval(fetchConn, 15_000);
     timerS.current = setInterval(fetchSum,  60_000);
     return () => { clearInterval(timerC.current); clearInterval(timerS.current); };
-  }, [fetchConn, fetchSum, spawn]);
+  }, [fetchConn, fetchSum]);
 
-  // ── Access guard ────────────────────────────────────────────────────────────
+  // ── Access guard ──────────────────────────────────────────────────────────
   if (currentUser.role !== 'it_staff' && currentUser.role !== 'it_manager') {
     return (
       <div className="module-content flex items-center justify-center">
-        <div className="text-center opacity-40">
-          <Shield size={44} className="mx-auto mb-3" />
-          <p className="text-sm font-mono">Access restricted</p>
+        <div className="text-center" style={{ color: 'rgba(255,255,255,.3)' }}>
+          <Shield size={44} className="mx-auto mb-3 opacity-30" />
+          <p className="text-sm">ไม่มีสิทธิ์เข้าถึงส่วนนี้</p>
         </div>
       </div>
     );
   }
 
-  // ── Derived values ──────────────────────────────────────────────────────────
+  // ── Derived values ────────────────────────────────────────────────────────
   const sm = sumData?.summary;
   const dk = sumData?.diskUsage;
+
   const totalIn   = sm
     ? (sm.incoming.TRUSTED ?? 0) + (sm.incoming.STANDARD_DELIVERY ?? 0) + (sm.incoming.MARKED_AS_SPAM ?? 0)
     : 0;
@@ -327,306 +218,300 @@ export default function EmailDashboard() {
   const viruses   = sm?.sessions.VIRUSES_CAUGHT ?? 0;
   const diskPct   = sumData?.diskPct ?? 0;
 
-  const bwData = sm ? [
-    { name: 'SMTP IN',  gb: +fmtGB(sm.bwOverview.SMTP_IN  ?? 0), color: C.cyan   },
-    { name: 'SMTP OUT', gb: +fmtGB(sm.bwOverview.SMTP_OUT ?? 0), color: C.purple },
-    { name: 'IMAP',     gb: +fmtGB(sm.bwOverview.IMAP     ?? 0), color: C.blue   },
-    { name: 'POP',      gb: +fmtGB(sm.bwOverview.POP      ?? 0), color: C.green  },
-  ] : [];
-
-  const maxSess = Math.max(
-    sm?.sessions.POP_SESSIONS      ?? 0,
-    sm?.sessions.SMTP_IN_SESSIONS  ?? 0,
-    sm?.sessions.SMTP_OUT_SESSIONS ?? 0,
-    sm?.sessions.IMAP_SESSIONS     ?? 0,
-    1,
-  );
-
   const timeStr = lastAt?.toLocaleTimeString('th-TH', {
     hour: '2-digit', minute: '2-digit', second: '2-digit',
   }) ?? '--:--:--';
 
-  const connItems = [
-    { label: 'All Sessions', value: conn?.allCount      ?? 0, color: C.green  },
-    { label: 'Webmail',      value: conn?.webmailCount  ?? 0, color: C.cyan   },
-    { label: 'IMAP',         value: conn?.imapCount     ?? 0, color: C.blue   },
-    { label: 'POP',          value: conn?.popCount      ?? 0, color: C.purple },
-    { label: 'SMTP',         value: conn?.smtpCount     ?? 0, color: C.amber  },
-    { label: 'Active Users', value: conn?.allUsersCount ?? 0, color: 'rgba(255,255,255,.55)' },
-  ] as const;
+  // bandwidth chart
+  const bwData = sm ? [
+    { name: 'SMTP In',  gb: +fmtGB(sm.bwOverview.SMTP_IN  ?? 0), color: '#38bdf8', unit: 'GB' },
+    { name: 'SMTP Out', gb: +fmtGB(sm.bwOverview.SMTP_OUT ?? 0), color: '#818cf8', unit: 'GB' },
+    { name: 'IMAP',     gb: +fmtGB(sm.bwOverview.IMAP     ?? 0), color: '#34d399', unit: 'GB' },
+    { name: 'POP',      gb: +fmtGB(sm.bwOverview.POP      ?? 0), color: '#fb923c', unit: 'GB' },
+  ] : [];
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // disk pie
+  const diskPieData = dk ? [
+    { name: 'Mailbox', value: dk.mailboxUsed, color: '#38bdf8' },
+    { name: 'Files',   value: dk.fileStorageUsed, color: '#818cf8' },
+    { name: 'Free',    value: Math.max(0, (dk.allowed || dk.used * 2) - dk.used), color: 'rgba(255,255,255,.06)' },
+  ] : [];
+
+  const maxSess = Math.max(
+    sm?.sessions.SMTP_IN_SESSIONS  ?? 0,
+    sm?.sessions.SMTP_OUT_SESSIONS ?? 0,
+    sm?.sessions.POP_SESSIONS      ?? 0,
+    sm?.sessions.IMAP_SESSIONS     ?? 0,
+    1,
+  );
+
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="module-content fade-in">
 
       {/* ── Header ── */}
-      <div className="flex items-center justify-between mb-5 flex-wrap gap-2"
-        style={{ animation: 'section-enter .35s ease-out both' }}>
+      <div className="flex items-center justify-between mb-5 flex-wrap gap-3"
+        style={{ animation: 'section-enter .3s ease-out both' }}>
+
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('system_status')}
-            className="w-9 h-9 rounded-xl flex items-center justify-center transition-all"
-            style={{ border: `1px solid rgba(255,255,255,.1)`, color: 'rgba(255,255,255,.55)' }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,.07)'; e.currentTarget.style.color = 'white'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,.55)'; }}>
+            className="w-9 h-9 rounded-xl flex items-center justify-center transition-all glass-card"
+            style={{ color: 'rgba(255,255,255,.55)' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'white')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,.55)')}>
             <ArrowLeft size={16} />
           </button>
+
           <div>
-            <div className="flex items-center gap-2.5">
-              <Mail size={18} style={{ color: C.cyan }} />
-              <h2 className="text-xl font-bold tracking-wide" style={{ color: 'rgba(255,255,255,.92)' }}>
+            <div className="flex items-center gap-2">
+              <Mail size={18} style={{ color: 'rgba(255,255,255,.7)' }} />
+              <h2 className="text-lg font-semibold" style={{ color: 'rgba(255,255,255,.9)' }}>
                 Email Server Monitor
               </h2>
             </div>
-            <div className="flex items-center gap-3 mt-1 pl-1">
+            <div className="flex items-center gap-2 mt-1 pl-0.5">
               <span className="text-xs" style={{ color: 'rgba(255,255,255,.35)' }}>{DOMAIN}</span>
-              <span style={{ color: 'rgba(255,255,255,.18)' }}>·</span>
+              <span style={{ color: 'rgba(255,255,255,.2)' }}>·</span>
               <span className="text-xs font-mono" style={{ color: 'rgba(255,255,255,.35)' }}>{timeStr}</span>
-              <span style={{ color: 'rgba(255,255,255,.18)' }}>·</span>
-              <div className="flex items-center gap-1.5">
-                <LiveDot color={errMsg ? C.red : C.green} active={!errMsg} />
-                <span className="text-xs" style={{ color: errMsg ? C.red : C.green }}>
-                  {errMsg ? 'Error' : 'Live'}
-                </span>
-              </div>
             </div>
           </div>
         </div>
+
         <div className="flex items-center gap-2">
+          {/* status badge */}
+          {errMsg
+            ? <Badge color="#f87171">Error</Badge>
+            : (
+              <div className="flex items-center gap-2 px-2.5 py-1 rounded-full"
+                style={{ background: 'rgba(34,197,94,.12)', border: '1px solid rgba(34,197,94,.25)' }}>
+                <PulseDot color="#22c55e" />
+                <span className="text-xs font-medium" style={{ color: '#22c55e' }}>Live</span>
+              </div>
+            )
+          }
+
           <button onClick={refresh} disabled={busy}
-            className="h-9 px-4 rounded-xl text-sm font-medium flex items-center gap-2 transition-all disabled:opacity-40"
-            style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.10)', color: 'rgba(255,255,255,.75)' }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,.1)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,.06)')}>
+            className="h-9 px-4 rounded-xl text-sm font-medium flex items-center gap-2 transition-all glass-card disabled:opacity-40"
+            style={{ color: 'rgba(255,255,255,.7)' }}
+            onMouseEnter={e => (e.currentTarget.style.color = 'white')}
+            onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,.7)')}>
             <RefreshCw size={13} className={busy ? 'animate-spin' : ''} />
             Refresh
           </button>
+
           <button onClick={() => window.open(MAIL_ADMIN_URL, '_blank')}
             className="h-9 px-4 rounded-xl text-sm font-medium flex items-center gap-2 transition-all"
-            style={{ background: `${C.cyan}15`, border: `1px solid ${C.cyan}35`, color: C.cyan }}
-            onMouseEnter={e => (e.currentTarget.style.background = `${C.cyan}25`)}
-            onMouseLeave={e => (e.currentTarget.style.background = `${C.cyan}15`)}>
+            style={{ background: 'rgba(56,189,248,.12)', border: '1px solid rgba(56,189,248,.25)', color: '#38bdf8' }}
+            onMouseEnter={e => (e.currentTarget.style.background = 'rgba(56,189,248,.2)')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'rgba(56,189,248,.12)')}>
             <ExternalLink size={13} /> Admin Panel
           </button>
         </div>
       </div>
 
-      {/* ── Error banner ── */}
+      {/* ── Error alert ── */}
       {errMsg && (
-        <div className="mb-4 px-4 py-2.5 rounded-xl text-sm" style={{
-          border: `1px solid ${C.red}35`, background: `${C.red}10`, color: C.red,
-        }}>
-          <strong>Error:</strong> {errMsg}
+        <div className="mb-4 px-4 py-3 rounded-2xl flex items-start gap-3 text-sm"
+          style={{ background: 'rgba(248,113,113,.08)', border: '1px solid rgba(248,113,113,.2)', color: 'rgba(248,113,113,.9)',
+            animation: 'section-enter .3s ease-out both' }}>
+          <AlertTriangle size={16} className="mt-0.5 shrink-0" />
+          <span>{errMsg}</span>
         </div>
       )}
 
-      {/* ── Live Connections ── */}
-      <DashCard accent={C.green} scan delay={0.05} className="mb-4">
-        <Particles items={particles} />
-        <SLabel color={C.green}>
-          <LiveDot color={C.green} active /> Live Connections
-          <span className="text-xs font-normal normal-case ml-auto" style={{ color: 'rgba(255,255,255,.3)' }}>
-            Auto-refresh every 15s
-          </span>
-        </SLabel>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 relative">
-          {connItems.map((item, i) => (
-            <div key={item.label} className="text-center"
-              style={{ animation: `section-enter .4s ease-out ${i * 0.05}s both` }}>
-              {loading
-                ? <Skel h={44} />
-                : <GN n={item.value} color={item.color} size="text-4xl" />}
-              <div className="text-xs mt-2" style={{ color: 'rgba(255,255,255,.4)' }}>
-                {item.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </DashCard>
+      {/* ── Row 1: 4 stat cards ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+        <StatCard label="Active Sessions" value={conn?.allCount ?? 0}      color="#22c55e"  icon={<span className="text-xs font-bold">●</span>} sub="Live connections" delay={0.05} ready={ready} />
+        <StatCard label="Inbound"         value={totalIn}                  color="#38bdf8"  icon={<TrendingDown size={14} />}                    sub="30-day messages" delay={0.08} ready={ready} />
+        <StatCard label="Outbound"        value={totalOut}                 color="#818cf8"  icon={<TrendingUp size={14} />}                      sub="30-day messages" delay={0.11} ready={ready} />
+        <StatCard label="Spam Blocked"    value={totalSpam}                color="#fb923c"  icon={<AlertTriangle size={14} />}                   sub={`${spamPct}% of inbound`} delay={0.14} ready={ready} />
+      </div>
 
-      {/* ── 4 stat cards ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+      {/* ── Row 2: sub-connection stats ── */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
         {([
-          { label: 'Inbound',      value: totalIn,   color: C.cyan,   icon: '↓', sub: '30 days' },
-          { label: 'Outbound',     value: totalOut,  color: C.blue,   icon: '↑', sub: '30 days' },
-          { label: 'Spam Blocked', value: totalSpam, color: C.amber,  icon: '⚠', sub: `${spamPct}% of inbound` },
-          { label: 'Viruses',      value: viruses,   color: viruses > 0 ? C.red : 'rgba(255,255,255,.3)', icon: '⬡', sub: 'detected' },
-        ] as const).map((card, i) => (
-          <DashCard key={card.label} accent={card.color} delay={0.1 + i * 0.04}
-            extraStyle={flash ? { animation: `data-flash .7s ease-out, section-enter .45s ease-out ${0.1 + i * 0.04}s both` } : undefined}>
-            <div className="text-xs font-semibold mb-1" style={{ color: `${card.color}cc` }}>
-              {card.icon}  {card.label}
-            </div>
-            {loading
-              ? <Skel h={48} />
-              : <GN n={card.value} color={card.color} size="text-3xl" />}
-            <div className="text-xs mt-1.5" style={{ color: 'rgba(255,255,255,.3)' }}>{card.sub}</div>
-          </DashCard>
+          { label: 'Webmail',   value: conn?.webmailCount  ?? 0, color: '#38bdf8' },
+          { label: 'IMAP',      value: conn?.imapCount     ?? 0, color: '#34d399' },
+          { label: 'POP',       value: conn?.popCount      ?? 0, color: '#818cf8' },
+          { label: 'SMTP',      value: conn?.smtpCount     ?? 0, color: '#fb923c' },
+          { label: 'Users',     value: conn?.allUsersCount ?? 0, color: 'rgba(255,255,255,.7)' },
+        ] as const).map((item, i) => (
+          <Card key={item.label} delay={0.17 + i * 0.03} className="text-center">
+            <p className="text-xs mb-2" style={{ color: 'rgba(255,255,255,.4)' }}>{item.label}</p>
+            <Metric value={item.value} color={item.color} size="text-2xl" ready={ready} />
+          </Card>
         ))}
       </div>
 
-      {/* ── Middle row: Disk / Bandwidth / Sessions ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-4">
+      {/* ── Row 3: Disk / Bandwidth / Sessions ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-3">
 
-        {/* Disk */}
-        <DashCard accent={C.purple} delay={0.2}>
-          <SLabel color={C.purple}>Disk Usage</SLabel>
-          {loading ? <Skel h={150} /> : (
-            <div className="flex items-center gap-4">
-              <ArcGauge pct={diskPct} color={C.purple} size={130} />
-              <div className="flex-1 space-y-3">
-                <div>
-                  <div className="text-sm font-mono font-bold" style={{ color: C.purple }}>
-                    {fmtMB(dk?.used ?? 0)} MB
-                  </div>
-                  <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,.35)' }}>Total used</div>
+        {/* Disk usage */}
+        <Card delay={0.3}>
+          <CardHeader title="Disk Usage" subtitle="Storage allocation" />
+          {!ready ? (
+            <div className="h-36 rounded-xl animate-pulse" style={{ background: 'rgba(255,255,255,.04)' }} />
+          ) : (
+            <>
+              <div className="flex items-center gap-4 mb-4">
+                {/* Pie chart */}
+                <div className="w-28 h-28 shrink-0">
+                  <PieChart width={112} height={112}>
+                    <Pie data={diskPieData} cx={52} cy={52} innerRadius={32} outerRadius={50}
+                      paddingAngle={2} dataKey="value" strokeWidth={0}
+                      isAnimationActive animationDuration={1200} animationEasing="ease-out">
+                      {diskPieData.map((d, i) => <Cell key={i} fill={d.color} />)}
+                    </Pie>
+                  </PieChart>
                 </div>
-                {[
-                  { name: 'Mailbox',  color: C.blue,   val: fmtMB(dk?.mailboxUsed ?? 0) },
-                  { name: 'Files',    color: C.purple, val: fmtMB(dk?.fileStorageUsed ?? 0) },
-                ].map(d => (
-                  <div key={d.name} className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full shrink-0" style={{ background: d.color, boxShadow: `0 0 5px ${d.color}` }} />
-                    <span className="text-xs flex-1" style={{ color: 'rgba(255,255,255,.45)' }}>{d.name}</span>
-                    <span className="text-xs font-mono font-semibold" style={{ color: d.color }}>{d.val} MB</span>
+                <div className="flex-1">
+                  <div className="text-2xl font-bold font-mono mb-1" style={{ color: 'rgba(255,255,255,.9)' }}>
+                    {diskPct}%
                   </div>
-                ))}
+                  <p className="text-xs mb-3" style={{ color: 'rgba(255,255,255,.35)' }}>
+                    {fmtMB(dk?.used ?? 0)} MB used
+                  </p>
+                  {[
+                    { name: 'Mailbox', color: '#38bdf8', val: fmtMB(dk?.mailboxUsed ?? 0) },
+                    { name: 'Files',   color: '#818cf8', val: fmtMB(dk?.fileStorageUsed ?? 0) },
+                  ].map(d => (
+                    <div key={d.name} className="flex items-center gap-2 mb-1.5">
+                      <div className="w-2 h-2 rounded-full shrink-0" style={{ background: d.color }} />
+                      <span className="text-xs flex-1" style={{ color: 'rgba(255,255,255,.45)' }}>{d.name}</span>
+                      <span className="text-xs font-mono font-semibold" style={{ color: d.color }}>{d.val} MB</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </>
           )}
-        </DashCard>
+        </Card>
 
         {/* Bandwidth */}
-        <DashCard accent={C.cyan} delay={0.23}>
-          <SLabel color={C.cyan}>Bandwidth Overview</SLabel>
-          {loading ? <Skel h={180} /> : (
-            <>
-              <div className="mb-1">
-                <GN n={Math.round(bwData.reduce((s, d) => s + d.gb, 0) * 100) / 100} color={C.cyan} size="text-2xl" />
-                <span className="text-xs ml-2" style={{ color: 'rgba(255,255,255,.35)' }}>GB total · 30 days</span>
-              </div>
-              <div className="h-[110px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={bwData} barSize={18} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'rgba(255,255,255,.35)' }}
-                      axisLine={false} tickLine={false} />
-                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,.25)' }}
-                      axisLine={false} tickLine={false} />
-                    <Tooltip content={<ChartTip />} cursor={{ fill: 'rgba(255,255,255,.03)' }} />
-                    <Bar dataKey="gb" radius={[4, 4, 0, 0]} isAnimationActive animationDuration={900} animationEasing="ease-out">
-                      {bwData.map((e, i) => (
-                        <Cell key={i} fill={e.color} fillOpacity={0.8}
-                          style={{ filter: `drop-shadow(0 0 5px ${e.color}66)` }} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 mt-2 pt-2"
-                style={{ borderTop: '1px solid rgba(255,255,255,.07)' }}>
-                {bwData.map(d => (
-                  <div key={d.name} className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full shrink-0" style={{ background: d.color }} />
-                    <span className="text-xs flex-1" style={{ color: 'rgba(255,255,255,.4)' }}>{d.name}</span>
-                    <span className="text-xs font-mono font-semibold" style={{ color: d.color }}>{d.gb} G</span>
-                  </div>
-                ))}
-              </div>
-            </>
+        <Card delay={0.33}>
+          <CardHeader title="Bandwidth" subtitle="30-day transfer by protocol" />
+          {!ready ? (
+            <div className="h-36 rounded-xl animate-pulse" style={{ background: 'rgba(255,255,255,.04)' }} />
+          ) : (
+            <div className="h-40">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={bwData} barSize={20} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+                  <XAxis dataKey="name"
+                    tick={{ fontSize: 11, fill: 'rgba(255,255,255,.4)', fontFamily: 'inherit' }}
+                    axisLine={false} tickLine={false} />
+                  <YAxis
+                    tick={{ fontSize: 10, fill: 'rgba(255,255,255,.25)', fontFamily: 'inherit' }}
+                    axisLine={false} tickLine={false} />
+                  <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(255,255,255,.03)', radius: 6 }} />
+                  <Bar dataKey="gb" radius={[6, 6, 0, 0]}
+                    isAnimationActive animationDuration={1000} animationEasing="ease-out">
+                    {bwData.map((e, i) => <Cell key={i} fill={e.color} fillOpacity={0.75} />)}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           )}
-        </DashCard>
+        </Card>
 
         {/* Sessions */}
-        <DashCard accent={C.blue} delay={0.26}>
-          <SLabel color={C.blue}>Session Counts (30 days)</SLabel>
-          {loading ? <Skel h={180} /> : (
-            <>
-              <div className="space-y-3.5 mb-4">
-                {([
-                  { label: 'SMTP In',  value: sm?.sessions.SMTP_IN_SESSIONS  ?? 0, color: C.cyan   },
-                  { label: 'SMTP Out', value: sm?.sessions.SMTP_OUT_SESSIONS ?? 0, color: C.purple },
-                  { label: 'POP',      value: sm?.sessions.POP_SESSIONS      ?? 0, color: C.green  },
-                  { label: 'IMAP',     value: sm?.sessions.IMAP_SESSIONS     ?? 0, color: C.blue   },
-                ] as const).map((s, i) => (
-                  <div key={s.label} style={{ animation: `section-enter .4s ease-out ${i * .07}s both` }}>
-                    <ProgBar label={s.label} value={s.value} max={maxSess} color={s.color} />
-                  </div>
-                ))}
-              </div>
-              <div className="grid grid-cols-2 gap-2 pt-3"
-                style={{ borderTop: '1px solid rgba(255,255,255,.07)' }}>
-                {[
-                  { label: 'Greylisted', value: (sm?.greylist.BLOCKED ?? 0) + (sm?.greylist.PASSED ?? 0), color: C.amber },
-                  { label: 'Throttled',  value: sm?.throttled.THROTTLED ?? 0, color: 'rgba(255,255,255,.45)' },
-                ].map(g => (
-                  <div key={g.label} className="text-center py-2 rounded-lg"
-                    style={{ background: 'rgba(255,255,255,.03)' }}>
-                    <GN n={g.value} color={g.color} size="text-xl" />
-                    <div className="text-xs mt-1" style={{ color: 'rgba(255,255,255,.35)' }}>{g.label}</div>
-                  </div>
-                ))}
-              </div>
-            </>
+        <Card delay={0.36}>
+          <CardHeader title="Session Counts" subtitle="30-day totals by protocol" />
+          {!ready ? (
+            <div className="space-y-4">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} className="h-8 rounded-lg animate-pulse" style={{ background: 'rgba(255,255,255,.04)' }} />
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {([
+                { label: 'SMTP In',  value: sm?.sessions.SMTP_IN_SESSIONS  ?? 0, color: '#38bdf8' },
+                { label: 'SMTP Out', value: sm?.sessions.SMTP_OUT_SESSIONS ?? 0, color: '#818cf8' },
+                { label: 'POP',      value: sm?.sessions.POP_SESSIONS      ?? 0, color: '#34d399' },
+                { label: 'IMAP',     value: sm?.sessions.IMAP_SESSIONS     ?? 0, color: '#fb923c' },
+              ] as const).map((s, i) => (
+                <div key={s.label} style={{ animation: `section-enter .35s ease-out ${i * .06}s both` }}>
+                  <ProgressBar label={s.label} value={s.value} max={maxSess} color={s.color} ready={ready} />
+                </div>
+              ))}
+            </div>
           )}
-        </DashCard>
+        </Card>
       </div>
 
-      {/* ── Bottom row: Inbound / Threat ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* ── Row 4: Inbound / Spam + extras ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 
         {/* Inbound breakdown */}
-        <DashCard accent={C.blue} delay={0.3}>
-          <SLabel color={C.blue}>Inbound Breakdown</SLabel>
-          {loading ? <Skel h={120} /> : (
-            <>
-              <div className="mb-4">
-                <GN n={totalIn} color={C.blue} size="text-3xl" />
-                <span className="text-xs ml-2" style={{ color: 'rgba(255,255,255,.35)' }}>total inbound · 30 days</span>
-              </div>
-              <div className="space-y-3">
-                {[
-                  { label: 'Trusted',  value: sm?.incoming.TRUSTED           ?? 0, color: C.green },
-                  { label: 'Standard', value: sm?.incoming.STANDARD_DELIVERY ?? 0, color: C.blue  },
-                  { label: 'Spam',     value: sm?.incoming.MARKED_AS_SPAM    ?? 0, color: C.red   },
-                ].map((d, i) => (
-                  <div key={d.label} style={{ animation: `section-enter .4s ease-out ${i * .08}s both` }}>
-                    <ProgBar label={d.label} value={d.value} max={totalIn || 1} color={d.color} />
-                  </div>
-                ))}
-              </div>
-            </>
+        <Card delay={0.42}>
+          <CardHeader title="Inbound Breakdown" subtitle="30-day delivery categories" />
+          {!ready ? (
+            <div className="space-y-4">
+              {[1, 2, 3].map(i => <div key={i} className="h-8 rounded-lg animate-pulse" style={{ background: 'rgba(255,255,255,.04)' }} />)}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {[
+                { label: 'Trusted',  value: sm?.incoming.TRUSTED           ?? 0, color: '#34d399' },
+                { label: 'Standard', value: sm?.incoming.STANDARD_DELIVERY ?? 0, color: '#38bdf8' },
+                { label: 'Spam',     value: sm?.incoming.MARKED_AS_SPAM    ?? 0, color: '#f87171' },
+              ].map((d, i) => (
+                <div key={d.label} style={{ animation: `section-enter .35s ease-out ${i * .07}s both` }}>
+                  <ProgressBar label={d.label} value={d.value} max={totalIn || 1} color={d.color} ready={ready} />
+                </div>
+              ))}
+            </div>
           )}
-        </DashCard>
+        </Card>
 
-        {/* Threat analysis */}
-        <DashCard accent={C.red} delay={0.33}>
-          <SLabel color={C.red}>Threat Analysis</SLabel>
-          {loading ? <Skel h={120} /> : (
-            <>
-              <div className="flex items-baseline gap-3 mb-4">
-                <GN n={totalSpam} color={C.red} size="text-3xl" />
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,.4)' }}>
-                  spam = {spamPct}% of inbound
-                </span>
-              </div>
-              <div className="space-y-3 mb-4">
-                {[
-                  { label: 'Low',    value: sm?.spam.LOW    ?? 0, color: C.amber },
-                  { label: 'Medium', value: sm?.spam.MEDIUM ?? 0, color: '#fb923c' },
-                  { label: 'High',   value: sm?.spam.HIGH   ?? 0, color: C.red   },
-                ].map((d, i) => (
-                  <div key={d.label} style={{ animation: `section-enter .4s ease-out ${i * .08}s both` }}>
-                    <ProgBar label={d.label} value={d.value} max={totalSpam || 1} color={d.color} />
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center justify-between pt-3"
-                style={{ borderTop: '1px solid rgba(255,255,255,.07)' }}>
-                <span className="text-sm" style={{ color: 'rgba(255,255,255,.45)' }}>Viruses detected</span>
-                <GN n={viruses} color={viruses > 0 ? C.red : 'rgba(255,255,255,.35)'} size="text-xl" />
-              </div>
-            </>
+        {/* Spam analysis */}
+        <Card delay={0.45}>
+          <CardHeader title="Spam Analysis" subtitle="30-day threat breakdown" />
+          {!ready ? (
+            <div className="space-y-4">
+              {[1, 2, 3].map(i => <div key={i} className="h-8 rounded-lg animate-pulse" style={{ background: 'rgba(255,255,255,.04)' }} />)}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {[
+                { label: 'Low risk',    value: sm?.spam.LOW    ?? 0, color: '#facc15' },
+                { label: 'Medium risk', value: sm?.spam.MEDIUM ?? 0, color: '#fb923c' },
+                { label: 'High risk',   value: sm?.spam.HIGH   ?? 0, color: '#f87171' },
+              ].map((d, i) => (
+                <div key={d.label} style={{ animation: `section-enter .35s ease-out ${i * .07}s both` }}>
+                  <ProgressBar label={d.label} value={d.value} max={totalSpam || 1} color={d.color} ready={ready} />
+                </div>
+              ))}
+            </div>
           )}
-        </DashCard>
+        </Card>
+
+        {/* Misc stats */}
+        <Card delay={0.48}>
+          <CardHeader title="Other Metrics" subtitle="Greylisting · throttle · threats" />
+          {!ready ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map(i => <div key={i} className="h-12 rounded-xl animate-pulse" style={{ background: 'rgba(255,255,255,.04)' }} />)}
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {([
+                { label: 'Greylisted', value: (sm?.greylist.BLOCKED ?? 0) + (sm?.greylist.PASSED ?? 0), color: '#a3a3a3', icon: <span>🔘</span> },
+                { label: 'Throttled',  value: sm?.throttled.THROTTLED ?? 0, color: '#fb923c', icon: <span>⏱</span> },
+                { label: 'Viruses',    value: viruses, color: viruses > 0 ? '#f87171' : '#a3a3a3', icon: <Bug size={13} /> },
+              ] as const).map((item, i) => (
+                <div key={item.label} className="flex items-center justify-between px-3 py-2.5 rounded-xl"
+                  style={{ background: 'rgba(255,255,255,.04)', animation: `section-enter .35s ease-out ${i * .07}s both` }}>
+                  <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(255,255,255,.55)' }}>
+                    <span className="opacity-70">{item.icon}</span>
+                    {item.label}
+                  </div>
+                  <Metric value={item.value} color={item.color} size="text-xl" ready={ready} />
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
       </div>
     </div>
   );

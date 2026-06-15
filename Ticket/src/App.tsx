@@ -1,43 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
-const WALLPAPERS = [
-  // 1. Sakura Bloom — pink cherry blossom (default)
+const DARK_BG =
   `radial-gradient(ellipse 130% 75% at 50% 20%, rgba(255,192,203,0.55) 0%, rgba(255,170,185,0.30) 40%, transparent 65%),
    radial-gradient(ellipse 90% 70% at 18% 78%, rgba(255,160,180,0.32) 0%, transparent 55%),
    radial-gradient(ellipse 80% 65% at 88% 72%, rgba(255,210,225,0.28) 0%, transparent 52%),
-   linear-gradient(160deg, #1e1018 0%, #2a1420 28%, #221018 58%, #1c0e16 82%, #180c14 100%)`,
-  // 2. Wisteria Garden — soft purple lavender
-  `radial-gradient(ellipse 125% 72% at 48% 22%, rgba(210,185,255,0.55) 0%, rgba(190,160,248,0.30) 42%, transparent 65%),
-   radial-gradient(ellipse 88% 70% at 16% 76%, rgba(185,158,248,0.32) 0%, transparent 55%),
-   radial-gradient(ellipse 78% 65% at 88% 68%, rgba(228,215,255,0.28) 0%, transparent 52%),
-   linear-gradient(165deg, #130e20 0%, #1c1430 28%, #160e24 58%, #120c1c 82%, #100a18 100%)`,
-  // 3. Spring Morning — fresh lime & warm gold
-  `radial-gradient(ellipse 125% 72% at 45% 24%, rgba(188,235,168,0.52) 0%, rgba(168,225,148,0.28) 42%, transparent 65%),
-   radial-gradient(ellipse 88% 68% at 82% 78%, rgba(255,235,148,0.35) 0%, transparent 55%),
-   radial-gradient(ellipse 78% 65% at 14% 72%, rgba(155,225,188,0.28) 0%, transparent 52%),
-   linear-gradient(165deg, #0e1610 0%, #14200e 28%, #101a0c 58%, #0c1608 82%, #0a1208 100%)`,
-  // 4. Peach Blossom — warm apricot peach
-  `radial-gradient(ellipse 128% 74% at 50% 22%, rgba(255,205,175,0.55) 0%, rgba(255,180,148,0.30) 42%, transparent 65%),
-   radial-gradient(ellipse 90% 70% at 16% 78%, rgba(255,175,148,0.32) 0%, transparent 55%),
-   radial-gradient(ellipse 80% 65% at 86% 70%, rgba(255,225,188,0.28) 0%, transparent 52%),
-   linear-gradient(162deg, #201208 0%, #2c180c 28%, #221208 58%, #1c1008 82%, #180e08 100%)`,
-  // 5. Hydrangea Sky — all white with soft periwinkle-blue tint
-  `radial-gradient(ellipse 140% 90% at 50% 15%, rgba(210,225,255,0.70) 0%, rgba(190,210,255,0.35) 45%, transparent 72%),
-   radial-gradient(ellipse 100% 80% at 88% 80%, rgba(200,215,255,0.45) 0%, transparent 60%),
-   radial-gradient(ellipse 90% 70% at 12% 75%, rgba(215,225,255,0.38) 0%, transparent 58%),
-   linear-gradient(160deg, #ffffff 0%, #f4f6ff 35%, #f0f4ff 65%, #f5f7ff 100%)`,
-  // 6. Rose Garden — all white with soft rose-pink tint
-  `radial-gradient(ellipse 140% 90% at 50% 15%, rgba(255,215,220,0.70) 0%, rgba(255,195,205,0.35) 45%, transparent 72%),
-   radial-gradient(ellipse 100% 80% at 88% 80%, rgba(255,210,220,0.45) 0%, transparent 60%),
-   radial-gradient(ellipse 90% 70% at 12% 75%, rgba(255,218,224,0.38) 0%, transparent 58%),
-   linear-gradient(160deg, #ffffff 0%, #fff5f7 35%, #fff2f4 65%, #fff6f8 100%)`,
-];
+   linear-gradient(160deg, #1e1018 0%, #2a1420 28%, #221018 58%, #1c0e16 82%, #180c14 100%)`;
+
+const LIGHT_BG =
+  `radial-gradient(ellipse 130% 80% at 52% 12%, rgba(228,185,195,0.42) 0%, rgba(218,175,188,0.20) 42%, transparent 65%),
+   radial-gradient(ellipse 95% 72% at 10% 80%, rgba(195,182,228,0.30) 0%, transparent 58%),
+   radial-gradient(ellipse 80% 62% at 90% 68%, rgba(232,210,195,0.28) 0%, transparent 52%),
+   linear-gradient(160deg, #f5ece9 0%, #f2e8ed 32%, #efe8f2 62%, #f4ede9 100%)`;
 import {
   Home as HomeIcon, Ticket as TicketIcon, List, LayoutDashboard,
   Search, TrendingUp, BookOpen, Monitor, Users, Timer, Mail, Zap, MessageCircle,
 } from 'lucide-react';
 import { AppProvider, useApp } from './context/AppContext';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import LoginScreen from './components/layout/LoginScreen';
 import Desktop from './components/layout/Desktop';
 import Taskbar from './components/layout/Taskbar';
@@ -78,15 +57,6 @@ const moduleMap: Record<Exclude<PageId, 'desktop'>, ModuleConfig> = {
   speed_test:       { title: 'ทดสอบความเร็วอินเทอร์เน็ต', icon: <Zap size={15} />,              component: SpeedTest },
   chat:             { title: 'Chat',                        icon: <MessageCircle size={15} />,    component: Chat },
 };
-
-type CustomWallpaper = { url: string; pos: string };
-
-function parseCustomWallpapers(raw: unknown): CustomWallpaper[] {
-  if (!Array.isArray(raw)) return [];
-  return raw.map(item =>
-    typeof item === 'string' ? { url: item, pos: '50% 50%' } : item as CustomWallpaper
-  );
-}
 
 const LOGIN_BG_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260503_101827_abebfeec-f243-466b-b494-7f6814c0fbbf.mp4';
@@ -215,20 +185,11 @@ function LoginTransition({ userName, onDone }: { userName: string; onDone: () =>
 // ────────────────────────────────────────────────────────────────────────────────
 function AppContent() {
   const { isAuthenticated, isLoading, apiError, currentPage, currentUser } = useApp();
+  const { isDark } = useTheme();
   const [showTransition, setShowTransition] = useState(false);
   const prevAuth = React.useRef(false);
-  const [wallpaperIdx, setWallpaperIdx] = useState(0);
-  const [customWallpapers, setCustomWallpapers] = useState<CustomWallpaper[]>(() => {
-    try {
-      const s = localStorage.getItem('helpdesk_custom_wallpapers');
-      return s ? parseCustomWallpapers(JSON.parse(s)) : [];
-    } catch { return []; }
-  });
-  const [adjustingCustomIdx, setAdjustingCustomIdx] = useState<number | null>(null);
-  const adjustDragRef = React.useRef<{ x: number; y: number } | null>(null);
 
-  const totalWallpapers = WALLPAPERS.length + customWallpapers.length;
-  const safeIdx = Math.min(wallpaperIdx, totalWallpapers - 1);
+  const isLightBg = !isDark;
 
   // Detect first login → show transition
   useEffect(() => {
@@ -237,49 +198,6 @@ function AppContent() {
     }
     prevAuth.current = isAuthenticated;
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (!isAuthenticated) return;
-    const timer = setInterval(() => {
-      setWallpaperIdx(prev => (prev + 1) % totalWallpapers);
-    }, 35000);
-    return () => clearInterval(timer);
-  }, [isAuthenticated, totalWallpapers]);
-
-  const handleAddWallpaper = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const url = e.target?.result as string;
-      setCustomWallpapers(prev => {
-        const next = [...prev, { url, pos: '50% 50%' }];
-        try { localStorage.setItem('helpdesk_custom_wallpapers', JSON.stringify(next)); } catch {}
-        return next;
-      });
-      setWallpaperIdx(WALLPAPERS.length + customWallpapers.length);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveWallpaper = (customIdx: number) => {
-    setCustomWallpapers(prev => {
-      const next = prev.filter((_, i) => i !== customIdx);
-      try { localStorage.setItem('helpdesk_custom_wallpapers', JSON.stringify(next)); } catch {}
-      return next;
-    });
-    setWallpaperIdx(0);
-    setAdjustingCustomIdx(null);
-  };
-
-  // Hydrangea Sky (idx 4) และ Rose Garden (idx 5) เป็น white background
-  const isLightBg = safeIdx >= WALLPAPERS.length - 2 && safeIdx < WALLPAPERS.length;
-
-  const handleUpdateWallpaperPosition = (customIdx: number, pos: string) => {
-    setCustomWallpapers(prev => {
-      const next = prev.map((w, i) => i === customIdx ? { ...w, pos } : w);
-      try { localStorage.setItem('helpdesk_custom_wallpapers', JSON.stringify(next)); } catch {}
-      return next;
-    });
-  };
 
   if (isLoading) {
     return (
@@ -312,95 +230,17 @@ function AppContent() {
 
   return (
     <div className="w-screen h-screen overflow-hidden relative">
-      {/* Layered wallpapers with crossfade transition */}
-      <div className="absolute inset-0">
-        {Array.from({ length: totalWallpapers }).map((_, i) => {
-          const isCustom = i >= WALLPAPERS.length;
-          const cw = isCustom ? customWallpapers[i - WALLPAPERS.length] : null;
-          return (
-            <div
-              key={i}
-              className="absolute inset-0"
-              style={{
-                ...(isCustom && cw
-                  ? { backgroundImage: `url("${cw.url}")`, backgroundSize: 'cover', backgroundPosition: cw.pos }
-                  : { background: WALLPAPERS[i] }),
-                opacity: i === safeIdx ? 1 : 0,
-                transition: adjustingCustomIdx !== null ? 'none' : 'opacity 3s ease-in-out',
-                pointerEvents: 'none',
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Wallpaper crop overlay */}
-      {adjustingCustomIdx !== null && (() => {
-        const cw = customWallpapers[adjustingCustomIdx];
-        if (!cw) return null;
-        const parsePos = (s: string) => {
-          const [x, y] = s.split(' ').map(v => parseFloat(v) || 50);
-          return { x, y: y ?? x };
-        };
-        const onMouseDown = (e: React.MouseEvent) => {
-          adjustDragRef.current = { x: e.clientX, y: e.clientY };
-        };
-        const onMouseMove = (e: React.MouseEvent) => {
-          if (!adjustDragRef.current) return;
-          const dx = e.clientX - adjustDragRef.current.x;
-          const dy = e.clientY - adjustDragRef.current.y;
-          adjustDragRef.current = { x: e.clientX, y: e.clientY };
-          const cur = parsePos(cw.pos);
-          const nx = Math.max(0, Math.min(100, cur.x - (dx / window.innerWidth) * 150));
-          const ny = Math.max(0, Math.min(100, cur.y - (dy / window.innerHeight) * 150));
-          handleUpdateWallpaperPosition(adjustingCustomIdx, `${nx.toFixed(1)}% ${ny.toFixed(1)}%`);
-        };
-        const onMouseUp = () => { adjustDragRef.current = null; };
-        return (
-          <div
-            className="absolute inset-0 z-[5]"
-            style={{ cursor: adjustDragRef.current ? 'grabbing' : 'grab' }}
-            onMouseDown={onMouseDown}
-            onMouseMove={onMouseMove}
-            onMouseUp={onMouseUp}
-            onMouseLeave={onMouseUp}
-          >
-            {/* Subtle grid */}
-            <div className="absolute inset-0 pointer-events-none" style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
-              backgroundSize: '80px 80px',
-            }} />
-            {/* Instruction chip */}
-            <div className="absolute top-5 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-[12px] text-white/70 select-none pointer-events-none"
-              style={{ background: 'rgba(0,0,0,0.55)', border: '1px solid rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)' }}>
-              ลากเพื่อปรับตำแหน่งภาพ
-            </div>
-            {/* Done / Cancel */}
-            <div className="absolute bottom-20 right-4 flex gap-2 pointer-events-auto"
-              onMouseDown={e => e.stopPropagation()}>
-              <button
-                onClick={() => setAdjustingCustomIdx(null)}
-                className="px-4 py-1.5 rounded-full text-[12px] text-white/60 transition-colors hover:text-white/90"
-                style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.14)' }}
-              >
-                เสร็จสิ้น
-              </button>
-            </div>
-          </div>
-        );
-      })()}
+      {/* Background — follows dark/light theme */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: isDark ? DARK_BG : LIGHT_BG,
+          transition: 'background 0.6s ease',
+        }}
+      />
 
       <Desktop
         moduleMap={moduleMap}
-        wallpaperIdx={safeIdx}
-        onWallpaperChange={setWallpaperIdx}
-        wallpaperCount={WALLPAPERS.length}
-        customWallpaperCount={customWallpapers.length}
-        onAddWallpaper={handleAddWallpaper}
-        onRemoveWallpaper={handleRemoveWallpaper}
-        activeCustomIdx={safeIdx >= WALLPAPERS.length ? safeIdx - WALLPAPERS.length : -1}
-        onAdjustWallpaper={(ci) => setAdjustingCustomIdx(ci)}
-        isAdjusting={adjustingCustomIdx !== null}
         isLightBg={isLightBg}
       />
       {currentModule && (

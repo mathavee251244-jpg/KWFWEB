@@ -2,7 +2,6 @@ import { useRef, useEffect, useState, useMemo, createContext, useContext } from 
 import {
   Home, Ticket, List, LayoutDashboard,
   Search, TrendingUp, BookOpen, Monitor, Users, Timer, MessageCircle,
-  Plus, X, Move,
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import type { PageId } from '../../types';
@@ -11,26 +10,12 @@ type ModuleEntry = { title: string; icon: React.ReactNode; component: React.Comp
 
 interface Props {
   moduleMap: Record<Exclude<PageId, 'desktop'>, ModuleEntry>;
-  wallpaperIdx?: number;
-  onWallpaperChange?: (idx: number) => void;
-  wallpaperCount?: number;
-  customWallpaperCount?: number;
-  onAddWallpaper?: (file: File) => void;
-  onRemoveWallpaper?: (customIdx: number) => void;
-  activeCustomIdx?: number;
-  onAdjustWallpaper?: (customIdx: number) => void;
-  isAdjusting?: boolean;
   isLightBg?: boolean;
 }
 
 // Context สำหรับ light/dark theming ทั่วทุก sub-component
 const LightBgCtx = createContext(false);
 const useLight = () => useContext(LightBgCtx);
-
-const DEFAULT_WALLPAPER_NAMES = [
-  'Sakura Bloom', 'Wisteria Garden', 'Spring Morning',
-  'Peach Blossom', 'Hydrangea Sky', 'Rose Garden',
-];
 
 const moduleOrder: Array<{
   id: Exclude<PageId, 'desktop'>;
@@ -326,26 +311,10 @@ function FloatingOrbs() {
 
 // ── Main Desktop Component ─────────────────────────────────────────────────────
 export default function Desktop({
-  wallpaperIdx = 0,
-  onWallpaperChange,
-  wallpaperCount = 6,
-  customWallpaperCount = 0,
-  onAddWallpaper,
-  onRemoveWallpaper,
-  activeCustomIdx = -1,
-  onAdjustWallpaper,
-  isAdjusting = false,
+  moduleMap,
   isLightBg = false,
 }: Props) {
   const { navigate, currentPage, currentUser } = useApp();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const totalWallpapers = wallpaperCount + customWallpaperCount;
-
-  const getWallpaperName = (i: number) => {
-    if (i < wallpaperCount) return DEFAULT_WALLPAPER_NAMES[i] ?? `Theme ${i + 1}`;
-    return `ภาพของฉัน ${i - wallpaperCount + 1}`;
-  };
 
   const canAccess = (requiredRole?: 'it_staff' | 'it_manager') => {
     if (!requiredRole) return true;
@@ -354,12 +323,6 @@ export default function Desktop({
   };
 
   const visibleModules = moduleOrder.filter(m => canAccess(m.requiredRole));
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && onAddWallpaper) onAddWallpaper(file);
-    e.target.value = '';
-  };
 
   // Text / UI colors based on theme
   const orgPrimary   = isLightBg ? 'rgba(40,20,50,0.45)'  : 'rgba(255,255,255,0.18)';
@@ -370,17 +333,6 @@ export default function Desktop({
   const iconBtnActive     = isLightBg ? 'rgba(0,0,0,0.07) border border-black/10' : 'bg-white/15 border border-white/20';
   const iconBtnHover      = isLightBg ? 'hover:bg-black/5 hover:border-black/8'   : 'hover:bg-white/10 hover:border-white/12';
   const iconBoxShadowBase = isLightBg ? '0 2px 8px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.5)' : '0 4px 12px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)';
-  const wpNameColor       = isLightBg ? 'rgba(40,20,50,0.38)'  : 'rgba(255,255,255,0.28)';
-  const wpNameShadow      = isLightBg ? 'none'                 : '0 1px 4px rgba(0,0,0,0.9)';
-  const dotActive         = isLightBg ? 'rgba(40,20,50,0.72)'  : 'rgba(255,255,255,0.80)';
-  const dotInactive       = isLightBg ? 'rgba(40,20,50,0.22)'  : 'rgba(255,255,255,0.28)';
-  const dotCustom         = isLightBg ? 'rgba(120,70,110,0.50)': 'rgba(210,195,235,0.55)';
-  const dotActiveShadow   = isLightBg ? '0 0 6px rgba(40,20,50,0.20)' : '0 0 8px rgba(255,255,255,0.45)';
-  const addBtnBg          = isLightBg ? 'rgba(0,0,0,0.06)'     : 'rgba(255,255,255,0.10)';
-  const addBtnBorder      = isLightBg ? 'rgba(0,0,0,0.18)'     : 'rgba(255,255,255,0.30)';
-  const addBtnBgHover     = isLightBg ? 'rgba(0,0,0,0.10)'     : 'rgba(255,255,255,0.20)';
-  const addBtnBorderHover = isLightBg ? 'rgba(0,0,0,0.30)'     : 'rgba(255,255,255,0.55)';
-  const addIconColor      = isLightBg ? 'rgba(40,20,50,0.45)'  : 'rgba(255,255,255,0.60)';
   const glowBg            = isLightBg
     ? 'radial-gradient(ellipse at bottom right, rgba(200,130,160,0.12) 0%, transparent 70%)'
     : 'radial-gradient(ellipse at bottom right, rgba(255,190,210,0.14) 0%, transparent 70%)';
@@ -394,7 +346,6 @@ export default function Desktop({
         {/* ── Background effects ── */}
         <FloatingOrbs />
         <FloralDecor />
-        <FallingPetals />
         <NetworkCanvas />
 
         {/* ── Clock ── */}
@@ -461,85 +412,6 @@ export default function Desktop({
               );
             })}
           </div>
-        </div>
-
-        {/* ── Wallpaper selector ── */}
-        <div className="absolute bottom-5 right-4 pointer-events-auto flex flex-col items-end gap-2">
-          <div className="text-[9px] uppercase tracking-widest select-none"
-            style={{ color: wpNameColor, textShadow: wpNameShadow }}>
-            {getWallpaperName(wallpaperIdx)}
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            {Array.from({ length: totalWallpapers }).map((_, i) => {
-              const isActive = i === wallpaperIdx;
-              const isCustom = i >= wallpaperCount;
-              const customIdx = i - wallpaperCount;
-              return (
-                <div key={i} className="relative group/dot">
-                  <button
-                    onClick={() => onWallpaperChange?.(i)}
-                    title={getWallpaperName(i)}
-                    className="transition-all duration-300 block"
-                    style={{
-                      width: isActive ? 20 : 7,
-                      height: 7,
-                      borderRadius: 99,
-                      background: isActive ? dotActive : isCustom ? dotCustom : dotInactive,
-                      boxShadow: isActive ? dotActiveShadow : 'none',
-                    }}
-                  />
-                  {isCustom && (
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex flex-col gap-0.5 items-center opacity-0 group-hover/dot:opacity-100 transition-opacity">
-                      {onAdjustWallpaper && !isAdjusting && (
-                        <button
-                          onClick={e => { e.stopPropagation(); onAdjustWallpaper(customIdx); }}
-                          title="ปรับตำแหน่งภาพ"
-                          className="w-4 h-4 rounded-full bg-sky-500/80 flex items-center justify-center hover:bg-sky-500"
-                        >
-                          <Move size={7} className="text-white" />
-                        </button>
-                      )}
-                      {onRemoveWallpaper && (
-                        <button
-                          onClick={e => { e.stopPropagation(); onRemoveWallpaper(customIdx); }}
-                          title="ลบภาพนี้"
-                          className="w-4 h-4 rounded-full bg-red-500/80 flex items-center justify-center hover:bg-red-500"
-                        >
-                          <X size={8} className="text-white" />
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            {onAddWallpaper && (
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                title="เพิ่มภาพพื้นหลังจากเครื่อง"
-                className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150 ml-0.5"
-                style={{
-                  background: addBtnBg,
-                  border: `1px dashed ${addBtnBorder}`,
-                  boxShadow: isLightBg ? 'none' : '0 1px 4px rgba(0,0,0,0.4)',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.background = addBtnBgHover;
-                  (e.currentTarget as HTMLElement).style.borderColor = addBtnBorderHover;
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.background = addBtnBg;
-                  (e.currentTarget as HTMLElement).style.borderColor = addBtnBorder;
-                }}
-              >
-                <Plus size={12} style={{ color: addIconColor }} />
-              </button>
-            )}
-          </div>
-
-          <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
         </div>
 
         {/* Bottom ambient glow */}
